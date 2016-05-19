@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora API Specification - Resource Versioning</title>
+    <meta charset='utf-8'>
+    <script src='https://www.w3.org/Tools/respec/respec-w3c-common'
+            async class='remove'></script>
+    <script class='remove'>
+      var respecConfig = {
+          specStatus: "unofficial",
+          shortName:  "fedora-versioning",
+          editors: [
+                {   name:       "Adam Soroka",
+                    company:    "University of Virginia",
+                    companyURL: "https://www.library.virginia.edu/" },
+                {   name:       "Ben Armintor",
+                    company:    "Columbia University",
+                    companyURL: "http://library.columbia.edu/" },
+                {   name:       "Andrew Woods",
+                    company:    "DuraSpace",
+                    companyURL: "http://duraspace.org/" },
+                {   name:       "Aaron Birkland",
+                    company:    "Johns Hopkins",
+                    companyURL: "http://www.library.jhu.edu/"},
+                {   name:       "Bethany Seeger",
+                    company:    "Amherst College",
+                    companyURL: "https://www.amherst.edu/library"},
+                {   name:       "Jared Whiklo",
+                    company:    "Univesity of Alberta",
+                    companyURL: "https://www.library.ualberta.ca/"},
+                {   name:       "Joshua Westgard",
+                    company:    "University of Maryland",
+                    companyURL: "http://www.lib.umd.edu/"},
+                {   name:       "Rob Sanderson",
+                    company:    "The Getty Trust",
+                    companyURL: "http://www.getty.edu/"},
+                {   name:       "Sergio Fernández",
+                    company:    "Redlink",
+                    companyURL: "http://redlink.co/"},
+                {   name:       "Tom Johnson",
+                    company:    "Digital Public Library of America",
+                    companyURL: "https://dp.la/"}
+          ],
+          edDraftURI: "https://github.com/fcrepo/fcrepo-specification/",
+          testSuiteURI: "https://github.com/fcrepo/fcrepo-tcks",
+          wg:           "Fedora Specification Working Group",
+          wgURI:        "https://wiki.duraspace.org/display/FEDORAAPI/Fedora+Specification",
+          wgPublicList: "https://groups.google.com/forum/#!forum/fedora-community",
+          otherLinks: [{
+            key: "Version history:",
+            data: [{
+              value: "Commit History.",
+              href: "https://github.com/fcrepo/fcrepo-specification/commits/"
+              }
+          ]}]
+      };
+    </script>
+  </head>
+  <body>
+    <section id='abstract' class='informative'>
+      <p>
+        This specification is an attempt to reconcile the semantics and client patterns of [[!LDP]], the versioning requirements of Fedora repositories, and the well-established version identification and navigation scheme delineated in the Memento specification.
+      </p>
+    </section>
+
+    <section id='sotd'>
+    </section>
+    
+    <section>
+      <h2>Terminology</h2>
+      <p>
+        <dl>
+          <dfn>LDP-R</dfn>:
+          <dd> A Linked Data Platform Resource. This may be an LDP RDF Source or an LDP Non-RDF Source.</dd>
+          <dfn>LDP-Rm</dfn>:
+          <dd>A <a>LDP-R</a> that is a version of another resource <a>LDP-Rv</a>. <a>LDP-Rm</a> are identified by Memento <a>URI-M</a> and contained by <a>LDP-Cv</a>.</dd>
+          <dfn>LDP-Rv</dfn>: 
+          <dd>A <a>LDP-R</a> that is versioned.Synonymous with Memento <a>URI-R</a>.</dd>
+          <dfn>LDP-C</dfn>: 
+          <dd>A Linked Data Platform Container.</dd>
+          <dfn>LDP-Cv</dfn>: 
+          <dd>A Linked Data Platform Version Container.</dd>
+          <dfn>URI-R</dfn>: 
+          <dd>A type of versioned resource defined in the Memento framework.</dd>
+          <dfn>URI-M</dfn>: 
+          <dd>A type of resource that is defined in the Memento framework representing a version of a given <a>URI-R</a>.</dd>
+          <dfn>TimeGate</dfn>: 
+          <dd>A type of resource defined in the Memento framework providing Accept-Datetime -varied negotiation of versions of an <a>URI-R</a>.</dd>
+          <dfn>TimeMap</dfn>: 
+          <dd>A type of resource defined in the Memento framework that contains a machine-readable listing of <a>URI-M</a>s connected to a given <a>URI-R</a>.</dd>
+        </dl>
+      </p>
+    </section>
+    
+    <section id='conformance'>
+    </section>
+    
+    <section>
+      <h2>Versioned Resources (<a>LDP-Rv</a>)</h2>
+      <section>
+        <h2>General</h2>
+        <p>
+          A versioned resource is indicated by an interaction model TBD. It otherwise follows the relevant [[!LDP]] specification with the additional behaviors below.
+        </p>
+      </section>
+      <section>
+        <h2 id='httpget'>HTTP GET</h2>
+        <section>
+          <h2>Common HTTP Request Headers</h2>
+          <p>
+            <code>Link@rel="type"</code> of the URI of the versionable resource interaction model TBD
+          </p>
+        </section>
+        <section>
+          <h2>Common HTTP Response Headers</h2>
+          <p>
+            <code>Link@rel="timemap"</code> to <a>LDP-Cv</a> - this indicates that the resource is versioned
+            <code>Link@rel="timegate"</code> to something, if links to itself it MUST respect Accept-Datetime per Memento.
+            OPTIONAL header that indicates the resource will mint a version with a header, perhaps Vary-Post/Vary-Put; lack of this header indicates that explicit minting if available is advertised via <code>OPTIONS</code> on the <a>LDP-Cv</a>
+          </p>
+        </section>
+        <section>
+          <h2>HTTP Headers for <a>LDP-R</a> that are also <a>TimeGate</a></h2>
+          <section>
+            <h2>Request Headers</h2>
+            <p>
+              Accept-Datetime, per Memento
+            </p>
+          </section>
+          <section>
+            <h2>Response Headers</h2>
+            <p>
+              Vary: Accept-Datetime, per Memento
+            </p>
+          </section>
+        </section>
+      </section>
+
+
+      <section>
+        <h2>HTTP HEAD</h2>
+        <p>
+          See: <a href='#httpget'></a>
+        </p>
+      </section>
+    </section>
+
+    <section>
+      <h2>Version Resources (<a>LDP-Rm</a> Mementos)</h2>
+      <section>
+        <h2>General</h2>
+        <p>
+          When a <a>LDP-R</a> is created with a <code>Link</code> header indicating versioning, it is created as both an LDP Resource and a Memento: a <a>LDP-Rm</a>. <a>LDP-Rm</a> SHOULD be invariant: While they may be deleted, they SHOULD NOT be modifiable once created.
+        </p>
+      </section>
+
+      <section>
+        <h2>HTTP DELETE</h2>
+        <p>
+          DELETE is optional. If DELETE is supported, the Fedora/[[LDP]] server is responsible for all behaviors implied by the containment of the <a>LDP-Rm</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2>HTTP GET</h2>
+        <p>
+          MUST be supported, as is the case for all <a>LDP-R</a>.
+        </p>
+        <section>
+          <h2>HTTP Response Headers</h2>
+          <p>
+            <code>Link@rel="canonical original"</code> indicating the versioned <a>LDP-Rv</a>
+            <code>Link@rel="timegate"</code>
+            <code>Link@rel="timemap version-history"</code> indicating the <a>LDP-Cv</a>
+            <code>Link@rel="next memento"</code>
+            <code>Link@rel="previous memento"</code>
+            Memento-Datetime
+          </p>
+        </section>
+
+        <section>
+          <h2>HTTP Response Headers for LDP-NR?</h2>
+          <p>
+            Ought a variant header be provided to indicate that the description, if available, is a timegate or not? It is not strictly necessary: Regardless of how they are synchronized, the [[LDP]] server would be able to identify the relevant version of the <a>LDP-R</a> descriptor. On the other hand: if the <a>LDP-Rv</a> has iana:describedby, all <a>LDP-Rm</a> versionOf <a>LDP-Rv</a> should have a iana:describedby.
+          </p>
+        </section>
+      </section>
+
+      <section>
+        <h2>HTTP HEAD</h2>
+        <p>
+          MUST be supported.
+        </p>
+        <section>
+          <h2>HTTP Response Headers</h2>
+        </section>
+      </section>
+
+      <section>
+        <h2>HTTP OPTIONS</h2>
+        <p>
+          MUST be supported. Always Allow: <code>GET</code>, <code>HEAD</code>, <code>OPTIONS</code> as per [[LDP]].
+          MAY Allow: DELETE if clients can remove a version from the version history.
+        </p>
+      </section>
+
+      <section>
+        <h2>HTTP PATCH</h2>
+        <p>
+          SHOULD NOT be supported.
+        </p>
+      </section>
+
+      <section>
+        <h2>HTTP POST</h2>
+        <p>
+          MUST NOT be supported.
+        </p>
+      </section>
+
+      <section>
+        <h2>HTTP PUT</h2>
+        <p>
+          OPTIONAL. SHOULD NOT be supported. Subject to same constraints as PUT to update, further requires Memento headers. Discourage, discourage.
+        </p>
+      </section>
+
+    </section>
+
+    <section>
+      <h2>Version Containers (<a>LDP-Cv</a>)</h2>
+      <section>
+        <h2>General</h2>
+        <p>
+When a <a>LDP-R</a> is created with a <code>Link</code> header indicating versioning, a version container (<a>LDP-Cv</a>) is created that contains Memento-identified resources (<a>LDP-Rm</a>) capturing the current state of the described <a>LDP-R</a>. The <a>LDP-Cv</a> is both a <a>TimeMap</a> per [[!RFC7089]] (Memento) and a Container. The [[LDP]] impl MUST indicate <a>TimeMap</a> in the same way it indicates the Container interaction model of the resource (headers, inserted rdf:type, etc). The <a>LDP-Cv</a> MUST respond to <code>GET</code> Accept: application/link-format as indicated in [[!RFC7089]] <a href='https://tools.ietf.org/html/rfc7089#section-5'>section 5</a> and specified in [[RFC6690]] <a href='https://tools.ietf.org/html/rfc6690#section-7.3'>section 7.3</a>.          
+        </p>
+        <p>
+Non-normative: The application/link-format representation is not required to include all statements in the <a>LDP-Cv</a> graph.
+        </p>
+      </section>
+
+      <section>
+        <h2 id='ldpcvdelete'>HTTP DELETE</h2>
+        <p>
+Optional, SHOULD remove the versioning interaction model from the original resource.
+        </p>
+      </section>
+
+      <section>
+        <h2>HTTP GET</h2>
+        <section>
+          <h2>HTTP Request Headers</h2>
+        </section>
+        <section>
+          <h2>HTTP Response Headers</h2>
+          <p>
+<code>Link@rel="type"</code> to indicate Timemap
+          </p>
+        </section>
+      </section>
+
+      <section>
+        <h2>HTTP HEAD</h2>
+        <section>
+          <h2>HTTP Response Headers</h2>
+        </section>
+      </section>
+
+      <section>
+        <h2>HTTP OPTIONS</h2>
+        <p>
+MUST Allow: <code>GET</code>, <code>HEAD</code>, <code>OPTIONS</code> as per LDP.
+MAY Allow: DELETE if the versioning behavior is removable by deleting the <a>LDP-Cv</a>. See <a href='#ldpcvdelete'></a> for requirements on DELETE if supported.
+MAY Allow: PATCH if the <a>LDP-Cv</a> has mutable properties. See <a href='#ldpcvpatch'></a> for requirements on PATCH if supported.
+MAY Allow: POST if versions are explicitly minted by a client. See <a href='#ldpcvpost'></a> for requirements on POST if supported.
+        </p>
+      </section>
+
+      <section>
+        <h2 id='ldpcvpatch'>HTTP PATCH</h2>
+        <p>
+OPTIONAL. Discourage. MUST NOT modify containment triples if supported.
+        </p>
+      </section>
+
+      <section>
+        <h2 id='ldpcvpost'>HTTP POST</h2>
+        <p>
+PTIONAL. If a <a>LDP-Cv</a> Allow: POST, POST should be understood to create a new <a>LDP-Rm</a> contained by the <a>LDP-Cv</a>, reflecting the state of the <a>LDP-Rv</a> at the time of the POST. If supported, and all <a>LDP-Rm</a> statements are server-managed, Accept-Post SHOULD indicate that no request body is accepted ("Accept-Post: */*; p=0.0" has minimal conflict with LDP), and POST with a request body SHOULD respond with 4xx and a link to an appropriate constraints document (see <a href='https://www.w3.org/TR/ldp/#h-ldpr-gen-pubclireqs'>LDP 4.2.1.6</a>). As per LDP, any resource created via POST, in this case a <a>LDP-Rm</a>) should be advertised in the response's Location header.
+        </p>
+        <p>
+If a <a>LDP-Cv</a> accepts POST with a request body, it SHOULD respect a Memento-Datetime request header to mint the <a>URI-M</a>. Absent this header, it MUST use the current time.          
+        </p>
+        <p>
+Non-normative note: If <a>LDP-Cv</a> implementations do not Allow: POST, the constraints document indicated in <code>Link@rel="constrainedby"</code> for the <a>LDP-Cv</a> should describe the versioning mechanism. Disallowing POST suggests that the [[LDP]] server will manage <a>LDP-Rm</a> creation; see 7.2.1
+        </p>
+      </section>
+
+      <section>
+        <h2>HTTP PUT</h2>
+        <p>
+OPTIONAL. If an implementation accepts PUT, it SHOULD reject created URIs that are not <a>URI-m</a>. It MUST respond to rejected request bodies as specified in LDP. <a>LDP-Cv</a> MUST reflect the range of times indicated by contained <a>LDP-Rm</a>.
+        </p>
+        <p>
+Non-normative: An implementation that accepts PUT is not required to validate content.
+        </p>
+      </section>
+
+    </section>
+
+    <section>
+      <h2 class='informative'>Vary-Post/Vary-Put</h2>
+      <p>
+When Post/Put to a resource optionally mints an identified version, the resource indicates it with Vary-Post/Vary-Put with the name of the request header indicating it. When a <a>LDP-Cv</a> supports Post/Put with a body, and allows client-specification of <a>URI-M</a> datetime, Vary-Post/Vary-Put: Memento-Datetime.
+      </p>
+    </section>
+
+    <section>
+      <h2 class='informative'>Implementation Patterns</h2>
+
+      <section>
+        <h2>Introduction</h2>
+        <p>
+This is a non-normative section describing the way the normative specification might be applied to discoverable versioning patterns. If an implementation of a <a>LDP-Cv</a> does not support POST to mint versions, that is advertisable (MUST be) via <code>OPTIONS</code>, etc. Presumably the implementation would automatically mint versions, but this is ancillary to this specification- the contract is simply with how the <a>LDP-Rm</a>'s would be discovered, and how they should act. Following the example of Memento, it would be useful to outline such implementation in non-normative sections down here, but first things first.
+        </p>
+      </section>
+
+      <section>
+        <h2><a>LDP-Rm</a> Creation Patterns</h2>
+        <section>
+          <h2>Server-Managed <a>LDP-Rm</a> Creation (ajs6f)</h2>
+          <p>
+Upon POST/PUT/PATCH to the <a>LDP-R</a>/<a>URI-R</a>, a new <a>LDP-Rm</a>/<a>URI-M</a> is created, contained in the version container. This <a>LDP-Rm</a>/<a>URI-M</a> is the version of the original <a>LDP-R</a>/<a>URI-R</a> that was just created.
+          </p>
+        </section>
+        <section>
+          <h2>Client-Managed <a>LDP-Rm</a> Creation, Server-Managed Content (barmintor)</h2>
+          <p>
+A <a>LDP-Rm</a>/<a>URI-M</a> is created on POST to the <a>LDP-Cv</a>.
+The <a>LDP-Cv</a> has a constraints document indicating that it does not accept a request body/entity on POST.
+        a. Use a separate request to create the <a>LDP-Rm</a>, for example by posting an empty body.
+        b. Use a header on the original creation interaction to request a new <a>LDP-Rm</a>.
+        c. Use Memento-Datetime as request header to provide datetime of the state to create the new <a>LDP-Rm</a> from, combined with Vary-Post on the <a>LDP-Cv</a>
+          </p>
+        </section>
+        <section>
+          <h2>Client-Managed <a>LDP-Rm</a> Creation, Client-Managed Content (azaroth42)</h2>
+          <p>
+A <a>LDP-Rm</a>/<a>URI-M</a> is created on POST/PUT to the <a>LDP-Cv</a>, with an entity body.  This pattern is the most open, least server managed, but could be important particularly for migration from other systems into spec compatible systems. Use Case:  A web archive that manages its descriptive metadata and the HTML NonRdfSources, which have been gathered over the last 20 years by heritrix.  Use case 2: Have previous RdfSources from previous systems that manage versioning (such as Marmotta) and need to migrate those Mementos.
+        Plus C from above :)            
+          </p>
+          <p>
+Responses from <code>GET</code> requests to the <a>LDP-R</a>/<a>URI-R</a> include a <code>Link@rel=’version-history’</code> pointing to the <a>LDP-Cv</a> as well as a <code>Link@rel="timemap"</code> to the same <a>LDP-Cv</a>.
+          </p>
+        </section>
+
+      </section>
+
+      <section>
+        <h2>LDP Considerations</h2>
+        <p>
+Advertising default behaviors in server constraints document
+        </p>
+        <p>
+If the [[LDP]] server allows reuse of URIs after deletion
+Does this undermine the meaning of the version history?          
+        </p>
+        <p>
+If the <a>LDP-Rv</a> contains its <a>LDP-Cv</a>
+This pattern will make it impossible to identify previous versions of a deleted resource.          
+        </p>
+        <p>
+<a>LDP-Cv</a> as a DirectContainer
+Minimizing header inspection for read-only clients with http://purl.org/dc/terms/hasVersion or similar.          
+        </p>
+      </section>
+
+      <section>
+        <h2>Memento Considerations</h2>
+        <p>
+If the <a>LDP-Cv</a>/<a>TimeMap</a> is also the <a>TimeGate</a>
+Responses from <code>GET</code> requests to the version container (<a>LDP-Cv</a>) will vary depending on the presence or absence of an Accept-Datetime header in the request.
+          <ul>
+            <li>
+              In the absence of an Accept-Datetime header, the response will be an appropriately constructed <a>TimeMap</a>.
+            </li>
+            <li>
+              In the presence of  an Accept-Datetime header, the response will be a redirect to the appropriately chosen <a>LDP-Rm</a>/<a>URI-M</a>, i.e. the version container will behave like a <a>TimeGate</a>.
+            </li>
+          <ul>
+        </p>
+      </section>
+
+    </section>
+
+    <section class='appendix'>
+      <h2>Acknowledgments</h2>
+      <p>
+Thanks to Aaron Birkland, Adam Soroka, Andrew Woods, Anonymous, Ben Armintor ,Bethany Seeger, Jared Whiklo, Joshua Westgard, LDP-Next, Rob Sanderson, Sergio Fernández, Tom Johnson
+      </p>
+    </section>
+
+  </body>
+</html>
