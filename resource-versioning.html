@@ -242,7 +242,7 @@ Non-normative: The application/link-format representation is not required to inc
       <section>
         <h2 id='ldpcvdelete'>HTTP DELETE</h2>
         <p>
-Optional, SHOULD remove the versioning interaction model from the original resource.
+OPTIONAL. SHOULD remove the versioning interaction model from the original resource.
         </p>
       </section>
 
@@ -286,7 +286,7 @@ OPTIONAL. Discourage. MUST NOT modify containment triples if supported.
       <section>
         <h2 id='ldpcvpost'>HTTP POST</h2>
         <p>
-PTIONAL. If a <a>LDP-Cv</a> Allow: POST, POST should be understood to create a new <a>LDP-Rm</a> contained by the <a>LDP-Cv</a>, reflecting the state of the <a>LDP-Rv</a> at the time of the POST. If supported, and all <a>LDP-Rm</a> statements are server-managed, Accept-Post SHOULD indicate that no request body is accepted ("Accept-Post: */*; p=0.0" has minimal conflict with LDP), and POST with a request body SHOULD respond with 4xx and a link to an appropriate constraints document (see <a href='https://www.w3.org/TR/ldp/#h-ldpr-gen-pubclireqs'>LDP 4.2.1.6</a>). As per LDP, any resource created via POST, in this case a <a>LDP-Rm</a>) should be advertised in the response's Location header.
+OPTIONAL. If a <a>LDP-Cv</a> Allow: POST, POST should be understood to create a new <a>LDP-Rm</a> contained by the <a>LDP-Cv</a>, reflecting the state of the <a>LDP-Rv</a> at the time of the POST. If supported, and all <a>LDP-Rm</a> statements are server-managed, Accept-Post SHOULD indicate that no request body is accepted ("Accept-Post: */*; p=0.0" has minimal conflict with LDP), and POST with a request body SHOULD respond with 4xx and a link to an appropriate constraints document (see <a href='https://www.w3.org/TR/ldp/#h-ldpr-gen-pubclireqs'>LDP 4.2.1.6</a>). As per LDP, any resource created via POST, in this case a <a>LDP-Rm</a>) should be advertised in the response's Location header.
         </p>
         <p>
 If a <a>LDP-Cv</a> accepts POST with a request body, it SHOULD respect a Memento-Datetime request header to mint the <a>URI-M</a>. Absent this header, it MUST use the current time.          
