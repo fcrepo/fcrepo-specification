@@ -328,13 +328,13 @@ This is a non-normative section describing the way the normative specification m
       <section>
         <h2><a>LDP-Rm</a> Creation Patterns</h2>
         <section>
-          <h2>Server-Managed <a>LDP-Rm</a> Creation (ajs6f)</h2>
+          <h2>Server-Managed <a>LDP-Rm</a> Creation</h2>
           <p>
 Upon POST/PUT/PATCH to the <a>LDP-R</a>/<a>URI-R</a>, a new <a>LDP-Rm</a>/<a>URI-M</a> is created, contained in the version container. This <a>LDP-Rm</a>/<a>URI-M</a> is the version of the original <a>LDP-R</a>/<a>URI-R</a> that was just created.
           </p>
         </section>
         <section>
-          <h2>Client-Managed <a>LDP-Rm</a> Creation, Server-Managed Content (barmintor)</h2>
+          <h2>Client-Managed <a>LDP-Rm</a> Creation, Server-Managed Content</h2>
           <p>
 A <a>LDP-Rm</a>/<a>URI-M</a> is created on POST to the <a>LDP-Cv</a>.
 The <a>LDP-Cv</a> has a constraints document indicating that it does not accept a request body/entity on POST.
@@ -344,7 +344,7 @@ The <a>LDP-Cv</a> has a constraints document indicating that it does not accept 
           </p>
         </section>
         <section>
-          <h2>Client-Managed <a>LDP-Rm</a> Creation, Client-Managed Content (azaroth42)</h2>
+          <h2>Client-Managed <a>LDP-Rm</a> Creation, Client-Managed Content</h2>
           <p>
 A <a>LDP-Rm</a>/<a>URI-M</a> is created on POST/PUT to the <a>LDP-Cv</a>, with an entity body.  This pattern is the most open, least server managed, but could be important particularly for migration from other systems into spec compatible systems. Use Case:  A web archive that manages its descriptive metadata and the HTML NonRdfSources, which have been gathered over the last 20 years by heritrix.  Use case 2: Have previous RdfSources from previous systems that manage versioning (such as Marmotta) and need to migrate those Mementos.
         Plus C from above :)            
