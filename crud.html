@@ -76,34 +76,34 @@
 
 		<section id="general">
 		  <h2>General</h2>
-			<p>If a <pre>Link: rel="type"</pre> header specifies an LDP-NR interaction model (<pre>ldp:NonRDFSource</pre>), then the server SHOULD handle subsequent requests to the newly created resource as if it is a LDP-NR. ([[LDP]] 5.2.3.4 extension)
+			<p>If a <code>Link: rel="type"</code> header specifies an LDP-NR interaction model (<code>ldp:NonRDFSource</code>), then the server SHOULD handle subsequent requests to the newly created resource as if it is a LDP-NR. ([[LDP]] 5.2.3.4 extension)
 			<section id="LDPC">
 			  <h2>LDP Containers</h2>
-			  <p>Implementations MUST support the creation and management of [[LDP]] Containers. LDP Direct Containers MUST NOT permit <pre>ldp:contains</pre> as their membership-predicate and requests that would so do MUST fail with 409 Conflict. ([[LDP]] 5.4.1.4 expansion) </p>
+			  <p>Implementations MUST support the creation and management of [[LDP]] Containers. LDP Direct Containers MUST NOT permit <code>ldp:contains</code> as their membership-predicate and requests that would so do MUST fail with 409 Conflict. ([[LDP]] 5.4.1.4 expansion) </p>
 		  </section>
 			<section id="message-external-body">
 			  <h2>Content-Type: message/external-body</h2>
-			  <p>Implementations MUST support the use of <pre>Content-Type: message/external-body</pre> for request bodies for HTTP POST and HTTP PUT to LDP-NRs. This content-type requires a complete Content-Type header that includes the location of the external body, e.g <pre class="example">"Content-Type: message/external-body; access-type=URL;URL=\"http://www.example.com/file\""</pre>. When a GET is made to the resource in question, the response MUST be an HTTP 3xx redirect message redirecting to the external URL.</p>
+			  <p>Implementations MUST support the use of <code>Content-Type: message/external-body</code> for request bodies for HTTP POST and HTTP PUT to LDP-NRs. This content-type requires a complete Content-Type header that includes the location of the external body, e.g <code class="example">"Content-Type: message/external-body; access-type=URL;URL=\"http://www.example.com/file\""</code>. When a GET is made to the resource in question, the response MUST be an HTTP 3xx redirect message redirecting to the external URL.</p>
 		  </section>
 		</section>
 		
     <section id="httpPATCH">
 			<h2>HTTP PATCH</h2>
 			<p>
-				Any LDP-RS MUST support PATCH ([[LDP]] 4.2.7 MAY becomes MUST). [[!sparql11-update]] MUST be an accepted content-type for PATCH. Other content-types (e.g. [ldpatch]) MAY be available. If an otherwise valid HTTP PATCH request is received that attempts to add statements to a resource that a server disallows (not ignores per 4.2.4.1), the server MUST fail the request by responding with a 4xx range status code (e.g. 409 Conflict). The server MUST provide a corresponding response body containing information about which statements could not be persisted. ([[LDP]] 4.2.4.4 SHOULD becomes MUST). In that response the restrictions causing such a request to fail MUST be described in a resource indicated by a <pre>Link@rel="ldp:constrainedBy"</pre> response header per [[LDP]] 4.2.1.6. A successful PATCH request MUST respond with a 2xx status code; the specific code in the 2xx range MAY vary according to the response body or request state.
+				Any LDP-RS MUST support PATCH ([[LDP]] 4.2.7 MAY becomes MUST). [[!sparql11-update]] MUST be an accepted content-type for PATCH. Other content-types (e.g. [ldpatch]) MAY be available. If an otherwise valid HTTP PATCH request is received that attempts to add statements to a resource that a server disallows (not ignores per 4.2.4.1), the server MUST fail the request by responding with a 4xx range status code (e.g. 409 Conflict). The server MUST provide a corresponding response body containing information about which statements could not be persisted. ([[LDP]] 4.2.4.4 SHOULD becomes MUST). In that response the restrictions causing such a request to fail MUST be described in a resource indicated by a <code>Link@rel="ldp:constrainedBy"</code> response header per [[LDP]] 4.2.1.6. A successful PATCH request MUST respond with a 2xx status code; the specific code in the 2xx range MAY vary according to the response body or request state.
 			</p>
 		</section>
 		
     <section id="httpPOST">
 			<h2>HTTP POST</h2>
 			<p>
-				Any LDPC MUST support POST ([[LDP]] 4.2.3 / 5.2.3). The default interaction model that will be assigned when there is no explicit Link header in the request MUST be recorded in the constraints document referenced in the <pre>ldp:constrainedBy</pre> Link header ([[LDP]] 4.2.1.6 clarification). Any LDPC MUST support creation of LDP-NRs on POST (LDP 5.2.3.3 MAY becomes MUST). On creation of an LDP-NR an implementation MUST create an associated LDP-RS describing that LDP-NR ([[LDP]] 5.2.3.12 MAY becomes MUST).
+				Any LDPC MUST support POST ([[LDP]] 4.2.3 / 5.2.3). The default interaction model that will be assigned when there is no explicit Link header in the request MUST be recorded in the constraints document referenced in the <code>ldp:constrainedBy</code> Link header ([[LDP]] 4.2.1.6 clarification). Any LDPC MUST support creation of LDP-NRs on POST (LDP 5.2.3.3 MAY becomes MUST). On creation of an LDP-NR an implementation MUST create an associated LDP-RS describing that LDP-NR ([[LDP]] 5.2.3.12 MAY becomes MUST).
 			</p>
 		</section>
 		
     <section id="httpPUT">
 			<h2>HTTP PUT</h2>
-			<p>When accepting a PUT request against an extant resource, an HTTP <pre>Link: rel="type"</pre> header may be included. If that type is a value in the LDP namespace and is not either a current type of the resource or a subtype of a current type of the resource, the request MUST be rejected with a 409 Conflict response containing a corresponding explanatory message in the response body. If the type in the Link header is a subtype of a current type of the resource, and has an interaction model assigned to it by [[LDP]], then the resource MUST be assigned the new type and the interaction model of the resource MUST be changed to the interaction model assigned to the new type by [[LDP]].
+			<p>When accepting a PUT request against an extant resource, an HTTP <code>Link: rel="type"</code> header may be included. If that type is a value in the LDP namespace and is not either a current type of the resource or a subtype of a current type of the resource, the request MUST be rejected with a 409 Conflict response containing a corresponding explanatory message in the response body. If the type in the Link header is a subtype of a current type of the resource, and has an interaction model assigned to it by [[LDP]], then the resource MUST be assigned the new type and the interaction model of the resource MUST be changed to the interaction model assigned to the new type by [[LDP]].
 	</p>
 			<section id="httpPUTLDPNR">
 				<h2>LDP-NRs</h2>
@@ -111,22 +111,22 @@
 			</section>
 			<section id="httpPUTLDPRS">
 				<h2>LDP-RSs</h2>
-				<p>Any LDP-RS MUST support PUT to update statements that are not server-managed triples (as defined in [[LDP]] 2). [[LDP]] 4.2.4.1 and 4.2.4.3 remain in effect. If an otherwise valid HTTP PUT request is received that attempts to add statements to a resource that a server disallows (not ignores per [[LDP]] 4.2.4.1), the server MUST fail the request by responding with a 4xx range status code (e.g. 409 Conflict). The server MUST provide a corresponding response body containing information about which statements could not be persisted. ([[LDP]] 4.2.4.4 SHOULD becomes MUST). In that response the restrictions causing such a request to fail MUST be described in a resource indicated by a <pre>Link@rel="ldp:constrainedBy"</pre> response header per [[LDP]] 4.2.1.6.</p>
+				<p>Any LDP-RS MUST support PUT to update statements that are not server-managed triples (as defined in [[LDP]] 2). [[LDP]] 4.2.4.1 and 4.2.4.3 remain in effect. If an otherwise valid HTTP PUT request is received that attempts to add statements to a resource that a server disallows (not ignores per [[LDP]] 4.2.4.1), the server MUST fail the request by responding with a 4xx range status code (e.g. 409 Conflict). The server MUST provide a corresponding response body containing information about which statements could not be persisted. ([[LDP]] 4.2.4.4 SHOULD becomes MUST). In that response the restrictions causing such a request to fail MUST be described in a resource indicated by a <code>Link@rel="ldp:constrainedBy"</code> response header per [[LDP]] 4.2.1.6.</p>
 			</section>
       <section id="httpPUTcreate">
 				<h2>Creating resources with HTTP PUT</h2>
-				<p>An implementation MUST accept HTTP PUT to create resources.([[LDP]] 4.2.4.6 MAY becomes MUST). The default interaction model that will be assigned when there is no explicit <pre>Link: rel="type"</pre> header in the request MUST be recorded in the constraints document referenced in the <pre>ldp:constrainedBy</pre> Link header ([[LDP]] 4.2.1.6 clarification).</p>
+				<p>An implementation MUST accept HTTP PUT to create resources.([[LDP]] 4.2.4.6 MAY becomes MUST). The default interaction model that will be assigned when there is no explicit <code>Link: rel="type"</code> header in the request MUST be recorded in the constraints document referenced in the <code>ldp:constrainedBy</code> Link header ([[LDP]] 4.2.1.6 clarification).</p>
 			</section>
 		</section>
 
     <section id="httpGET">
 			<h2>HTTP GET</h2>
-			<p>When the request is to the LDP-RS created to describe a LDP-NR, the response MUST include a <pre>Link@rel="describes"</pre> header referencing the LDP-NR in question, as defined in [[!rfc6892]].</p>
+			<p>When the request is to the LDP-RS created to describe a LDP-NR, the response MUST include a <code>Link@rel="describes"</code> header referencing the LDP-NR in question, as defined in [[!rfc6892]].</p>
 		</section>
 		
     <section class='appendix'>
       <h2>Acknowledgments</h2>
-      <p> Thanks to Aaron Birkland, Adam Soroka, Andrew Woods, Anonymous, Ben Armintor, Bethany Seeger, Jared Whiklo, Joshua Westgard, LDP-Next, Rob Sanderson, Sergio Fernández, Tom Johnson, Esmé Cowles</p>
+      <p> Thanks to Aaron Birkland, Adam Soroka, Andrew Woods, Ben Armintor, Bethany Seeger, Jared Whiklo, Joshua Westgard, LDP-Next, Rob Sanderson, Sergio Fernández, Tom Johnson, Esmé Cowles</p>
     </section>
   </body>
 </html>
