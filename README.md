@@ -1,5 +1,5 @@
 # Fedora Specification
-* [Resource Versioning](http://fedora.info/spec/resource-versioning)
+* [Published Version](http://fedora.info/spec/index.html)
 
 ## Background
 * [wiki](https://wiki.duraspace.org/display/FEDORAAPI/Fedora+Specification)
