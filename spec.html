@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Fedora API Specification - Resource Versioning</title>
+    <title>Fedora API Specification</title>
     <meta charset='utf-8'>
     <script src='https://www.w3.org/Tools/respec/respec-w3c-common'
             async class='remove'></script>
@@ -55,7 +55,8 @@
               value: "Commit History.",
               href: "https://github.com/fcrepo/fcrepo-specification/commits/"
               }
-          ]}]
+          ]}],
+		  logos: [{src: "http://fedora.info/assets/fedora_logo.png"}]
       };
     </script>
   </head>
@@ -64,7 +65,7 @@
       <p>
         This specification refines the semantics and interaction patterns of [[!LDP]] in order to better serve the specific needs of those interested in implementing or using the Fedora information architecture. Additionally, this specification contains:</p>
 	  <ul>
-	    <li>a reconciliation of [[LDP]] and the well-established version identification and navigation scheme delineated in the [[!rfc7089]] specification,</li>
+	    <li>a reconciliation of [[LDP]] and the well-established version identification and navigation scheme delineated in the [[!RFC7089]] specification,</li>
 		<li>interaction patterns for use with binary fixity information,</li>
 		<li>a scheme for assembling multiple operations against an [[LDP]] server into one atomic operation,</li>
 		<li>integration with the <a href="https://www.w3.org/wiki/WebAccessControl">Web Access Control proposal,</a></li>
@@ -72,17 +73,18 @@
 	  </ul>
     </section>
 
-    <section id='sotd'>
+    <section id='sotd'> 
+		<p>  It's as drafty as an abandoned old clapboard farmhouse.</p>
     </section>
-    
-    <section>
+
+
       <h2>Terminology</h2>
       <p>
         <dl>
           <dfn>LDPR</dfn>:
           <dd> A Linked Data Platform Resource. This may be an LDP RDF Source or an LDP Non-RDF Source.</dd>
           <dfn>LDPRm</dfn>:
-          <dd>A <a>LDPR</a> that is a version of an <a>LDP-Rv</a> resource. An <a>LDP-Rm</a> is both an <a>LDPR</a> and a Memento <a>URI-M</a> and contained by an <a>LDP-Cv</a>.</dd>
+          <dd>A <a>LDPR</a> that is a version of an <a>LDPRv</a> resource. An <a>LDPRm</a> is both an <a>LDPR</a> and a Memento <a>URI-M</a> and contained by an <a>LDPCv</a>.</dd>
           <dfn>LDPRv</dfn>: 
           <dd>A <a>LDPR</a> that is versioned.Synonymous with Memento <a>URI-R</a>.</dd>
           <dfn>LDPC</dfn>: 
@@ -104,7 +106,7 @@
 	<section id="resource-management">
 		<h2>Resource Management</h2>
 	    <section id='arrangement' class="introductory">
-				<h2>Arrangement</h2>
+		  <h2>Arrangement</h2>
 	      <p>
 	        The specification is arranged by general remarks and then by HTTP method for convenient reference.
 	      </p>
@@ -119,14 +121,14 @@
 			  </section>
 				<section id="message-external-body">
 				  <h2>Content-Type: message/external-body</h2>
-				  <p>Implementations MUST support the use of <code>Content-Type: message/external-body</code> for request bodies for HTTP POST and HTTP PUT to LDP-NRs. This content-type requires a complete Content-Type header that includes the location of the external body, e.g <code class="example">"Content-Type: message/external-body; access-type=URL;URL=\"http://www.example.com/file\""</code>. When a GET is made to the resource in question, the response MUST be an HTTP 3xx redirect message redirecting to the external URL.</p>
+				  <p>Implementations MUST support the use of <code>Content-Type: message/external-body</code> for request bodies for HTTP <code>POST</code> and HTTP <code>PUT</code> to LDP-NRs. This content-type requires a complete <code>Content-Type</code> header that includes the location of the external body, e.g <pre>Content-Type: message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</pre> When a GET is made to the resource in question, the response MUST be an HTTP 3xx redirect message redirecting to the external URL.</p>
 			  </section>
 			</section>
 		
 	    <section id="httpPATCH">
 				<h2>HTTP PATCH</h2>
 				<p>
-					Any LDP-RS MUST support PATCH ([[LDP]] 4.2.7 MAY becomes MUST). [[!sparql11-update]] MUST be an accepted content-type for PATCH. Other content-types (e.g. [ldpatch]) MAY be available. If an otherwise valid HTTP PATCH request is received that attempts to add statements to a resource that a server disallows (not ignores per 4.2.4.1), the server MUST fail the request by responding with a 4xx range status code (e.g. 409 Conflict). The server MUST provide a corresponding response body containing information about which statements could not be persisted. ([[LDP]] 4.2.4.4 SHOULD becomes MUST). In that response the restrictions causing such a request to fail MUST be described in a resource indicated by a <code>Link@rel="ldp:constrainedBy"</code> response header per [[LDP]] 4.2.1.6. A successful PATCH request MUST respond with a 2xx status code; the specific code in the 2xx range MAY vary according to the response body or request state.
+					Any LDPRS MUST support PATCH ([[LDP]] 4.2.7 MAY becomes MUST). [[!sparql11-update]] MUST be an accepted content-type for PATCH. Other content-types (e.g. [ldpatch]) MAY be available. If an otherwise valid HTTP PATCH request is received that attempts to add statements to a resource that a server disallows (not ignores per [[!LDP]] 4.2.4.1), the server MUST fail the request by responding with a 4xx range status code (e.g. 409 Conflict). The server MUST provide a corresponding response body containing information about which statements could not be persisted. ([[LDP]] 4.2.4.4 SHOULD becomes MUST). In that response the restrictions causing such a request to fail MUST be described in a resource indicated by a <code>Link@rel="ldp:constrainedBy"</code> response header per [[LDP]] 4.2.1.6. A successful PATCH request MUST respond with a 2xx status code; the specific code in the 2xx range MAY vary according to the response body or request state.
 				</p>
 			</section>
 		
@@ -185,7 +187,7 @@
         <section>
           <h2>Response Headers</h2>
           <p>
-            At least one <code>Link@rel="timemap"</code> referencing a <a>LDP-Cv</a>. It is the presence of this header that indicates that the resource is versioned.
+            At least one <code>Link@rel="timemap"</code> referencing an <a>LDPCv</a>. It is the presence of this header that indicates that the resource is versioned.
           </p>
           <p>
             <code>Vary: Accept-Datetime</code>, exactly as per Memento.
@@ -242,7 +244,7 @@
       <section>
         <h2>HTTP GET</h2>
         <p>
-          An implementation MUST support <code>GET</code>, as is the case for any <a>LDPR</a>. The headers for <code>GET</code> requests and responses on this resource must conform to [[!rfc7089]]. Particularly it should be noted that the relevant <a>TimeGate</a> for an <a>LDPRm</a> is the original versioned <a>LDPRv</a>.
+          An implementation MUST support <code>GET</code>, as is the case for any <a>LDPR</a>. The headers for <code>GET</code> requests and responses on this resource must conform to [[!RFC7089]]. Particularly it should be noted that the relevant <a>TimeGate</a> for an <a>LDPRm</a> is the original versioned <a>LDPRv</a>.
         </p>
       </section>
 
@@ -320,7 +322,7 @@ An implementation MAY support <code>DELETE</code>. An implementation that does s
       <section>
         <h2>HTTP OPTIONS</h2>
         <p>
-An implementation MUST <code>Allow: GET, HEAD, OPTIONS</code> as per [[!LDP]]. An implementation MAY <code>Allow: DELETE</code> if the versioning behavior is removable by deleting the <a>LDP-Cv</a>. See <a href='#ldpcvdelete'></a> for requirements on DELETE if supported.
+An implementation MUST <code>Allow: GET, HEAD, OPTIONS</code> as per [[!LDP]]. An implementation MAY <code>Allow: DELETE</code> if the versioning behavior is removable by deleting the <a>LDPCv</a>. See <a href='#ldpcvdelete'></a> for requirements on DELETE if supported.
 An implementation MAY <code>Allow: PATCH</code> if the <a>LDPCv</a> has mutable properties. See <a href='#ldpcvpatch'></a> for requirements on <code>PATCH</code> if supported.
 An implementation MAY <code>Allow: POST</code> if versions can be explicitly minted by a client. See <a href='#ldpcvpost'></a> for requirements on <code>POST</code> if supported.
         </p>
@@ -349,7 +351,7 @@ Non-normative note: If <a>LDPCv</a> implementations do not <code>Allow: POST</co
       <section>
         <h2>HTTP PUT</h2>
         <p>
-OPTIONAL. If an implementation accepts PUT, it SHOULD reject created URIs that are not <a>URI-m</a>. It MUST respond to rejected request bodies as specified in LDP. <a>LDP-Cv</a> MUST reflect the range of times indicated by contained <a>LDP-Rm</a>.
+OPTIONAL. If an implementation accepts PUT, it SHOULD reject created URIs that are not <a>URI-M</a>. It MUST respond to rejected request bodies as specified in LDP. <a>LDPCv</a> MUST reflect the range of times indicated by contained <a>LDPRm</a>.
         </p>
         <p>
 Non-normative: An implementation that accepts PUT is not required to validate content.
@@ -361,7 +363,7 @@ Non-normative: An implementation that accepts PUT is not required to validate co
     <section>
       <h2 class='informative'>Vary-Post/Vary-Put</h2>
       <p>
-When Post/Put to a resource optionally mints an identified version, the resource indicates it with Vary-Post/Vary-Put with the name of the request header indicating it. When a <a>LDP-Cv</a> supports Post/Put with a body, and allows client-specification of <a>URI-M</a> datetime, Vary-Post/Vary-Put: Memento-Datetime.
+When Post/Put to a resource optionally mints an identified version, the resource indicates it with Vary-Post/Vary-Put with the name of the request header indicating it. When a <a>LDPCv</a> supports Post/Put with a body, and allows client-specification of <a>URI-M</a> datetime, Vary-Post/Vary-Put: Memento-Datetime.
       </p>
     </section>
 
@@ -380,7 +382,7 @@ This is a non-normative section describing the way the normative specification m
         <section id="server-managed">
           <h2>Server-Managed Version Creation</h2>
           <p>
-Upon <code>PUT/PATCH</code> to the <a>LDPRv</a>, a new <a>LDPRm</a> is created in an appropriate <a>LDPCv</a>. This <a>LDPRm</a>/<a>URI-M</a> is the version of the original <a>LDP-R</a>/<a>URI-R</a> that was just created.
+Upon <code>PUT/PATCH</code> to the <a>LDPRv</a>, a new <a>LDPRm</a> is created in an appropriate <a>LDPCv</a>. This <a>LDPRm</a>/<a>URI-M</a> is the version of the original <a>LDPR</a>/<a>URI-R</a> that was just created.
           </p>
         </section>
         <section>
@@ -388,7 +390,7 @@ Upon <code>PUT/PATCH</code> to the <a>LDPRv</a>, a new <a>LDPRm</a> is created i
           <p>
 A <a>LDPRm</a> is created on <code>POST</code> to some <a>LDPCv</a>, <i>with an entity body</i>.  This pattern is more open to manipulation and could be useful for migration from other systems into Fedora Versioning systems.
           <p>
-Responses from <code>GET</code> requests to the <a>LDP-R</a>/<a>URI-R</a> include a <code>Link@rel=’version-history’</code> pointing to the <a>LDP-Cv</a> as well as a <code>Link@rel="timemap"</code> to the same <a>LDP-Cv</a>.
+Responses from <code>GET</code> requests to the <a>LDPR</a>/<a>URI-R</a> include a <code>Link@rel=’version-history’</code> pointing to the <a>LDPCv</a> as well as a <code>Link@rel="timemap"</code> to the same <a>LDPCv</a>.
           </p>
         </section>
 
@@ -425,11 +427,21 @@ If the <a>LDPCv</a>/<a>TimeMap</a> is also the <a>TimeGate</a> Responses from <c
       </section>
 
     </section>
-</section>
+  </section>
+
+    <section id="binary-fixity">
+      <h2>Binary Resource Fixity</h2>
+      <p>Stuff</p>
+  	  <section id="transmission-fixity">
+	    <h2>Transmission Fixity</h2>
+		<p>If an implementation receives a request with a <code>Digest</code> header (as described in [[!RFC3230]]) for which the instance-digest in that header does not match the instance it describes, the implementation MUST return a 409 Conflict response.</p>
+      </section>
+    </section>
+	
     <section class='appendix'>
       <h2>Acknowledgments</h2>
       <p>
-Thanks to Aaron Birkland, Adam Soroka, Andrew Woods, Anonymous, Ben Armintor ,Bethany Seeger, Jared Whiklo, Joshua Westgard, LDP-Next, Rob Sanderson, Sergio Fernández, Tom Johnson
+
       </p>
     </section>
 
