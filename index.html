@@ -82,24 +82,16 @@
       <h2>Terminology</h2>
       <p>
         <dl>
-          <dfn>LDPR</dfn>:
-          <dd> A Linked Data Platform Resource. This may be an LDP RDF Source or an LDP Non-RDF Source.</dd>
-          <dfn>LDPRm</dfn>:
-          <dd>A <a>LDPR</a> that is a version of an <a>LDPRv</a> resource. An <a>LDPRm</a> is both an <a>LDPR</a> and a Memento <a>URI-M</a> and contained by an <a>LDPCv</a>.</dd>
-          <dfn>LDPRv</dfn>: 
-          <dd>A <a>LDPR</a> that is versioned.Synonymous with Memento <a>URI-R</a>.</dd>
-          <dfn>LDPC</dfn>: 
-          <dd>A Linked Data Platform Container.</dd>
-          <dfn>LDPCv</dfn>: 
-          <dd>A Linked Data Platform Version Container. An <a>LDPCv</a> is both an <a>LDPC</a> and a <a>TimeMap</a>.</dd>
-          <dfn>URI-R</dfn>: 
-          <dd>A type of versioned resource defined in the Memento framework.</dd>
-          <dfn>URI-M</dfn>: 
-          <dd>A type of resource that is defined in the Memento framework representing a version of a given <a>URI-R</a>.</dd>
-          <dfn>TimeGate</dfn>: 
-          <dd>A type of resource defined in the Memento framework providing <code>Accept-Datetime</code> -varied negotiation of versions of an <a>URI-R</a>.</dd>
-          <dfn>TimeMap</dfn>: 
-          <dd>A type of resource defined in the Memento framework that contains a machine-readable listing of <a>URI-M</a>s connected to a given <a>URI-R</a>.</dd>
+          <dfn>LDPR</dfn>: <dd> An [[LDP]] Resource. This may be an [[LDP]] RDF Source or an [[LDP]] Non-RDF Source.</dd>
+          <dfn>LDPRm</dfn>: <dd>A <a>LDPR</a> that is a version of an <a>LDPRv</a> resource. An <a>LDPRm</a> is both an <a>LDPR</a> and a Memento <a>URI-M</a> and contained by an <a>LDPCv</a>.</dd>
+          <dfn>LDPRv</dfn>: <dd>A <a>LDPR</a> that is versioned.Synonymous with Memento <a>URI-R</a>.</dd>
+          <dfn>LDPC</dfn>: <dd>An [[LDP]] Container.</dd>
+          <dfn>LDPCv</dfn>: <dd>A Version Container. An <a>LDPCv</a> is both an <a>LDPC</a> and a <a>TimeMap</a>.</dd>
+          <dfn>URI-R</dfn>: <dd>A type of versioned resource defined in the Memento framework.</dd>
+          <dfn>URI-M</dfn>: <dd>A type of resource that is defined in the Memento framework representing a version of a given <a>URI-R</a>.</dd>
+          <dfn>TimeGate</dfn>: <dd>A type of resource defined in the Memento framework providing <code>Accept-Datetime</code>-varied negotiation of versions of an <a>URI-R</a>.</dd>
+          <dfn>TimeMap</dfn>: <dd>A type of resource defined in the Memento framework that contains a machine-readable listing of <a>URI-M</a>s associated to a given <a>URI-R</a>.</dd>
+					<dfn>ACL</dfn>: <dd>An Access Control List as discussed in <a href="https://www.w3.org/wiki/WebAccessControl">Web Access Control</a> defined using the <a href="https://www.w3.org/ns/auth/acl">Web Access Control ontology</a>.</dd>
         </dl>
       </p>
     </section>
@@ -432,10 +424,51 @@ If the <a>LDPCv</a>/<a>TimeMap</a> is also the <a>TimeGate</a> Responses from <c
 
     <section id="binary-fixity">
       <h2>Binary Resource Fixity</h2>
-      <p>Fixity for <a>LDPNR</a>s</p>
+      <p>Fixity for LDPNRs</p>
   	  <section id="transmission-fixity">
 	    <h2>Transmission Fixity</h2>
 		<p>If an implementation receives a request with a <code>Digest</code> header (as described in [[!RFC3230]]) for which the instance-digest in that header does not match the instance it describes, the implementation MUST return a 409 Conflict response.</p>
+      </section>
+  	  <section id="ondemand-fixity">
+	    <h2>"On Demand" Fixity</h2>
+		<p>If an implementation receives a request with a <code>Digest</code> header (as described in [[!RFC3230]]) for which the instance-digest in that header does not match the instance it describes, the implementation MUST return a 409 Conflict response.</p>
+      </section>
+    </section>
+	
+    <section id="resource-authorization">
+      <h2>Resource Authorization</h2>
+			<p>Implementations supporting access control MUST use the <a href="https://www.w3.org/wiki/WebAccessControl">Web Access Control</a> model to configure that functionality. Any <a>ACL</a> in use MUST be a LDPRS, which SHOULD be located in the same server as the controlled resource. Implementations MUST support extended control relationships in which the <a>ACL</a> for some resource has its own <a>ACL</a> and so on.</p>
+  	  <section id="inheritance">
+	    <h2>Inheritance</h2>
+		<p>An implementation MUST respect [[!LDP]]-containment for access control, such that an authorization rule applied to an [[!LDP]] container will also apply to that container's contents. When some contained resource has its own access control configuration that applies to a given interaction that configuration MUST be respected.</p>
+      </section>
+  	  <section id="controlled-resources">
+	      <h2>Access-controlled resources</h2>
+				<section id="httpget">
+					<h2>HTTP GET</h2>
+				  <p>Responses for a resource governed by a specific <a>ACL</a> MUST include a <code>Link@rel=acl</code> header referencing the location of that <a>ACL</a>. If no specific <a>ACL</a> applies to a resource, then an implementation MUST NOT transmit any <code>Link@rel=acl</code> header for that resource.</p>
+				</section>
+			</section>
+			
+  	  <section id="modes-of-access">
+	      <h2>Interpreting Specfic WebAC Modes of Access</h2>
+				<section id="control">
+					<h2>CONTROL</h2>
+					<p>An implementation SHOULD NOT interpret <code>CONTROL</code> mode.</p>
+				</section>
+				<section id="ldpc">
+					<h2>LDPCs</h2>
+				  <section id="write">
+						<h2>WRITE</h2>
+						<p>An implementation MUST interpret <code>WRITE</code> mode access for an LDPC to allow the modification of minimal-container triples as defined by [[!LDP]] or the deletion of the LDPC itself.</p>
+					</section>
+				  <section id="write">
+						<h2>APPEND</h2>
+						<p>An implementation MUST interpret <code>APPEND</code> mode access for an LDPC to allow the creation of contained resources (via <code>POST</code>) but MUST NOT interpret <code>APPEND</code> to include actions specific to <code>WRITE</code> mode.</p>
+					</section>
+				</section>
+			</section>
+
       </section>
     </section>
 	
