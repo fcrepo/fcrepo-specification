@@ -40,7 +40,7 @@
                     companyURL: "http://redlink.co/"},
                 {   name:       "Aaron Coburn",
                     company:    "Amherst College",
-                    companyURL: "https://www.amherst.edu/library"},
+                    companyURL: "https://www.amherst.edu/"},
                 {   name:       "Tom Johnson",
                     company:    "Digital Public Library of America",
                     companyURL: "https://dp.la/"}
@@ -471,7 +471,150 @@ If the <a>LDPCv</a>/<a>TimeMap</a> is also the <a>TimeGate</a> Responses from <c
 
       </section>
     </section>
-	
+
+    <section id="messaging-spi">
+      <h2>Messaging SPI</h2>
+      <section class="informative">
+        <p>Non-normative: the messaging SPI defines when messages are emitted by a Fedora implementation, the minimal set of data contained in those messages and how those data are serialized.
+        These messages allow clients to react to repository changes asynchronously and may be used to support external integrations.</p>
+      </section>
+      <section id="emitting-messages">
+        <h3>Emitting Messages</h3>
+        <p>Any operation that causes the state of a resource to durably change <code>MUST</code> cause a message to be emitted with a corresponding resource identifier.</p>
+        <p>In the context of a batch operation, messages <code>MUST NOT</code> be emitted until after all operations have been successfully committed.</p>
+        <p>A failed operation (HTTP 4xx or 5xx) <code>MUST NOT</code> emit any messages.</p>
+        <p>Messages <code>MUST NOT</code> be emitted until after any changes have been persisted to durable storage.</p>
+        <p>Repository start, stop and configuration change operations <code>MAY</code> cause a message to be emitted.</p>
+        before Event B.</p>
+        <p>Any operation on an LDPR that results in a change to the containment or membership triples of a distinct other LDPR <code>MUST</code> also trigger an event for that other LDPR.</p>
+        <p>Any operation that causes contained resources to change <code>MUST</code> trigger corresponding events for those resources. For example, deleting or moving a parent resource and thereby changing the state of a child resource <code>MUST</code> result in corresponding events for each of the contained child resources.</p>
+        <p>Non-normative: consumers of these messages <code>SHOULD NOT</code> expect a strict ordering of the events reported therein: the fact that a message for Event A is received before a message for Event B should not imply that Event A occurred
+        before Event B.</p>
+      </section>
+
+      <section id="message-data">
+        <h3>Message Data</h3>
+        <p>Emitted events <code>MUST</code> contain exactly one value for each of the following elements:</p>
+        <ul>
+          <li>Resource Identifier: the URI of the Fedora Resource that was added, changed or removed.</li>
+          <li>Timestamp: a timestamp marking the time of the event.
+            The value of the timestamp <code>SHOULD</code> correspond to the time the resource was added/modified/deleted, but there is no strict requirement about the precision of this value.
+            If the operation in question occurred as part of an atomic operation, the timestamps <code>SHOULD</code> correspond to the time the individual operation was performed (and not to the
+            time the atomic operation was completed).</li>
+          <li>Event identifier: a unique identifier for this event.</li>
+        </ul>
+        <p>A message <code>MUST</code> contain at least one value for the event type. Event types <code>SHOULD</code> be drawn from the [[!activitystreams-vocabulary]].</p>
+        <p>A message <code>SHOULD</code> contain at least one value for the agent operating on the resource.</p>
+        <p>A message <code>SHOULD</code> contain a collection of RDF types corresponding to the resource that was changed.</p>
+        <p>If the corresponding Fedora Resource includes an <code>ldp:inbox</code>, the location of that inbox <code>SHOULD</code> be included in the message.</p>
+        <p>Messages <code>SHOULD NOT</code> contain the entire content of repository resources.</p>
+      </section>
+
+      <section id="message-serialization">
+        <h3>Message Serialization</h3>
+        <p>The message body serialization <code>MUST</code> conform to the [[!activitystreams-core]] specification.</p>
+        <p>Wherever possible, data <code>SHOULD</code> be expressed using the [[!activitystreams-vocabulary]].</p>
+      </section>
+
+      <section id="message-examples">
+        <h3>Examples</h3>
+        <p><em>This section is non-normative.</em></p>
+        <section id="minimal-message-example">
+          <h4>A minimal message</h4>
+          <div class="example">
+            <pre class="highlight json">{
+	"@context": [
+		"https://www.w3.org/ns/activitystreams",
+		{
+			"fedora": "http://fedora.info/definitions/v4/repository#",
+			"date": {
+				"@id": "http://purl.org/dc/terms/date",
+				"@type": "xsd:dateTime"
+			}
+		}
+	],
+	"id": "urn:uuid:3c834a8f-5638-4412-aa4b-35ea80416a18",
+	"type": "Create",
+  "name": "Resource Creation",
+	"date": "2016-05-19T17:17:39Z",
+	"actor": [
+    {
+      "id": "#actor0",
+      "type": "Person",
+      "name": "fedo raAdmin"
+    },
+    {
+      "id": "#actor1",
+      "type": "Application",
+      "name": "FcrepoClient/0.1"
+    }
+  ],
+	"object": {
+		"id": "http://example.org/fcrepo/rest/resource/path",
+		"type": [
+			"fedora:Resource",
+			"fedora:Container",
+			"ldp:Container",
+			"ldp:RdfSource"
+		]
+  }
+}</pre>
+          </div>
+        </section>
+
+        <section id="basic-message-example">
+          <h4>A basic event with some additional detail</h4>
+          <div class="example">
+            <pre class="highlight json">{
+	"@context": [
+		"https://www.w3.org/ns/activitystreams",
+		{
+			"fedora": "http://fedora.info/definitions/v4/repository#",
+			"date": {
+				"@id": "http://purl.org/dc/terms/date",
+				"@type": "xsd:dateTime"
+			},
+      "isPartOf": {
+        "@id": "http://purl.org/dc/terms/date",
+        "@type": "@id"
+      }
+		}
+	],
+	"id": "urn:uuid:be29ae69-2134-f1b0-34be-2f91b6d1f029",
+	"type": "Update",
+  "name": "Resource Modification",
+	"date": "2016-07-04T13:46:39Z",
+  "inbox": "http://example.org/ldn/inbox/path",
+	"actor": [
+    {
+      "id": "#actor0",
+      "type": "Person",
+      "name": "fedo raAdmin"
+    },
+    {
+      "id": "#actor1",
+      "type": "Service",
+      "name": "APIX-core/0.1"
+    }
+  ],
+	"object": {
+		"id": "http://example.org/fcrepo/rest/resource/path",
+		"type": [
+			"fedora:Resource",
+			"fedora:Container",
+			"ldp:Container",
+			"ldp:RdfSource",
+      "http://example.org/type/CustomType"
+		],
+    "isPartOf": "http://example.org/fcrepo/rest/"
+  }
+}</pre>
+          </div>
+        </section>
+      </section>
+
+    </section>
+
     <section class='appendix'>
       <h2>Acknowledgments</h2>
       <p>
