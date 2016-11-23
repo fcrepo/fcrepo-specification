@@ -474,8 +474,10 @@ If the <a>LDPCv</a>/<a>TimeMap</a> is also the <a>TimeGate</a> Responses from <c
 
     <section id="messaging-spi">
       <h2>Messaging SPI</h2>
-      <p>Non-normative: the messaging SPI defines when messages are emitted by a Fedora implementation, the minimal set of data contained in those messages and how those data are serialized. These messages allow clients to react to repository changes
-      asynchronously and may be used to support external integrations.</p>
+      <section class="informative">
+        <p>Non-normative: the messaging SPI defines when messages are emitted by a Fedora implementation, the minimal set of data contained in those messages and how those data are serialized.
+        These messages allow clients to react to repository changes asynchronously and may be used to support external integrations.</p>
+      </section>
       <section id="emitting-messages">
         <h3>Emitting Messages</h3>
         <p>Any operation that causes the state of a resource to durably change <code>MUST</code> cause a message to be emitted with a corresponding resource identifier.</p>
