@@ -156,12 +156,11 @@
 				<section id="additionalPreferValues">
 					<h2>Additional values for the <code>Prefer</code> header</h2>
 					<p>
-						In addition to the requirements of [[!LDP]], an implementation SHOULD support the following additional values for the <code>Prefer</code> header when making <code>GET</code> requests on LDPC resources:
+						In addition to the requirements of [[!LDP]], an implementation MAY support either or both of the following additional values for the <code>Prefer</code> header when making <code>GET</code> requests on LDPC resources:
 					</p>
 					<ul>
 						<li><code>http://fedora.info/definitions/v4/repository#EmbedResources</code>: Requires a server to include representations of any contained resources in the response.</li>
 						<li><code>http://fedora.info/definitions/v4/repository#InboundReferences</code>: Requires a server to include triples from any LDPRS housed in that server that feature the requested resource as RDF-object.</li>
-						<li><code>http://fedora.info/definitions/v4/repository#ServerManaged</code>: </li>
 					</ul>
 				</section>
 			</section>
@@ -234,14 +233,14 @@
       <section>
         <h2>General</h2>
         <p>
-          When a <a>LDPR</a> is created with a <code>Link</code> header indicating versioning, it is created as both an LDP Resource and a Memento: a <a>LDPRm</a>. An <a>LDPRm</a> SHOULD be invariant: While it may be deleted, it SHOULD NOT be modified once created.
+          When a <a>LDPR</a> is created with a <code>Link</code> header indicating versioning, it is created as both an LDP Resource and a Memento: a <a>LDPRm</a>. An <a>LDPRm</a> MUST be invariant: While it may be deleted, it MUST NOT be modified once created.
         </p>
       </section>
 
       <section>
         <h2>HTTP DELETE</h2>
         <p>
-          An implementation MAY support <code>DELETE</code> for <a>LDPRm</a>s. If DELETE is supported, the Fedora/[[LDP]] server is responsible for all behaviors implied by the LDP-containment of the <a>LDPRm</a>.
+          An implementation MAY support <code>DELETE</code> for <a>LDPRm</a>s. If DELETE is supported, the server is responsible for all behaviors implied by the LDP-containment of the <a>LDPRm</a>.
         </p>
       </section>
 
@@ -263,7 +262,7 @@
         <h2>HTTP OPTIONS</h2>
         <p>
           An implementation MUST support <code>OPTIONS</code>. A response to an <code>OPTIONS</code> request must include <code>Allow: GET, HEAD, OPTIONS</code> as per [[LDP]].
-          An implementation MAY include <code>Allow: DELETE</code> if clients can remove a version from the version history.
+          An implementation MAY include <code>Allow: DELETE</code> if clients can remove a version from the version history, as noted <a href="#h-http-delete">above</a>.
         </p>
       </section>
 
@@ -295,10 +294,10 @@
       <section>
         <h2>General</h2>
         <p>
-When a <a>LDPR</a> is created with a <code>Link</code> header indicating versioning, a version container (<a>LDPCv</a>) is created that contains Memento-identified resources (<a>LDPRm</a>) capturing time-varying states of the associated <a>LDPR</a>. The <a>LDPCv</a> is both a <a>TimeMap</a> per [[!RFC7089]] (Memento) and an LDP Container. An implementation MUST indicate <a>TimeMap</a> in the same way it indicates the Container interaction model of the resource (e.g. via HTTP headers or inserted <code>rdf:type</code>). An <a>LDPCv</a> MUST respond to <code>GET Accept: application/link-format</code> as indicated in [[!RFC7089]] <a href='https://tools.ietf.org/html/rfc7089#section-5'>section 5</a> and specified in [[RFC6690]] <a href='https://tools.ietf.org/html/rfc6690#section-7.3'>section 7.3</a>.
+When a <a>LDPR</a> is created with a <code>Link</code> header indicating versioning, a version container (<a>LDPCv</a>) is created that contains Memento-identified resources (<a>LDPRm</a>) capturing time-varying representations of the associated <a>LDPR</a>. An <a>LDPCv</a> is both a <a>TimeMap</a> per [[!RFC7089]] (Memento) and an LDP Container. As a <a>TimeMap</a> an <a>LDPCv</a> MUST conform to the specification for such resources in [[!RFC7089]]. An implementation MUST indicate <a>TimeMap</a> in the same way it indicates the Container interaction model of the resource via HTTP headers. An <a>LDPCv</a> MUST respond to <code>GET Accept: application/link-format</code> as indicated in [[!RFC7089]] <a href='https://tools.ietf.org/html/rfc7089#section-5'>section 5</a> and specified in [[RFC6690]] <a href='https://tools.ietf.org/html/rfc6690#section-7.3'>section 7.3</a>.
         </p>
 		<p>
-		An implementation MUST NOT allow any <a>LDPCv</a> to be LDP-contained by its associated <a>LDPRv</a>.
+		An implementation MUST NOT allow the creation of an <a>LDPCv</a> that is LDP-contained by its associated <a>LDPRv</a>.
 		</p>
         <p>
 Non-normative: The <code>application/link-format</code> representation of a <a>LDPCv</a> is not required to include all statements in the <a>LDPCv</a> graph, only those required by <a>TimeMap</a> behaviors.
@@ -311,17 +310,6 @@ Non-normative: The <code>application/link-format</code> representation of a <a>L
 An implementation MAY support <code>DELETE</code>. An implementation that does support <code>DELETE</code> SHOULD do so by both removing the <a>LDPCv</a> and removing the versioning interaction model from the original <a>LDPRv</a>.
         </p>
       </section>
-
-      <section>
-        <h2>HTTP GET</h2>
-        <section>
-          <h2>HTTP Response Headers</h2>
-          <p>
-<code>Link@rel="type"</code> to indicate Timemap
-          </p>
-        </section>
-      </section>
-
 
       <section>
         <h2>HTTP OPTIONS</h2>
@@ -342,32 +330,22 @@ An implementation MAY <code>Allow: PATCH</code>, but if so, it MUST NOT permit c
       <section>
         <h2 id='ldpcvpost'>HTTP POST</h2>
         <p>
-OPTIONAL. If a <a>LDPCv</a> Allow: POST, POST should be understood to create a new <a>LDPRm</a> contained by the <a>LDPCv</a>, reflecting the state of the <a>LDPRv</a> at the time of the POST. If supported, and all <a>LDPRm</a> statements are server-managed, Accept-Post SHOULD indicate that no request body is accepted ("Accept-Post: */*; p=0.0" has minimal conflict with LDP), and POST with a request body SHOULD respond with 4xx and a link to an appropriate constraints document (see <a href='https://www.w3.org/TR/ldp/#h-ldpr-gen-pubclireqs'>LDP 4.2.1.6</a>). As per LDP, any resource created via POST, in this case a <a>LDPRm</a>) should be advertised in the response's Location header.
+If a <a>LDPCv</a> supports <code>POST</code>, <code>POST</code> should be understood to create a new <a>LDPRm</a> contained by the <a>LDPCv</a>, reflecting the state of the <a>LDPRv</a> at the time of the <code>POST</code>. If supported, but the representation at the time of version creation can only be that which is current for the <a>LDPRv</a>, the <code>Accept-Post</code> header of any response from the <a>LDPCv</a> SHOULD indicate that no request body is accepted via the form <code>Accept-Post: */*; p=0.0</code>, and that implementation SHOULD respond to any body-containing <code>POST</code> to that <a>LDPCv</a> with a 415 response and a link to an appropriate constraints document (see <a href='https://www.w3.org/TR/ldp/#h-ldpr-gen-pubclireqs'>LDP 4.2.1.6</a>). As per [[!LDP]], any resource created via <code>POST</code>, in this case a <a>LDPRm</a>) should be advertised in the response's <code>Location</code> header.
         </p>
         <p>
-If a <a>LDPCv</a> accepts POST with a request body, it SHOULD respect a Memento-Datetime request header to mint the <a>URI-M</a>. Absent this header, it MUST use the current time.          
+If a <a>LDPCv</a> does accept <code>POST</code> with a request body, it SHOULD respect a <code>Memento-Datetime</code> request header for the created <a>LDPRm</a>. Absent this header, it MUST use the current time.          
         </p>
         <p>
-Non-normative note: If <a>LDPCv</a> implementations do not <code>Allow: POST</code>, the constraints document indicated in <code>Link@rel="constrainedby"</code> for the <a>LDPCv</a> should describe the versioning mechanism. Disallowing POST suggests that the [[LDP]] server will manage all <a>LDPRm</a> creation; see <a href ="#server-managed">here</a>.
-        </p>
-      </section>
-
-      <section>
-        <h2>HTTP PUT</h2>
-        <p>
-OPTIONAL. If an implementation accepts PUT, it SHOULD reject created URIs that are not <a>URI-M</a>. It MUST respond to rejected request bodies as specified in LDP. <a>LDPCv</a> MUST reflect the range of times indicated by contained <a>LDPRm</a>.
-        </p>
-        <p>
-Non-normative: An implementation that accepts PUT is not required to validate content.
+Non-normative note: If an <a>LDPCv</a> does not <code>Allow: POST</code>, the constraints document indicated in <code>Link@rel="constrainedby"</code> for that <a>LDPCv</a> should describe the versioning mechanism (e.g. by <code>PUT</code> or <code>PATCH</code> to the <a>LDPRv</a> described by that <a>LDPCv</a>). Disallowing <code>POST</code> suggests that the [[LDP]] server will manage all <a>LDPRm</a> creation; see <a href ="#server-managed">here</a>.
         </p>
       </section>
 
     </section>
 
     <section>
-      <h2 class='informative'>Vary-Post/Vary-Put</h2>
+      <h2 class='informative'>Vary</h2>
       <p>
-When Post/Put to a resource optionally mints an identified version, the resource indicates it with Vary-Post/Vary-Put with the name of the request header indicating it. When a <a>LDPCv</a> supports Post/Put with a body, and allows client-specification of <a>URI-M</a> datetime, Vary-Post/Vary-Put: Memento-Datetime.
+When a <code>POST</code> to an <a>LDPCv</a> or <code>PUT</code> or <code>PATCH</code> to an <a>LDPRv</a> creates a new <a>LDPRm</a>, the response indicates that using a <code>Vary</code> header as appropriate. When a <a>LDPCv</a> supports  <code>POST</code>, and allows clients to specify a datetime for created <a>URI-M</a>s, Vary-Post/Vary-Put: Memento-Datetime.
       </p>
     </section>
 
@@ -377,7 +355,7 @@ When Post/Put to a resource optionally mints an identified version, the resource
       <section>
         <h2>Introduction</h2>
         <p>
-This is a non-normative section describing the way the normative specification might be applied to implement discoverable versioning patterns. If an implementation of a <a>LDPCv</a> does not support POST to mint versions, that MUST be advertised via <code>OPTIONS</code>. Presumably the implementation would automatically mint versions, but that is outside this specification. This document specifies normatively only how <a>LDPCv</a>s and <a>LDPRm</a>s can be discovered, and how they should act.
+This is a non-normative section describing the way the normative specification might be applied to implement discoverable versioning patterns. If an implementation of a <a>LDPCv</a> does not support <code>POST</code> to mint versions, that MUST be advertised via <code>OPTIONS</code> as described above. The implementation MAY automatically mint versions instead, but that is outside the requirements of this specification. This document specifies normatively only how <a>LDPCv</a>s and <a>LDPRm</a>s can be discovered, and how they should act.
         </p>
       </section>
 
@@ -386,50 +364,16 @@ This is a non-normative section describing the way the normative specification m
         <section id="server-managed">
           <h2>Server-Managed Version Creation</h2>
           <p>
-Upon <code>PUT/PATCH</code> to the <a>LDPRv</a>, a new <a>LDPRm</a> is created in an appropriate <a>LDPCv</a>. This <a>LDPRm</a>/<a>URI-M</a> is the version of the original <a>LDPR</a>/<a>URI-R</a> that was just created.
+Upon <code>PUT</code> or <code>PATCH</code> to the <a>LDPRv</a>, a new <a>LDPRm</a> is created in an appropriate <a>LDPCv</a>. This <a>LDPRm</a> is the version of the original <a>LDPRv</a> that was just created.
           </p>
         </section>
-        <section>
+        <section id="client-managed">
           <h2>Client-Managed Version Creation</h2>
           <p>
-A <a>LDPRm</a> is created on <code>POST</code> to some <a>LDPCv</a>, <i>with an entity body</i>.  This pattern is more open to manipulation and could be useful for migration from other systems into Fedora Versioning systems.
-          <p>
-Responses from <code>GET</code> requests to the <a>LDPR</a>/<a>URI-R</a> include a <code>Link@rel=’version-history’</code> pointing to the <a>LDPCv</a> as well as a <code>Link@rel="timemap"</code> to the same <a>LDPCv</a>.
+An <a>LDPRm</a> for a particular <a>LDPRv</a> is created on <code>POST</code> to any <a>LDPCv</a> associated with that <a>LDPRv</a>. The new <a>LDPRm</a> is contained in the <a>LDPCv</a> to which the <code>POST</code> was made and features in that <a>LDPCv</a>-as-a<a->TimeMap</a> . This pattern is more open to manipulation and could be useful for migration from other systems into Fedora implementations. Responses from requests to the <a>LDPRv</a> include a <code>Link@rel="timemap"</code> to the same <a>LDPCv</a> as per [[RFC7089]].
           </p>
         </section>
-
       </section>
-
-      <section>
-        <h2>LDP Considerations</h2>
-        <p>
-Advertising default behaviors in server constraints document
-        </p>
-        <p>
-If the [[LDP]] server allows reuse of URIs after deletion
-Does this undermine the meaning of the version history?          
-        </p>
-        <p>
-<a>LDPCv</a> as a DirectContainer
-Minimizing header inspection for read-only clients with http://purl.org/dc/terms/hasVersion or similar.          
-        </p>
-      </section>
-
-      <section>
-        <h2>Memento Considerations</h2>
-        <p>
-If the <a>LDPCv</a>/<a>TimeMap</a> is also the <a>TimeGate</a> Responses from <code>GET</code> requests to the version container (<a>LDPCv</a>) will vary depending on the presence or absence of an Accept-Datetime header in the request.
-          <ul>
-            <li>
-              In the absence of an Accept-Datetime header, the response will be an appropriately constructed <a>TimeMap</a>.
-            </li>
-            <li>
-              In the presence of  an Accept-Datetime header, the response will be a redirect to the appropriately chosen <a>LDPRm</a>/<a>URI-M</a>, i.e. the version container will behave like a <a>TimeGate</a>.
-            </li>
-          <ul>
-        </p>
-      </section>
-
     </section>
   </section>
 
@@ -473,9 +417,8 @@ If the <a>LDPCv</a>/<a>TimeMap</a> is also the <a>TimeGate</a> Responses from <c
         <p>A failed operation (HTTP 4xx or 5xx) <code>MUST NOT</code> emit any messages.</p>
         <p>Messages <code>MUST NOT</code> be emitted until after any changes have been persisted to durable storage.</p>
         <p>Repository start, stop and configuration change operations <code>MAY</code> cause a message to be emitted.</p>
-        before Event B.</p>
         <p>Any operation on an LDPR that results in a change to the containment or membership triples of a distinct other LDPR <code>MUST</code> also trigger an event for that other LDPR.</p>
-        <p>Any operation that causes contained resources to change <code>MUST</code> trigger corresponding events for those resources. For example, deleting or moving a parent resource and thereby changing the state of a child resource <code>MUST</code> result in corresponding events for each of the contained child resources.</p>
+        <p>Any operation that causes contained resources to change <code>MUST</code> trigger corresponding events for those resources. For example, deleting a parent resource and thereby changing the state of its child resources <code>MUST</code> result in corresponding events for each of the contained child resources.</p>
         <p>Non-normative: consumers of these messages <code>SHOULD NOT</code> expect a strict ordering of the events reported therein: the fact that a message for Event A is received before a message for Event B should not imply that Event A occurred
         before Event B.</p>
       </section>
