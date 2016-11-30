@@ -91,22 +91,6 @@
       </p>
     </section>
 
-    <section id="terminology">
-      <h2>Terminology</h2>
-        <dl>
-          <dt><dfn>LDPR</dfn>:</dt> <dd> An [[LDP]] Resource. This may be an [[LDP]] RDF Source or an [[LDP]] Non-RDF Source.</dd>
-          <dt><dfn>LDPRm</dfn>:</dt> <dd>A <a>LDPR</a> that is a version of an <a>LDPRv</a> resource. An <a>LDPRm</a> is both an <a>LDPR</a> and a Memento <a>URI-M</a> and contained by an <a>LDPCv</a>.</dd>
-          <dt><dfn>LDPRv</dfn>:</dt> <dd>A <a>LDPR</a> that is versioned.Synonymous with Memento <a>URI-R</a>.</dd>
-          <dt><dfn>LDPC</dfn>:</dt> <dd>An [[LDP]] Container.</dd>
-          <dt><dfn>LDPCv</dfn>:</dt> <dd>A Version Container. An <a>LDPCv</a> is both an <a>LDPC</a> and a <a>TimeMap</a>.</dd>
-          <dt><dfn>URI-R</dfn>:</dt> <dd>A type of versioned resource defined in the Memento framework.</dd>
-          <dt><dfn>URI-M</dfn>:</dt> <dd>A type of resource that is defined in the Memento framework representing a version of a given <a>URI-R</a>.</dd>
-          <dt><dfn>TimeGate</dfn>:</dt> <dd>A type of resource defined in the Memento framework providing <code>Accept-Datetime</code>-varied negotiation of versions of an <a>URI-R</a>.</dd>
-          <dt><dfn>TimeMap</dfn>:</dt> <dd>A type of resource defined in the Memento framework that contains a machine-readable listing of <a>URI-M</a>s associated to a given <a>URI-R</a>.</dd>
-          <dt><dfn>ACL</dfn>:</dt> <dd>An Access Control List as discussed in <a href="https://www.w3.org/wiki/WebAccessControl">Web Access Control</a> defined using the <a href="https://www.w3.org/ns/auth/acl">Web Access Control ontology</a>.</dd>
-        </dl>
-    </section>
-
     <section id="resource-management">
       <h2>Resource Management</h2>
         <section id='arrangement' class="introductory">
@@ -197,8 +181,20 @@
 
     <section id="resource-versioning">
       <h2>Resource Versioning</h2>
-      <section id='conformance'>
-      </section>
+	    <section id="terminology">
+	      <h2>Terminology</h2>
+	        <dl>
+	          <dt><dfn>LDPR</dfn>:</dt> <dd> An [[LDP]] Resource. This may be an [[LDP]] RDF Source or an [[LDP]] Non-RDF Source.</dd>
+	          <dt><dfn>LDPRv</dfn>:</dt> <dd>A <a>LDPR</a> that is simultaneously a Memento <a>URI-R</a>.</dd>
+	          <dt><dfn>LDPRm</dfn>:</dt> <dd>A <a>LDPR</a> that is simultaneously a Memento <a>URI-M</a>.</dd>
+	          <dt><dfn>LDPC</dfn>:</dt> <dd>An [[LDP]] Container.</dd>
+	          <dt><dfn>LDPCv</dfn>:</dt> <dd>A version container: an <a>LDPC</a> that is simultaneously a Memento <a>TimeMap</a>.</dd>
+	          <dt><dfn>URI-R</dfn>:</dt> <dd>A type of versioned resource defined in the Memento framework.</dd>
+	          <dt><dfn>URI-M</dfn>:</dt> <dd>A type of resource that is defined in the Memento framework as representing a version of a given <a>URI-R</a>.</dd>
+	          <dt><dfn>TimeGate</dfn>:</dt> <dd>A type of resource defined in the Memento framework providing <code>Accept-Datetime</code>-varied negotiation of versions of an <a>URI-R</a>.</dd>
+	          <dt><dfn>TimeMap</dfn>:</dt> <dd>A type of resource defined in the Memento framework that contains a machine-readable listing of <a>URI-M</a>s associated to a given <a>URI-R</a>.</dd>
+	        </dl>
+	    </section>
 
       <section>
         <h2>Versioned Resources (<a>LDPRv</a>)</h2>
