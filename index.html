@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>Fedora API Specification</title>
     <meta charset='utf-8'>
@@ -78,22 +78,20 @@
 		<p>  It's as drafty as an abandoned old clapboard farmhouse.</p>
     </section>
 
-
+    <section id="terminology">
       <h2>Terminology</h2>
-      <p>
         <dl>
-          <dfn>LDPR</dfn>: <dd> An [[LDP]] Resource. This may be an [[LDP]] RDF Source or an [[LDP]] Non-RDF Source.</dd>
-          <dfn>LDPRm</dfn>: <dd>A <a>LDPR</a> that is a version of an <a>LDPRv</a> resource. An <a>LDPRm</a> is both an <a>LDPR</a> and a Memento <a>URI-M</a> and contained by an <a>LDPCv</a>.</dd>
-          <dfn>LDPRv</dfn>: <dd>A <a>LDPR</a> that is versioned.Synonymous with Memento <a>URI-R</a>.</dd>
-          <dfn>LDPC</dfn>: <dd>An [[LDP]] Container.</dd>
-          <dfn>LDPCv</dfn>: <dd>A Version Container. An <a>LDPCv</a> is both an <a>LDPC</a> and a <a>TimeMap</a>.</dd>
-          <dfn>URI-R</dfn>: <dd>A type of versioned resource defined in the Memento framework.</dd>
-          <dfn>URI-M</dfn>: <dd>A type of resource that is defined in the Memento framework representing a version of a given <a>URI-R</a>.</dd>
-          <dfn>TimeGate</dfn>: <dd>A type of resource defined in the Memento framework providing <code>Accept-Datetime</code>-varied negotiation of versions of an <a>URI-R</a>.</dd>
-          <dfn>TimeMap</dfn>: <dd>A type of resource defined in the Memento framework that contains a machine-readable listing of <a>URI-M</a>s associated to a given <a>URI-R</a>.</dd>
-					<dfn>ACL</dfn>: <dd>An Access Control List as discussed in <a href="https://www.w3.org/wiki/WebAccessControl">Web Access Control</a> defined using the <a href="https://www.w3.org/ns/auth/acl">Web Access Control ontology</a>.</dd>
+          <dt><dfn>LDPR</dfn>:</dt> <dd> An [[LDP]] Resource. This may be an [[LDP]] RDF Source or an [[LDP]] Non-RDF Source.</dd>
+          <dt><dfn>LDPRm</dfn>:</dt> <dd>A <a>LDPR</a> that is a version of an <a>LDPRv</a> resource. An <a>LDPRm</a> is both an <a>LDPR</a> and a Memento <a>URI-M</a> and contained by an <a>LDPCv</a>.</dd>
+          <dt><dfn>LDPRv</dfn>:</dt> <dd>A <a>LDPR</a> that is versioned.Synonymous with Memento <a>URI-R</a>.</dd>
+          <dt><dfn>LDPC</dfn>:</dt> <dd>An [[LDP]] Container.</dd>
+          <dt><dfn>LDPCv</dfn>:</dt> <dd>A Version Container. An <a>LDPCv</a> is both an <a>LDPC</a> and a <a>TimeMap</a>.</dd>
+          <dt><dfn>URI-R</dfn>:</dt> <dd>A type of versioned resource defined in the Memento framework.</dd>
+          <dt><dfn>URI-M</dfn>:</dt> <dd>A type of resource that is defined in the Memento framework representing a version of a given <a>URI-R</a>.</dd>
+          <dt><dfn>TimeGate</dfn>:</dt> <dd>A type of resource defined in the Memento framework providing <code>Accept-Datetime</code>-varied negotiation of versions of an <a>URI-R</a>.</dd>
+          <dt><dfn>TimeMap</dfn>:</dt> <dd>A type of resource defined in the Memento framework that contains a machine-readable listing of <a>URI-M</a>s associated to a given <a>URI-R</a>.</dd>
+          <dt><dfn>ACL</dfn>:</dt> <dd>An Access Control List as discussed in <a href="https://www.w3.org/wiki/WebAccessControl">Web Access Control</a> defined using the <a href="https://www.w3.org/ns/auth/acl">Web Access Control ontology</a>.</dd>
         </dl>
-      </p>
     </section>
 	
 	<section id="resource-management">
@@ -114,7 +112,7 @@
 			  </section>
 				<section id="message-external-body">
 				  <h2>Content-Type: message/external-body</h2>
-				  <p>Implementations MUST support the use of <code>Content-Type: message/external-body</code> for request bodies for HTTP <code>POST</code> and HTTP <code>PUT</code> to LDP-NRs. This content-type requires a complete <code>Content-Type</code> header that includes the location of the external body, e.g <pre>Content-Type: message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</pre> When a GET is made to the resource in question, the response MUST be an HTTP 3xx redirect message redirecting to the external URL.</p>
+				  <p>Implementations MUST support the use of <code>Content-Type: message/external-body</code> for request bodies for HTTP <code>POST</code> and HTTP <code>PUT</code> to LDP-NRs. This content-type requires a complete <code>Content-Type</code> header that includes the location of the external body, e.g <code>Content-Type: message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</code> When a GET is made to the resource in question, the response MUST be an HTTP 3xx redirect message redirecting to the external URL.</p>
 			  </section>
 			</section>
 		
@@ -199,7 +197,7 @@
       </section>
       <section id='httpput'>
         <h2>HTTP PUT</h2>
-		<section id="general">
+		<section id="httpput-general">
 			<h2>General</h2>
 			<p>An <a>LDPRv</a> MAY support PUT. An implementation receiving a PUT request for an <a>LDPRv</a> must both correctly respond as per [[!LDP]] as well as create a new <a>LDPRm</a> contained in an appropriate <a>LDPCv</a>. The newly-created <a>LDPRm</a> should be the version of the <a>LDPRv</a> that was created by the <code>PUT</code> request.</p>
 		</section>
@@ -370,7 +368,7 @@ Upon <code>PUT</code> or <code>PATCH</code> to the <a>LDPRv</a>, a new <a>LDPRm<
         <section id="client-managed">
           <h2>Client-Managed Version Creation</h2>
           <p>
-An <a>LDPRm</a> for a particular <a>LDPRv</a> is created on <code>POST</code> to any <a>LDPCv</a> associated with that <a>LDPRv</a>. The new <a>LDPRm</a> is contained in the <a>LDPCv</a> to which the <code>POST</code> was made and features in that <a>LDPCv</a>-as-a<a->TimeMap</a> . This pattern is more open to manipulation and could be useful for migration from other systems into Fedora implementations. Responses from requests to the <a>LDPRv</a> include a <code>Link@rel="timemap"</code> to the same <a>LDPCv</a> as per [[RFC7089]].
+An <a>LDPRm</a> for a particular <a>LDPRv</a> is created on <code>POST</code> to any <a>LDPCv</a> associated with that <a>LDPRv</a>. The new <a>LDPRm</a> is contained in the <a>LDPCv</a> to which the <code>POST</code> was made and features in that <a>LDPCv</a>-as-a<a>TimeMap</a> . This pattern is more open to manipulation and could be useful for migration from other systems into Fedora implementations. Responses from requests to the <a>LDPRv</a> include a <code>Link@rel="timemap"</code> to the same <a>LDPCv</a> as per [[RFC7089]].
           </p>
         </section>
       </section>
@@ -398,9 +396,6 @@ An <a>LDPRm</a> for a particular <a>LDPRv</a> is created on <code>POST</code> to
   	  <section id="inheritance">
 	    <h2>Inheritance</h2>
 		<p>An implementation MUST respect [[!LDP]]-containment for access control, as described <a href="https://github.com/solid/web-access-control-spec#acl-inheritance-algorithm">here</a>.</p>
-      </section>
-  	 
-
       </section>
     </section>
 		
