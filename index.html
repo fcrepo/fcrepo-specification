@@ -561,12 +561,11 @@
     <section id="resource-authorization">
       <h2>Resource Authorization</h2>
       <p>
-        To configure access control restrictions, implementations SHOULD follow the recommendations
-        of the <a href="https://github.com/solid/web-access-control-spec">Solid specification.</a>
+        To configure access control restrictions, implementations MUST follow the recommendations
+        of [[!SOLIDWEBAC]].
       </p>
       <p>
-        Implementations supporting access control MUST use the
-        <a href="https://www.w3.org/wiki/WebAccessControl">Web Access Control</a> model to
+        Implementations supporting access control MUST use the [[!WEBAC]] model to
         configure that functionality. Any access control resource in use MUST be a LDPRS,
         which SHOULD be located in the same server as the controlled resource. Implementations
         MUST support extended control relationships in which the access control resource for some
@@ -608,7 +607,8 @@
           <a href="#adding">below</a>, until the series expires or is finished. The effect of the
           request, it has one, and if if the request is successful, SHOULD NOT be visible to
           clients not using that identifier to add to this series of requests. The effect of the
-          request MUST NOT be durable.
+          request MUST NOT be durable unless and until the series is successfully
+					<a href="#commit">finished</a>.
         </p>
       </section>
 
@@ -621,7 +621,8 @@
           using that identifier to add to this series of requests, until the series expires or is
           finished. The effect of the request, it has one, and if if the request is successful,
           SHOULD NOT be visible to clients not using that identifier to add to this series of
-          requests. The effect of the request MUST NOT be durable. An implementation MUST respond
+          requests. The effect of the request MUST NOT be durable unless and until the series is
+					successfully <a href="#commit">finished</a>. An implementation MUST respond
           to any request with multiple <code>Atomic-ID</code> headers with different values or
           with an <code>Atomic-ID</code> header with a value that has not been assigned to a
           series or that has expired (see <a href="#expiration">below</a>) with a 409 response.
