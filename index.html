@@ -540,7 +540,7 @@
       <h2>Binary Resource Fixity</h2>
 			<section id="what-is-fixity" class="informative">
 				<h2>What is fixity?</h2>
-				<p>For the purposes of the following specification, a fixity result is an extract or summary of some LDPNR made according to some explicit procedure. Fixty results are taken for the purpose of comparing different fixity results for the same resource over time, to ensure a continuity of that resource's identity according to the particular procedure used. Examples might include:</p>
+				<p>For the purposes of the following specification, a fixity result is an extract or summary of some LDPNR made according to some explicit procedure. Fixity results are taken for the purpose of comparing different fixity results for the same resource over time, to ensure a continuity of that resource's identity according to the particular procedure used. Examples might include:</p>
 				<ul>
 					<li>Checksums like MD5 or SHA1, often used for digital images.</li>
 					<li><a href="https://www.w3.org/TR/xmldsig-core/">XML Signatures</a></li>
@@ -561,9 +561,9 @@
       <section id="ondemand-fixity">
         <h2>"On Demand" Fixity</h2>
         <p>
-          Upon the creation of any LDPNR, an implementation MUST create an associated LDPR which will be <a href="#fixity-linking">linked to and from that LDPNR</a>. That LDPR, which will be called a "fixity resource", MUST be an <a>LDPRv</a> as described <a href="#versioned-resources-ldprv">above</a>. if the original LDPNR is deleted, the the associated LDPR for fixty MUST also be deleted.
-					<dt><dfn>fixity resource</dfn>:</dt><dd>An <a>LDPRv</a> that records fixity results for some associated LDPNR.</dd>
-        </p>
+          Upon the creation of any LDPNR, an implementation MUST create an associated LDPR which will be <a href="#fixity-linking">linked to and from that LDPNR</a>. That LDPR, which will be called a "fixity resource", MUST be an <a>LDPRv</a> as described <a href="#versioned-resources-ldprv">above</a>. if the original LDPNR is deleted, the the associated LDPR for fixty MUST also be deleted. </p>
+					<dl><dt><dfn>fixity resource</dfn>:</dt><dd>An <a>LDPRv</a> that records fixity results for some associated LDPNR.</dd></dl>
+       
 				<section id="fixity-linking">
 					<h2>Linking fixity resources from and to their associated binary resources</h2>
 					<section id="fixity-linking-ldpnr">
