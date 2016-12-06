@@ -561,7 +561,7 @@
       <section id="ondemand-fixity">
         <h2>"On Demand" Fixity</h2>
         <p>
-          Upon the creation of any LDPNR, an implementation MUST create an associated LDPR which will be <a href="#fixity-linking">linked to and from that LDPNR</a>. That LDPR, which will be called a "fixity resource", MUST be an <a>LDPRv</a> as described <a href="#versioned-resources-ldprv">above</a>. if the original LDPNR is deleted, the the associated LDPR for fixty MUST also be deleted. </p>
+          Upon the creation of any LDPNR, an implementation MUST create an associated LDPR which will be <a href="#fixity-linking">linked to and from that LDPNR</a>. That LDPR, which will be called a <a>fixity resource</a>, MUST be an <a>LDPRv</a> as described <a href="#versioned-resources-ldprv">above</a>. If the original LDPNR is deleted, all associated <a>fixity resource</a>s MUST also be deleted. </p>
 					<dl><dt><dfn>fixity resource</dfn>:</dt><dd>An <a>LDPRv</a> that records fixity results for some associated LDPNR.</dd></dl>
        
 				<section id="fixity-linking">
