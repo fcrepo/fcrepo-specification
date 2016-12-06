@@ -538,11 +538,19 @@
 
     <section id="binary-fixity">
       <h2>Binary Resource Fixity</h2>
-      <p>
-        Fixity for LDPNRs
-      </p>
+			<section id="what-is-fixity" class="informative">
+				<h2>What is fixity?</h2>
+				<p>For the purposes of the following specification, a fixity result is an extract or summary of some LDPNR made according to some explicit procedure. Fixty results are taken for the purpose of comparing different fixity results for the same resource over time, to ensure a continuity of that resource's identity according to the particular procedure used. Examples might include:</p>
+				<ul>
+					<li>Checksums like MD5 or SHA1, often used for digital images.</li>
+					<li><a href="https://www.w3.org/TR/xmldsig-core/">XML Signatures</a></li>
+				  <li>Per-segment results <a href="http://dericed.com/papers/reconsidering-the-checksum-for-audiovisual-preservation/">as used for time-based media</a></li>
+				</ul>
+				<p>Fedora offers management for fixity results in two situations: firstly, as part of content transmission, to guard against faults in transmision, and secondly, by building on its versioning system to support on-demand fixity results, to guard against faults in persistence.</p>
+			</section>
       <section id="transmission-fixity">
         <h2>Transmission Fixity</h2>
+				<p>Any implementation MUST correctly respond to the headers defined in [[!RFC3230]].</p>
         <p>
           If an implementation receives a request with a <code>Digest</code> header (as described
           in [[!RFC3230]]) for which the instance-digest in that header does not match the instance
@@ -553,8 +561,25 @@
       <section id="ondemand-fixity">
         <h2>"On Demand" Fixity</h2>
         <p>
-          TODO
+          Upon the creation of any LDPNR, an implementation MUST create an associated LDPR which will be <a href="#fixity-linking">linked to and from that LDPNR</a>. That LDPR, which will be called a "fixity resource", MUST be an <a>LDPRv</a> as described <a href="#versioned-resources-ldprv">above</a>. if the original LDPNR is deleted, the the associated LDPR for fixty MUST also be deleted.
+					<dt><dfn>fixity resource</dfn>:</dt><dd>An <a>LDPRv</a> that records fixity results for some associated LDPNR.</dd>
         </p>
+				<section id="fixity-linking">
+					<h2>Linking fixity resources from and to their associated binary resources</h2>
+					<section id="fixity-linking-ldpnr">
+						<h2>Linking fixity resources from an associated binary resource</h2>
+						<p>An implementation MUST add to the response for any <code>GET</code> or <code>HEAD</code> request at least one <code>Link</code> header with relation <code>http://www.loc.gov/premis/rdf/v1#hasFixity</code>. The target of that link MUST be an associated <a>fixity resource</a>.</p>
+					</section>
+					<section id="fixity-linking-fixity-resource">
+						<h2>Linking fixity resources to an associated binary resource</h2>
+						<p>An implementation MUST add to the response for any <code>GET</code> or <code>HEAD</code> request at least one <code>Link</code> header with relation <code>Xverifies</code>. The target of that link MUST be the associated LDPNR.</p>
+					</section>
+				</section>
+				<section id="fixity-results">
+					<h2>Triggering new fixity results</h2>
+					<p>A server MUST repond to any request to an LDPNR that features the <code>Want-Digest</code> request header as defined in [[!RFC3230]] by obtaining a new fixity result as indicated by the value of that header and recording it in a new <a>LDPRm</a> for an associated <a>fixity resource</a>.</p> 
+					<p>This is a requirement for a specific versioning <a href="#implementation-patterns">implementation pattern</a>. An implementation MAY support other patterns for triggering fixity results, including patterns that are not initiated by client action.</p>
+				</section>
       </section>
     </section>
 
