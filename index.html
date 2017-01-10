@@ -122,8 +122,8 @@
             Implementations MUST support the use of <code>Content-Type: message/external-body</code>
             for request bodies for HTTP <code>POST</code> and HTTP <code>PUT</code> to LDP-NRs. This content-type
             requires a complete <code>Content-Type</code> header that includes the location of the external body, e.g
-            <code>Content-Type: message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</code>.
-            When a GET is made to the resource in question, the response MUST be an HTTP 3xx redirect
+            <code>Content-Type: message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</code>,
+            as defined in [[!rfc2017]]. When a GET is made to the resource in question, the response MUST be an HTTP 3xx redirect
             message redirecting to the external URL.
           </p>
         </section>
