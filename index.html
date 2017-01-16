@@ -115,18 +115,6 @@
             and requests that would so do MUST fail with 409 Conflict. ([[LDP]] 5.4.1.4 expansion)
           </p>
         </section>
-
-        <section id="message-external-body">
-          <h2>Content-Type: message/external-body</h2>
-          <p>
-            Implementations MUST support the use of <code>Content-Type: message/external-body</code>
-            for request bodies for HTTP <code>POST</code> and HTTP <code>PUT</code> to LDP-NRs. This content-type
-            requires a complete <code>Content-Type</code> header that includes the location of the external body, e.g
-            <code>Content-Type: message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</code>,
-            as defined in [[!rfc2017]]. When a GET is made to the resource in question, the response MUST be an HTTP 3xx redirect
-            message redirecting to the external URL.
-          </p>
-        </section>
       </section>
 
       <section id="httpPATCH">
@@ -156,6 +144,14 @@
           (LDP 5.2.3.3 MAY becomes MUST). On creation of an LDP-NR an implementation MUST create an
           associated LDP-RS describing that LDP-NR ([[LDP]] 5.2.3.12 MAY becomes MUST).
         </p>
+        <section id="httpPOSTLDPNR">
+          <p>
+            A POST request that would create a LDP-NR and includes a <code>Digest</code> header (as described in [[!RFC3230]]) for which the instance-digest in that header does not match that of the new LDP-NR MUST be rejected with a 409 Conflict response.
+          </p>
+          <p>Implementations MUST support <code>Content-Type: message/external-body</code> extensions for request bodies for HTTP <code>POST</code> that would create LDP-NRs.
+           This content-type requires a complete <code>Content-Type</code> header that includes the location of the external body, e.g
+            <code>Content-Type: message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</code>, as defined in [[!rfc2017]].</p>
+        </section>
       </section>
 
       <section id="httpPUT">
@@ -175,6 +171,12 @@
           <p>
             Any LDP-NR MUST support PUT to replace the binary content of that resource.
           </p>
+          <p>
+            A HTTP PUT request that includes a <code>Digest</code> header (as described
+          in [[!RFC3230]]) for which the instance-digest in that header does not match the instance it describes, MUST be rejected with a 409 Conflict response.
+          </p>
+          <p>Implementations MUST support <code>Content-Type: message/external-body</code> extensions for request bodies for HTTP <code>PUT</code> to LDP-NRs. This content-type requires a complete <code>Content-Type</code> header that includes the location of the external body, e.g
+            <code>Content-Type: message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</code>, as defined in [[!rfc2017]].</p>
         </section>
 
         <section id="httpPUTLDPRS">
@@ -222,6 +224,13 @@
             <li><code>http://fedora.info/definitions/v4/repository#EmbedResources</code>: Requires a server to include representations of any contained resources in the response.</li>
             <li><code>http://fedora.info/definitions/v4/repository#InboundReferences</code>: Requires a server to include triples from any LDPRS housed in that server that feature the requested resource as RDF-object.</li>
           </ul>
+        </section>
+        <section id="httpGETLDPNR">
+          <p>GET requests to any LDP-NR MUST correctly respond to the <code>Want-Digest</code> header defined in [[!RFC3230]] unless the <code>Content-Type</code> of the LDP-NR is a <code>message/external-body</code> extension.</p>
+          <p>GET requests to a LDP-NR with <code>Content-Type: message/external-body</code>, MUST result in an HTTP 3xx redirect message redirecting to the external URL.</p>
+          <section id="httpGETLDPNR-fixity-expectation">
+            <p>GET requests to a LDP-NR SHOULD respond to <code>Expect</code> request headers with a <a>202-digest</a> expectation. Implementations that do not support this expection MUST reject <a>202-digest</a> requests with a 417 Expectation Failed. If the digest parameter does not match the current instance digest of the resource, the request MUST be rejected with a 406 Not Acceptable. If the digest matches, the request MUST be completed with a 202 Accepted.</p>
+          </section>
         </section>
       </section>
     </section>
@@ -543,40 +552,37 @@
 					<li><a href="https://www.w3.org/TR/xmldsig-core/">XML Signatures</a></li>
 				  <li>Per-segment results <a href="http://dericed.com/papers/reconsidering-the-checksum-for-audiovisual-preservation/">as used for time-based media</a></li>
 				</ul>
-				<p>Fedora offers management for fixity results in two situations: firstly, as part of content transmission, to guard against faults in transmision, and secondly, by building on its versioning system to support on-demand fixity results, to guard against faults in persistence.</p>
+				<p>This specification describes two fixity verification mechanisms: firstly, as part of content transmission, to guard against faults in transmission, and secondly, by comparison to a known or proffered digest value, to monitor for faults in persistence.</p>
 			</section>
-      <section id="transmission-fixity">
+      <section id="transmission-fixity" class="informative">
         <h2>Transmission Fixity</h2>
-				<p>Any implementation MUST correctly respond to the headers defined in [[!RFC3230]].</p>
-        <p>
-          If an implementation receives a request with a <code>Digest</code> header (as described
-          in [[!RFC3230]]) for which the instance-digest in that header does not match the instance
-          it describes, the implementation MUST return a 409 Conflict response.
-        </p>
+				<p>Transmission fixity is verified by application of the <code>Digest</code> header defined in [[!RFC3230]] to POST and PUT requests for LDP-NR.</p>
       </section>
 
-      <section id="ondemand-fixity">
-        <h2>"On Demand" Fixity</h2>
-        <p>
-          Upon the creation of any LDPNR, an implementation MUST create an associated LDPR which will be <a href="#fixity-linking">linked to and from that LDPNR</a>. That LDPR, which will be called a <a>fixity resource</a>, MUST be an <a>LDPRv</a> as described <a href="#versioned-resources-ldprv">above</a>. If the original LDPNR is deleted, all associated <a>fixity resource</a>s MUST also be deleted. </p>
-					<dl><dt><dfn>fixity resource</dfn>:</dt><dd>An <a>LDPRv</a> that records fixity results for some associated LDPNR.</dd></dl>
-       
-				<section id="fixity-linking">
-					<h2>Linking fixity resources from and to their associated binary resources</h2>
-					<section id="fixity-linking-ldpnr">
-						<h2>Linking fixity resources from an associated binary resource</h2>
-						<p>An implementation MUST add to the response for any <code>GET</code> or <code>HEAD</code> request at least one <code>Link</code> header with relation <code>http://www.loc.gov/premis/rdf/v1#hasFixity</code>. The target of that link MUST be an associated <a>fixity resource</a>.</p>
-					</section>
-					<section id="fixity-linking-fixity-resource">
-						<h2>Linking fixity resources to an associated binary resource</h2>
-						<p>An implementation MUST add to the response for any <code>GET</code> or <code>HEAD</code> request at least one <code>Link</code> header with relation <code>Xverifies</code>. The target of that link MUST be the associated LDPNR.</p>
-					</section>
+      <section id="persistence-fixity">
+        <h2>Persistence Fixity</h2>
+        <section id="persistence-fixity-preamble" class="informative">
+          <p>In the minimal case, a client that has an original digest value can verify persistence fixity by downloading the LDP-NR and calculating the checksum. To avoid the necessity of transferring a potentially large binary, this specification describes an expectation token for the <code>Expect</code> header described in [[!RFC2616]]: 202-digest</p>
 				</section>
-				<section id="fixity-results">
-					<h2>Triggering new fixity results</h2>
-					<p>A server MUST repond to any request to an LDPNR that features the <code>Want-Digest</code> request header as defined in [[!RFC3230]] by obtaining a new fixity result as indicated by the value of that header and recording it in a new <a>LDPRm</a> for an associated <a>fixity resource</a>.</p> 
-					<p>This is a requirement for a specific versioning <a href="#implementation-patterns">implementation pattern</a>. An implementation MAY support other patterns for triggering fixity results, including patterns that are not initiated by client action.</p>
-				</section>
+        <section id="202-digest">
+          <h3>Expect: 202-digest</h3>
+          <p>The <code>202-digest</code> expectation indicates that the client is requesting that the server verify an instance digest for the resource at the request URI.</p>
+          <p>
+            <code>
+              Expect             =  "Expect" ":" 1#digest-expectation
+              digest-expectation = "202-digest" [digest-param]
+              digest-param       = ";" #(instance-digest)
+            </code>
+            <code>instance-digest</code> values are of the syntax described in [[!RFC3230]] for the <code>Digest</code> header.
+          </p>
+          <p>HTTP/1.1 servers that do not support this expectation MUST reject requests for 202-digest with 417 Expectation Failed.</p>
+          <p>An implementing server MAY allow <code>202-digest</code> without a <code>digest-param</code>. Such servers SHOULD compare the calculated instance digest to a stored original digest. Servers that require a client-proffered instance-digest MUST reject requests without a digest with 417 Expectation Failed.</p>
+          <p>If the compared digests do no match, an implementing server MUST reject the request with 406 Unacceptable. If the compared digests match, an implementing server MUST complete the request with 202 Accepted. A 200 OK status indicates that the server did not understand the request, and ignored the expectation.</p>
+        </section>
+        <section id="202-digest-ignored" class="informative">
+          <h3>Ignored Expectations and 200 (OK)</h3>
+          <p>A client aware of <code>202-digest</code> that receives a 200 should assume it is responsible for verifying fixity by downloading the resource.</p>
+        </section>
       </section>
     </section>
 
