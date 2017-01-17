@@ -695,10 +695,10 @@
         <p>
           Non-normative: the messaging SPI defines when messages are emitted by a Fedora
           implementation, the minimal set of data contained in those messages and how
-          those data are serialized. These messages allow clients to react to repository
-          changes asynchronously and may be used to support external integrations. The
-          structure of these messages draw upon the existing [[activitystreams-core]] and
-          [[ldn]] specifications.
+          those data are serialized. These messages may occur synchronously or asynchronously
+	  with the API operations that cause them to be emitted. They are typically used to
+	  support external integrations. The structure of these messages draws upon the
+	  existing [[activitystreams-core]] and [[ldn]] specifications.
         </p>
       </section>
 
@@ -735,6 +735,7 @@
           Non-normative: consumers of these messages SHOULD NOT expect a strict ordering of
           the events reported therein: the fact that a message for Event A is received before
           a message for Event B should not imply that Event A occurred before Event B.
+	  Implementations MAY choose to make further guarantees about ordering.
         </p>
       </section>
 
