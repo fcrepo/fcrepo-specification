@@ -230,9 +230,12 @@
           <p>GET requests to any LDP-NR MUST correctly respond to the <code>Want-Digest</code> header defined in [[!RFC3230]] unless the <code>Content-Type</code> of the LDP-NR is a <code>message/external-body</code> extension.</p>
           <p>GET requests to a LDP-NR with <code>Content-Type: message/external-body</code>, MUST result in an HTTP 3xx redirect message redirecting to the external URL.</p>
           <section id="httpGETLDPNR-fixity-expectation">
-            <h3><code>Expect: 202-digest</code> and <code>Expect: 202-digest-link</code></h3>
-            <p>GET requests to a LDP-NR SHOULD respond to <code>Expect</code> request headers with a <a href="#202-digest">202-digest</a> expectation. Implementations that do not support this expection MUST reject <a href="#202-digest">202-digest</a> requests with a 417 Expectation Failed. If the LDP-NR is of <code>Content-Type: message/external-body</code>, the server must respond with a 3xx. If the digest parameter does not match the current instance digest of the resource, the request MUST be rejected with a 406 Not Acceptable. If the digest matches, the request MUST be completed with a 202 Accepted.</p>
-            <p>GET requests to a LDP-NR MAY respond to <code>Expect</code> request headers with a <a href="#202-digest-link">202-digest-link</a> expectation. Implementations that do not support this expection MUST reject <a href="#202-digest-link">202-digest-link</a> requests with a 417 Expectation Failed.  If the LDP-NR is of <code>Content-Type: message/external-body</code>, the server must respond with a 3xx. If the LDP-NR does not verify against the linked fixity resource, the request MUST be rejected with a 406 Not Acceptable. If the digest matches, the request MUST be completed with a 202 Accepted.</p>
+            <h3><code>Expect: 202-digest</code></h3>
+            <p>GET requests to a LDP-NR SHOULD respond to <code>Expect</code> request headers with a parameterized <a href="#202-digest"><code>202-digest</code></a> expectation. Implementations MAY support unparameterized <code>202-digest</code> expectations. Implementations that do not support one of these expectations MUST reject <a href="#202-digest">202-digest</a> requests for the expectation with a 417 Expectation Failed. If the LDP-NR is of <code>Content-Type: message/external-body</code>, the server must respond with a 3xx. If the digest parameter does not match the current instance digest of the resource, the request MUST be rejected with a 412 Precondition Failed. If the digest matches, the request MUST be completed with a 202 Accepted.</p>
+            <section id="httpGETLDPNR-fixity-expectation-conneg" class="informative">
+              <h4><code>Expect: 202-digest</code> and <code>Accept:</code></h4>
+              <p>This specification takes no position on the interaction of <code>Expect: 202-digest</code> and <code>Accept:</code> headers on the same request, or on the meaning of the 406 Unacceptable status in that context. Implementations are not required to support combinations of these headers.</p>
+            </section>
           </section>
         </section>
       </section>
@@ -572,37 +575,26 @@
           <p>The <code>202-digest</code> expectation indicates that the client is requesting that the server verify an instance digest for the resource at the request URI.</p>
           <pre><code>
             Expect                  =  "Expect" ":" 1#digest-expectation
-            digest-expectation      = "202-digest" [digest-param]
+            digest-expectation      = "202-digest" [(digest-param|digest-link-param)]
             digest-param            = ";" #(instance-digest)
+            digest-link-param       = ";" "digest-link" "=" URI-reference
           </code></pre>
           <p>
-            <code>instance-digest</code> values are of the syntax described in [[!RFC3230]] for the <code>Digest</code> header.
+            <code>instance-digest</code> values are of the syntax described in [[!RFC3230]] for the <code>Digest</code> header. <code>URI-reference</code> values for the <code>digest-link-param</code> are described in [[!RFC2396]].
           </p>
           <p>HTTP/1.1 servers that do not support the 202-digest expectation MUST reject requests with 417 Expectation Failed.</p>
-          <p>An implementing server MAY allow <code>202-digest</code> without a <code>digest-param</code>. Such servers SHOULD compare the calculated instance digest to a stored original digest. Servers that require a client-proffered instance-digest MUST reject requests without a digest with 417 Expectation Failed.</p>
-          <p>If the compared digests do no match, an implementing server MUST reject the request with 406 Unacceptable. If the compared digests match, an implementing server MUST complete the request with 202 Accepted. A 200 OK status indicates that the server did not understand the request, and ignored the expectation.</p>
+          <p>An implementing server MAY allow <code>202-digest</code> without a <code>digest-param</code>, indicating that the compared and calculated digests are selected by the server. Such servers SHOULD compare the calculated instance digest to a stored original digest. Servers that require a client-proffered <code>digest-param</code> MUST reject requests without a digest with 417 Expectation Failed.</p>
+          <p>If the compared digests do no match, an implementing server MUST reject the request with 412 Precondition Failed. If the compared digests match, an implementing server MUST complete the request with 202 Accepted. A 200 OK status indicates that the server did not understand the request, and ignored the expectation.</p>
+          <p>An implementing server SHOULD accompany HTTP status 417 and 412 responses with an explanatory entity.</p>
         </section>
         <section id="202-digest-ignored" class="informative">
           <h3>Ignored Expectations and 200 (OK)</h3>
           <p>A client aware of <code>202-digest</code> that receives a 200 should assume it is responsible for verifying fixity by downloading the resource.</p>
         </section>
-        <section id="202-digest-link">
-          <h3>Expect: 202-digest-link</h3>
-          <p>The <code>202-digest-link</code> expectation indicates that the client is requesting that the server verify the resource at the request URI against a linked fixity resource.</p>
-          <pre><code>
-            Expect                  =  "Expect" ":" 1#digest-link-expectation
-            digest-link-expectation = "202-digest-link" rel-param
-            rel-param               = ";" "rel" "=" ( token | quoted-string ) 
-          </code></pre>
-          <p>HTTP/1.1 servers that do not support the 202-digest-link expectation MUST reject requests with 417 Expectation Failed.</p>
-          <p>An implementing server MUST verify the LDP-NR against the fixity resource in an accompanying <code>Link</code> header with a matching <code>rel-param</code>. Servers that support 202-digest-link but cannot verify against the linked fixity resource MUST reject the request with a 4xx status.</p>
-          <p>If the linked resource is appropriate but the LDP-NR does not verify against it, an implementing server MUST reject the request with 406 Unacceptable. If the LDP-NR verifies against the linked fixity resource, an implementing server MUST complete the request with 202 Accepted. A 200 OK status indicates that the server did not understand the request, and ignored the expectation.</p>
+        <section id="202-digest-link" class="informative">
+          <h3>Complex Fixity and the digest-link parameter</h3>
+          <p>Digital preservationists acknowledge the <a href="http://dericed.com/papers/reconsidering-the-checksum-for-audiovisual-preservation/">limits of simple bit fixity verification</a> to describe the state of some types of resources, eg large media files. Servers that can support more sophisticated assessments of content difference may use the <a href="#202-digest">202-digest expectation</a> with a <code>digest-link</code> parameter identifying a more appropriate verification of such resources, with 412 responses accompanied by appropriate explanatory entities.</p>
         </section>
-        <section id="202-link-digest-preamble" class="informative">
-          <h3>Complex Fixity and Linked Fixity Resources</h3>
-          <p>Digital preservationists acknowledge the <a href="http://dericed.com/papers/reconsidering-the-checksum-for-audiovisual-preservation/">limits of simple bit fixity verification</a> to describe the state of some types of resources, eg large media files. Servers that can support more sophisticated assessments of content difference may use the <a href="#202-digest-link">202-digest-link</a> extension to offer more appropriate verification of such resources, with 406 responses accompanied by appropriate explanatory entities.</p>
-        </section>
-
       </section>
     </section>
 
