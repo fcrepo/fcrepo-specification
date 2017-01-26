@@ -91,12 +91,6 @@
       </ul>
     </section>
 
-    <section id='sotd'>
-      <p>
-        It's as drafty as an abandoned old clapboard farmhouse.
-      </p>
-    </section>
-
     <section id="resource-management">
       <h2>Resource Management</h2>
 
@@ -127,7 +121,7 @@
           the request by responding with a 4xx range status code (e.g. 409 Conflict). The server MUST
           provide a corresponding response body containing information about which statements could
           not be persisted. ([[LDP]] 4.2.4.4 SHOULD becomes MUST). In that response the restrictions
-          causing such a request to fail MUST be described in a resource indicated by a 
+          causing such a request to fail MUST be described in a resource indicated by a
           <code>Link@rel="ldp:constrainedBy"</code> response header per [[LDP]] 4.2.1.6. A successful
           PATCH request MUST respond with a 2xx status code; the specific code in the 2xx range MAY
           vary according to the response body or request state.
@@ -480,10 +474,10 @@
           <p>
             If a <a>LDPCv</a> does accept <code>POST</code> with a request body, it SHOULD respect
             a <code>Memento-Datetime</code> request header for the created <a>LDPRm</a>.
-            Absent this header, it MUST use the current time.          
+            Absent this header, it MUST use the current time.
           </p>
           <p>
-            Non-normative note: If an <a>LDPCv</a> does not <code>Allow: POST</code>, the 
+            Non-normative note: If an <a>LDPCv</a> does not <code>Allow: POST</code>, the
             constraints document indicated in <code>Link@rel="constrainedby"</code> for that
             <a>LDPCv</a> should describe the versioning mechanism (e.g. by <code>PUT</code> or
             <code>PATCH</code> to the <a>LDPRv</a> described by that <a>LDPCv</a>). Disallowing
