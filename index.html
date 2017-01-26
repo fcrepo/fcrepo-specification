@@ -642,10 +642,10 @@
           A client begins an atomic series of requests by sending any request to any resource with
           the header <code>Atomic-Start</code>. The server MUST respond by including a header
           <code>Atomic-ID</code> with a unique identifier for the series. The effect of the
-          request, it has one, and if if the request is successful, MUST be visible to clients
+          request, it has one, and if the request is successful, MUST be visible to clients
           using that identifier to add to this series of requests, as described
           <a href="#adding">below</a>, until the series expires or is finished. The effect of the
-          request, it has one, and if if the request is successful, SHOULD NOT be visible to
+          request, it has one, and if the request is successful, SHOULD NOT be visible to
           clients not using that identifier to add to this series of requests. The effect of the
           request MUST NOT be durable unless and until the series is successfully
           <a href="#commit">finished</a>.
@@ -657,9 +657,9 @@
         <p>
           A client adds to an atomic series of requests by sending any request to any resource with
           the header <code>Atomic-ID</code> and the identifier for that series. The effect of the
-          request, it has one, and if if the request is successful, MUST be visible to clients
+          request, it has one, and if the request is successful, MUST be visible to clients
           using that identifier to add to this series of requests, until the series expires or is
-          finished. The effect of the request, it has one, and if if the request is successful,
+          finished. The effect of the request, it has one, and if the request is successful,
           SHOULD NOT be visible to clients not using that identifier to add to this series of
           requests. The effect of the request MUST NOT be durable unless and until the series is
           successfully <a href="#commit">finished</a>. An implementation MUST respond
