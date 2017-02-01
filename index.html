@@ -38,7 +38,7 @@
                 {   name:       "Adam Soroka",
                     company:    "University of Virginia",
                     companyURL: "https://www.virginia.edu/"},
-								{   name:       "Joshua Westgard",
+                {   name:       "Joshua Westgard",
                     company:    "University of Maryland",
                     companyURL: "http://www.lib.umd.edu/"},
                 {   name:       "Jared Whiklo",
@@ -114,7 +114,7 @@
       <section id="httpPATCH">
         <h2>HTTP PATCH</h2>
         <p>
-          Any LDPRS MUST support PATCH ([[LDP]] 4.2.7 MAY becomes MUST). [[!sparql11-update]] MUST
+          Any LDP-RS MUST support PATCH ([[LDP]] 4.2.7 MAY becomes MUST). [[!sparql11-update]] MUST
           be an accepted content-type for PATCH. Other content-types (e.g. [ldpatch]) MAY be available.
           If an otherwise valid HTTP PATCH request is received that attempts to add statements to a
           resource that a server disallows (not ignores per [[!LDP]] 4.2.4.1), the server MUST fail
@@ -216,7 +216,7 @@
           </p>
           <ul>
             <li><code>http://fedora.info/definitions/v4/repository#EmbedResources</code>: Requires a server to include representations of any contained resources in the response.</li>
-            <li><code>http://fedora.info/definitions/v4/repository#InboundReferences</code>: Requires a server to include triples from any LDPRS housed in that server that feature the requested resource as RDF-object.</li>
+            <li><code>http://fedora.info/definitions/v4/repository#InboundReferences</code>: Requires a server to include triples from any LDP-RS housed in that server that feature the requested resource as RDF-object.</li>
           </ul>
         </section>
         <section id="httpGETLDPNR">
@@ -578,7 +578,7 @@
           </p>
           <p>HTTP/1.1 servers that do not support the 202-digest expectation MUST reject requests with 417 Expectation Failed.</p>
           <p>An implementing server MAY allow <code>202-digest</code> without a <code>digest-param</code>, indicating that the compared and calculated digests are selected by the server. Such servers SHOULD compare the calculated instance digest to a stored original digest. Servers that require a client-proffered <code>digest-param</code> MUST reject requests without a digest with 417 Expectation Failed.</p>
-          <p>If the compared digests do no match, an implementing server MUST reject the request with 412 Precondition Failed. If the compared digests match, an implementing server MUST complete the request with 202 Accepted. A 200 OK status indicates that the server did not understand the request, and ignored the expectation.</p>
+          <p>If the compared digests do not match, an implementing server MUST reject the request with 412 Precondition Failed. If the compared digests match, an implementing server MUST complete the request with 202 Accepted. A 200 OK status indicates that the server did not understand the request, and ignored the expectation.</p>
           <p>An implementing server SHOULD accompany HTTP status 417 and 412 responses with an explanatory entity.</p>
         </section>
         <section id="202-digest-ignored" class="informative">
@@ -600,7 +600,7 @@
       </p>
       <p>
         Implementations supporting access control MUST use the [[!WEBAC]] model to
-        configure that functionality. Any access control resource in use MUST be a LDPRS,
+        configure that functionality. Any access control resource in use MUST be a LDP-RS,
         which SHOULD be located in the same server as the controlled resource. Implementations
         MUST support extended control relationships in which the access control resource for some
         resource has its own access control resource and so on. Implementations MUST make access
@@ -636,10 +636,10 @@
           A client begins an atomic series of requests by sending any request to any resource with
           the header <code>Atomic-Start</code>. The server MUST respond by including a header
           <code>Atomic-ID</code> with a unique identifier for the series. The effect of the
-          request, it has one, and if the request is successful, MUST be visible to clients
+          request, if it has one, and if the request is successful, MUST be visible to clients
           using that identifier to add to this series of requests, as described
           <a href="#adding">below</a>, until the series expires or is finished. The effect of the
-          request, it has one, and if the request is successful, SHOULD NOT be visible to
+          request, if it has one, and if the request is successful, SHOULD NOT be visible to
           clients not using that identifier to add to this series of requests. The effect of the
           request MUST NOT be durable unless and until the series is successfully
           <a href="#commit">finished</a>.
@@ -651,9 +651,9 @@
         <p>
           A client adds to an atomic series of requests by sending any request to any resource with
           the header <code>Atomic-ID</code> and the identifier for that series. The effect of the
-          request, it has one, and if the request is successful, MUST be visible to clients
+          request, if it has one, and if the request is successful, MUST be visible to clients
           using that identifier to add to this series of requests, until the series expires or is
-          finished. The effect of the request, it has one, and if the request is successful,
+          finished. The effect of the request, if it has one, and if the request is successful,
           SHOULD NOT be visible to clients not using that identifier to add to this series of
           requests. The effect of the request MUST NOT be durable unless and until the series is
           successfully <a href="#commit">finished</a>. An implementation MUST respond
