@@ -735,8 +735,8 @@
           Repository start, stop and configuration change operations MAY cause a message to be emitted.
         </p>
         <p>
-          Any operation on an LDPR that results in a change to the containment or membership
-          triples of a distinct other LDPR MUST also trigger an event for that other LDPR.
+          Any operation on an <a>LDPR</a> that results in a change to the containment or membership
+          triples of a distinct other <a>LDPR</a> MUST also trigger an event for that other <a>LDPR</a>.
         </p>
         <p>
           Any operation that causes contained resources to change MUST trigger corresponding
@@ -758,7 +758,7 @@
           Emitted events MUST contain exactly one value for each of the following elements:
         </p>
         <ul>
-          <li>Resource Identifier: the URI of the Fedora Resource that was added, changed or removed.</li>
+          <li>Resource Identifier: the URI of the <a>LDPR</a> that was added, changed or removed.</li>
           <li>
             Timestamp: a timestamp marking the time of the event. The value of the timestamp
             SHOULD correspond to the time the resource was added/modified/deleted, but there is no
@@ -781,7 +781,7 @@
           was changed.
         </p>
         <p>
-          If the corresponding Fedora Resource includes an <code>ldp:inbox</code>, the location of
+          If the corresponding <a>LDPR</a> includes an <code>ldp:inbox</code>, the location of
           that inbox SHOULD be included in the message.
         </p>
         <p>
