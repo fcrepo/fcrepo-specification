@@ -144,7 +144,7 @@
           </p>
           <p>Implementations MUST support <code>Content-Type: message/external-body</code> extensions for request bodies for HTTP <code>POST</code> that would create LDP-NRs.
            This content-type requires a complete <code>Content-Type</code> header that includes the location of the external body, e.g
-            <code>Content-Type: message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</code>, as defined in [[!rfc2017]].</p>
+            <code>Content-Type: message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</code>, as defined in [[!RFC2017]].</p>
         </section>
       </section>
 
@@ -170,7 +170,7 @@
           in [[!RFC3230]]) for which the instance-digest in that header does not match the instance it describes, MUST be rejected with a 409 Conflict response.
           </p>
           <p>Implementations MUST support <code>Content-Type: message/external-body</code> extensions for request bodies for HTTP <code>PUT</code> to LDP-NRs. This content-type requires a complete <code>Content-Type</code> header that includes the location of the external body, e.g
-            <code>Content-Type: message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</code>, as defined in [[!rfc2017]].</p>
+            <code>Content-Type: message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</code>, as defined in [[!RFC2017]].</p>
         </section>
 
         <section id="httpPUTLDPRS">
@@ -205,7 +205,7 @@
         <p>
           When the request is to the LDP-RS created to describe a LDP-NR, the response MUST include
           a <code>Link@rel="describes"</code> header referencing the LDP-NR in question, as defined
-          in [[!rfc6892]].
+          in [[!RFC6892]].
         </p>
         <section id="additionalPreferValues">
           <h2>Additional values for the <code>Prefer</code> header</h2>
