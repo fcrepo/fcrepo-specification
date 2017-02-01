@@ -115,7 +115,7 @@
         <h2>HTTP PATCH</h2>
         <p>
           Any LDP-RS MUST support PATCH ([[LDP]] 4.2.7 MAY becomes MUST). [[!sparql11-update]] MUST
-          be an accepted content-type for PATCH. Other content-types (e.g. [ldpatch]) MAY be available.
+          be an accepted content-type for PATCH. Other content-types (e.g. [[ldpatch]]) MAY be available.
           If an otherwise valid HTTP PATCH request is received that attempts to add statements to a
           resource that a server disallows (not ignores per [[!LDP]] 4.2.4.1), the server MUST fail
           the request by responding with a 4xx range status code (e.g. 409 Conflict). The server MUST
