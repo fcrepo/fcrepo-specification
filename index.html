@@ -38,6 +38,9 @@
                 {   name:       "Adam Soroka",
                     company:    "University of Virginia",
                     companyURL: "https://www.virginia.edu/"},
+                {   name:       "Simeon Warner",
+                    company:    "Cornell University",
+                    companyURL: "http://www.cornell.edu/"},
                 {   name:       "Joshua Westgard",
                     company:    "University of Maryland",
                     companyURL: "http://www.lib.umd.edu/"},
@@ -123,7 +126,7 @@
           provide a corresponding response body containing information about which statements could
           not be persisted. ([[LDP]] 4.2.4.4 SHOULD becomes MUST). In that response the restrictions
           causing such a request to fail MUST be described in a resource indicated by a
-          <code>Link@rel="ldp:constrainedBy"</code> response header per [[LDP]] 4.2.1.6. A successful
+          <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code> response header per [[LDP]] 4.2.1.6. A successful
           PATCH request MUST respond with a 2xx status code; the specific code in the 2xx range MAY
           vary according to the response body or request state.
         </p>
@@ -134,7 +137,7 @@
         <p>
           Any LDPC MUST support POST ([[LDP]] 4.2.3 / 5.2.3). The default interaction model that
           will be assigned when there is no explicit Link header in the request MUST be recorded
-          in the constraints document referenced in the <code>ldp:constrainedBy</code> Link header
+          in the constraints document referenced in the <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code> header
           ([[LDP]] 4.2.1.6 clarification). Any LDPC MUST support creation of LDP-NRs on POST
           (LDP 5.2.3.3 MAY becomes MUST). On creation of an LDP-NR an implementation MUST create an
           associated LDP-RS describing that LDP-NR ([[LDP]] 5.2.3.12 MAY becomes MUST).
@@ -185,7 +188,7 @@
             corresponding response body containing information about which statements could not be
             persisted. ([[LDP]] 4.2.4.4 SHOULD becomes MUST). In that response the restrictions
             causing such a request to fail MUST be described in a resource indicated by a
-            <code>Link@rel="ldp:constrainedBy"</code> response header per [[LDP]] 4.2.1.6.
+            <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code> response header per [[LDP]] 4.2.1.6.
           </p>
         </section>
 
@@ -195,7 +198,7 @@
             An implementation MUST accept HTTP PUT to create resources.([[LDP]] 4.2.4.6 MAY becomes
             MUST). The default interaction model that will be assigned when there is no explicit
             <code>Link: rel="type"</code> header in the request MUST be recorded in the constraints
-            document referenced in the <code>ldp:constrainedBy</code> Link header ([[LDP]] 4.2.1.6
+            document referenced in the <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code> header ([[LDP]] 4.2.1.6
             clarification).
           </p>
         </section>
@@ -205,7 +208,7 @@
         <h2>HTTP GET</h2>
         <p>
           When the request is to the LDP-RS created to describe a LDP-NR, the response MUST include
-          a <code>Link@rel="describes"</code> header referencing the LDP-NR in question, as defined
+          a <code>Link: rel="describes"</code> header referencing the LDP-NR in question, as defined
           in [[!RFC6892]].
         </p>
         <section id="additionalPreferValues">
@@ -260,7 +263,7 @@
           <p>
             A versioned resource for this document provides a <a>TimeGate</a> interaction model as
             detailed in the Memento specification and indicated by an HTTP header
-            <code>Link@rel="timegate"</code> referencing itself. It otherwise follows the relevant
+            <code>Link: rel="timegate"</code> referencing itself. It otherwise follows the relevant
             [[!LDP]] specification with the additional behaviors below.
           </p>
         </section>
@@ -277,7 +280,7 @@
           <section>
             <h2>Response Headers</h2>
             <p>
-              At least one <code>Link@rel="timemap"</code> referencing an <a>LDPCv</a>. It is the
+              At least one <code>Link: rel="timemap"</code> referencing an <a>LDPCv</a>. It is the
               presence of this header that indicates that the resource is versioned.
             </p>
             <p>
@@ -308,7 +311,7 @@
           <section>
             <h2>Response Headers</h2>
             <p>
-              At least one <code>Link@rel="timemap"</code> referencing a <a>LDPCv</a>. It is the
+              At least one <code>Link: rel="timemap"</code> referencing a <a>LDPCv</a>. It is the
               presence of this header that indicates that the resource is versioned.
             </p>
             <p>
@@ -479,7 +482,7 @@
           </p>
           <p>
             Non-normative note: If an <a>LDPCv</a> does not <code>Allow: POST</code>, the
-            constraints document indicated in <code>Link@rel="constrainedby"</code> for that
+            constraints document indicated in <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code> for that
             <a>LDPCv</a> should describe the versioning mechanism (e.g. by <code>PUT</code> or
             <code>PATCH</code> to the <a>LDPRv</a> described by that <a>LDPCv</a>). Disallowing
             <code>POST</code> suggests that the [[LDP]] server will manage all <a>LDPRm</a>
@@ -535,7 +538,7 @@
               the <a>LDPCv</a> to which the <code>POST</code> was made and features in that
               <a>LDPCv</a>-as-a<a>TimeMap</a> . This pattern is more open to manipulation and could
               be useful for migration from other systems into Fedora implementations. Responses from
-              requests to the <a>LDPRv</a> include a <code>Link@rel="timemap"</code> to the same
+              requests to the <a>LDPRv</a> include a <code>Link: rel="timemap"</code> to the same
               <a>LDPCv</a> as per [[RFC7089]].
             </p>
           </section>
@@ -563,7 +566,7 @@
       <section id="persistence-fixity">
         <h2>Persistence Fixity</h2>
         <section id="persistence-fixity-preamble" class="informative">
-          <p>In the minimal case, a client that has an original digest value can verify persistence fixity by downloading the LDP-NR and calculating the checksum. To avoid the necessity of transferring a potentially large binary, this specification describes a new expectation token for the <code>Expect</code> header described in [[!RFC2616]]: <code>202-digest</code>, and a <code>digest-link</code> parameter.</p>
+          <p>In the minimal case, a client that has an original digest value can verify persistence fixity by downloading the LDP-NR and calculating the checksum. To avoid the necessity of transferring a potentially large binary, this specification describes a new expectation token for the <code>Expect</code> header described in [[!RFC7231]]: <code>202-digest</code>, and a <code>digest-link</code> parameter.</p>
 				</section>
         <section id="202-digest">
           <h3>Expect: 202-digest</h3>
@@ -605,7 +608,7 @@
         which SHOULD be located in the same server as the controlled resource. Implementations
         MUST support extended control relationships in which the access control resource for some
         resource has its own access control resource and so on. Implementations MUST make access
-        control resources discoverable via the <code>Link@rel="acl"</code> HTTP header, as discussed
+        control resources discoverable via the <code>Link: rel="acl"</code> HTTP header, as discussed
         <a href="https://github.com/solid/web-access-control-spec#acl-resource-location-discovery">here</a>.
       </p>
 
@@ -702,16 +705,19 @@
       </section>
     </section>
 
-    <section id="messaging-spi">
-      <h2>Messaging SPI</h2>
+    <section id="messaging">
+      <h2>Messaging</h2>
       <section class="informative">
+	<h3>Introduction</h3>
         <p>
-          Non-normative: the messaging SPI defines when messages are emitted by a Fedora
+          This section defines when messages are emitted by a Fedora
           implementation, the minimal set of data contained in those messages and how
           those data are serialized. These messages may occur synchronously or asynchronously
 	  with the API operations that cause them to be emitted. They are typically used to
 	  support external integrations. The structure of these messages draws upon the
 	  existing [[activitystreams-core]] and [[ldn]] specifications.
+	  An implementation is free to choose from any messaging technology so long as
+	  the messages conform to what is described in the following sections.
         </p>
       </section>
 
@@ -735,8 +741,8 @@
           Repository start, stop and configuration change operations MAY cause a message to be emitted.
         </p>
         <p>
-          Any operation on an LDPR that results in a change to the containment or membership
-          triples of a distinct other LDPR MUST also trigger an event for that other LDPR.
+          Any operation on an <a>LDPR</a> that results in a change to the containment or membership
+          triples of a distinct other <a>LDPR</a> MUST also trigger an event for that other <a>LDPR</a>.
         </p>
         <p>
           Any operation that causes contained resources to change MUST trigger corresponding
@@ -758,7 +764,7 @@
           Emitted events MUST contain exactly one value for each of the following elements:
         </p>
         <ul>
-          <li>Resource Identifier: the URI of the Fedora Resource that was added, changed or removed.</li>
+          <li>Resource Identifier: the URI of the <a>LDPR</a> that was added, changed or removed.</li>
           <li>
             Timestamp: a timestamp marking the time of the event. The value of the timestamp
             SHOULD correspond to the time the resource was added/modified/deleted, but there is no
@@ -781,7 +787,7 @@
           was changed.
         </p>
         <p>
-          If the corresponding Fedora Resource includes an <code>ldp:inbox</code>, the location of
+          If the corresponding <a>LDPR</a> includes an <code>ldp:inbox</code>, the location of
           that inbox SHOULD be included in the message.
         </p>
         <p>
