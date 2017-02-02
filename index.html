@@ -87,11 +87,23 @@
         Fedora information architecture. Additionally, this specification contains:
       </p>
       <ul>
-        <li>a reconciliation of [[LDP]] and the well-established version identification and navigation scheme delineated in the [[!RFC7089]] specification,</li>
-        <li>interaction patterns for use with binary fixity information,</li>
-        <li>a scheme for assembling multiple operations against an [[LDP]] server into one atomic operation,</li>
-        <li>integration with the <a href="https://www.w3.org/wiki/WebAccessControl">Web Access Control proposal,</a></li>
-        <li>and a design for the publication of asynchronous events emitted from an implementation.</li>
+        <li>
+          a reconciliation of [[LDP]] and the well-established version identification and
+          navigation scheme delineated in the [[!RFC7089]] specification,
+        </li>
+        <li>
+          interaction patterns for use with binary fixity information,
+        </li>
+        <li>
+          a scheme for assembling multiple operations against an [[LDP]] server into
+          one atomic operation,
+        </li>
+        <li>
+          integration with the <a href="https://www.w3.org/wiki/WebAccessControl">Web Access Control proposal,</a>
+        </li>
+        <li>
+          and a design for the publication of asynchronous events emitted from an implementation.
+        </li>
       </ul>
     </section>
 
@@ -126,9 +138,9 @@
           provide a corresponding response body containing information about which statements could
           not be persisted. ([[LDP]] 4.2.4.4 SHOULD becomes MUST). In that response the restrictions
           causing such a request to fail MUST be described in a resource indicated by a
-          <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code> response header per [[LDP]] 4.2.1.6. A successful
-          PATCH request MUST respond with a 2xx status code; the specific code in the 2xx range MAY
-          vary according to the response body or request state.
+          <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code> response header per [[LDP]] 4.2.1.6.
+          A successful PATCH request MUST respond with a 2xx status code; the specific code in the 2xx
+          range MAY vary according to the response body or request state.
         </p>
       </section>
 
@@ -137,18 +149,23 @@
         <p>
           Any LDPC MUST support POST ([[LDP]] 4.2.3 / 5.2.3). The default interaction model that
           will be assigned when there is no explicit Link header in the request MUST be recorded
-          in the constraints document referenced in the <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code> header
-          ([[LDP]] 4.2.1.6 clarification). Any LDPC MUST support creation of LDP-NRs on POST
+          in the constraints document referenced in the <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code>
+          header ([[LDP]] 4.2.1.6 clarification). Any LDPC MUST support creation of LDP-NRs on POST
           (LDP 5.2.3.3 MAY becomes MUST). On creation of an LDP-NR an implementation MUST create an
           associated LDP-RS describing that LDP-NR ([[LDP]] 5.2.3.12 MAY becomes MUST).
         </p>
         <section id="httpPOSTLDPNR">
           <p>
-            A POST request that would create a LDP-NR and includes a <code>Digest</code> header (as described in [[!RFC3230]]) for which the instance-digest in that header does not match that of the new LDP-NR MUST be rejected with a 409 Conflict response.
+            A POST request that would create a LDP-NR and includes a <code>Digest</code> header
+            (as described in [[!RFC3230]]) for which the instance-digest in that header does not
+            match that of the new LDP-NR MUST be rejected with a 409 Conflict response.
           </p>
-          <p>Implementations MUST support <code>Content-Type: message/external-body</code> extensions for request bodies for HTTP <code>POST</code> that would create LDP-NRs.
-           This content-type requires a complete <code>Content-Type</code> header that includes the location of the external body, e.g
-            <code>Content-Type: message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</code>, as defined in [[!RFC2017]].</p>
+          <p>
+            Implementations MUST support <code>Content-Type: message/external-body</code> extensions for
+            request bodies for HTTP <code>POST</code> that would create LDP-NRs. This content-type requires
+            a complete <code>Content-Type</code> header that includes the location of the external body, e.g
+            <code>Content-Type: message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</code>,
+            as defined in [[!RFC2017]].</p>
         </section>
       </section>
 
@@ -171,10 +188,16 @@
           </p>
           <p>
             A HTTP PUT request that includes a <code>Digest</code> header (as described
-          in [[!RFC3230]]) for which the instance-digest in that header does not match the instance it describes, MUST be rejected with a 409 Conflict response.
+            in [[!RFC3230]]) for which the instance-digest in that header does not match
+            the instance it describes, MUST be rejected with a 409 Conflict response.
           </p>
-          <p>Implementations MUST support <code>Content-Type: message/external-body</code> extensions for request bodies for HTTP <code>PUT</code> to LDP-NRs. This content-type requires a complete <code>Content-Type</code> header that includes the location of the external body, e.g
-            <code>Content-Type: message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</code>, as defined in [[!RFC2017]].</p>
+          <p>
+            Implementations MUST support <code>Content-Type: message/external-body</code> extensions
+            for request bodies for HTTP <code>PUT</code> to LDP-NRs. This content-type requires a
+            complete <code>Content-Type</code> header that includes the location of the external body, e.g
+            <code>Content-Type: message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</code>,
+            as defined in [[!RFC2017]].
+          </p>
         </section>
 
         <section id="httpPUTLDPRS">
@@ -198,8 +221,8 @@
             An implementation MUST accept HTTP PUT to create resources.([[LDP]] 4.2.4.6 MAY becomes
             MUST). The default interaction model that will be assigned when there is no explicit
             <code>Link: rel="type"</code> header in the request MUST be recorded in the constraints
-            document referenced in the <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code> header ([[LDP]] 4.2.1.6
-            clarification).
+            document referenced in the <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code>
+            header ([[LDP]] 4.2.1.6 clarification).
           </p>
         </section>
       </section>
@@ -219,20 +242,48 @@
               <code>GET</code> requests on LDPC resources:
           </p>
           <ul>
-            <li><code>http://fedora.info/definitions/v4/repository#EmbedResources</code>: Requires a server to include representations of any contained resources in the response.</li>
-            <li><code>http://fedora.info/definitions/v4/repository#InboundReferences</code>: Requires a server to include triples from any LDP-RS housed in that server that feature the requested resource as RDF-object.</li>
+            <li>
+              <code>http://fedora.info/definitions/v4/repository#EmbedResources</code>:
+              Requires a server to include representations of any contained resources in the response.
+            </li>
+            <li>
+              <code>http://fedora.info/definitions/v4/repository#InboundReferences</code>:
+              Requires a server to include triples from any LDP-RS housed in that server that
+              feature the requested resource as RDF-object.
+            </li>
           </ul>
         </section>
         <section id="httpGETLDPNR">
           <h2>LDP-NRs</h2>
-          <p>GET requests to any LDP-NR MUST correctly respond to the <code>Want-Digest</code> header defined in [[!RFC3230]] unless the <code>Content-Type</code> of the LDP-NR is a <code>message/external-body</code> extension.</p>
-          <p>GET requests to a LDP-NR with <code>Content-Type: message/external-body</code>, MUST result in an HTTP 3xx redirect message redirecting to the external URL.</p>
+          <p>
+            GET requests to any LDP-NR MUST correctly respond to the <code>Want-Digest</code> header
+            defined in [[!RFC3230]] unless the <code>Content-Type</code> of the LDP-NR is a
+            <code>message/external-body</code> extension.
+          </p>
+          <p>
+            GET requests to a LDP-NR with <code>Content-Type: message/external-body</code>, MUST result
+            in an HTTP 3xx redirect message redirecting to the external URL.
+          </p>
           <section id="httpGETLDPNR-fixity-expectation">
             <h3><code>Expect: 202-digest</code></h3>
-            <p>GET requests to a LDP-NR SHOULD respond to <code>Expect</code> request headers with a parameterized <a href="#202-digest"><code>202-digest</code></a> expectation. Implementations MAY support unparameterized <code>202-digest</code> expectations. Implementations that do not support one of these expectations MUST reject <a href="#202-digest">202-digest</a> requests for the expectation with a 417 Expectation Failed. If the LDP-NR is of <code>Content-Type: message/external-body</code>, the server must respond with a 3xx. If the digest parameter does not match the current instance digest of the resource, the request MUST be rejected with a 412 Precondition Failed. If the digest matches, the request MUST be completed with a 202 Accepted.</p>
+            <p>
+              GET requests to a LDP-NR SHOULD respond to <code>Expect</code> request headers with a
+              parameterized <a href="#202-digest"><code>202-digest</code></a> expectation. Implementations
+              MAY support unparameterized <code>202-digest</code> expectations. Implementations that do not
+              support one of these expectations MUST reject <a href="#202-digest">202-digest</a> requests
+              for the expectation with a 417 Expectation Failed. If the LDP-NR is of
+              <code>Content-Type: message/external-body</code>, the server must respond with a 3xx. If the
+              digest parameter does not match the current instance digest of the resource, the request MUST
+              be rejected with a 412 Precondition Failed. If the digest matches, the request MUST be
+              completed with a 202 Accepted.
+            </p>
             <section id="httpGETLDPNR-fixity-expectation-conneg" class="informative">
               <h4><code>Expect: 202-digest</code> and <code>Accept:</code></h4>
-              <p>This specification takes no position on the interaction of <code>Expect: 202-digest</code> and <code>Accept:</code> headers on the same request, or on the meaning of the 406 Unacceptable status in that context. Implementations are not required to support combinations of these headers.</p>
+              <p>
+                This specification takes no position on the interaction of <code>Expect: 202-digest</code>
+                and <code>Accept:</code> headers on the same request, or on the meaning of the 406 Unacceptable
+                status in that context. Implementations are not required to support combinations of these headers.
+              </p>
             </section>
           </section>
         </section>
@@ -244,7 +295,7 @@
         <section id="terminology">
           <h2>Terminology</h2>
             <dl>
-              <dt><dfn>LDPR</dfn>:</dt> <dd> An [[LDP]] Resource. This may be an [[LDP]] RDF Source or an [[LDP]] Non-RDF Source.</dd>
+              <dt><dfn>LDPR</dfn>:</dt> <dd>An [[LDP]] Resource. This may be an [[LDP]] RDF Source or an [[LDP]] Non-RDF Source.</dd>
               <dt><dfn>LDPRv</dfn>:</dt> <dd>A <a>LDPR</a> that is simultaneously a Memento <a>URI-R</a>.</dd>
               <dt><dfn>LDPRm</dfn>:</dt> <dd>A <a>LDPR</a> that is simultaneously a Memento <a>URI-M</a>.</dd>
               <dt><dfn>LDPC</dfn>:</dt> <dd>An [[LDP]] Container.</dd>
@@ -481,9 +532,9 @@
             Absent this header, it MUST use the current time.
           </p>
           <p>
-            Non-normative note: If an <a>LDPCv</a> does not <code>Allow: POST</code>, the
-            constraints document indicated in <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code> for that
-            <a>LDPCv</a> should describe the versioning mechanism (e.g. by <code>PUT</code> or
+            Non-normative note: If an <a>LDPCv</a> does not <code>Allow: POST</code>, the constraints
+            document indicated in <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code> for
+            that <a>LDPCv</a> should describe the versioning mechanism (e.g. by <code>PUT</code> or
             <code>PATCH</code> to the <a>LDPRv</a> described by that <a>LDPCv</a>). Disallowing
             <code>POST</code> suggests that the [[LDP]] server will manage all <a>LDPRm</a>
             creation; see <a href ="#server-managed">here</a>.
@@ -550,27 +601,49 @@
       <h2>Binary Resource Fixity</h2>
 			<section id="what-is-fixity" class="informative">
 				<h2>What is fixity?</h2>
-				<p>For the purposes of the following specification, a fixity result is an extract or summary of some LDPNR made according to some explicit procedure. Fixity results are taken for the purpose of comparing different fixity results for the same resource over time, to ensure a continuity of that resource's identity according to the particular procedure used. Examples might include:</p>
+				<p>
+          For the purposes of the following specification, a fixity result is an extract or summary
+          of some LDPNR made according to some explicit procedure. Fixity results are taken for the
+          purpose of comparing different fixity results for the same resource over time, to ensure
+          a continuity of that resource's identity according to the particular procedure used.
+          Examples might include:
+        </p>
 				<ul>
 					<li>Checksums like MD5 or SHA1, often used for digital images.</li>
 					<li><a href="https://www.w3.org/TR/xmldsig-core/">XML Signatures</a></li>
 				  <li>Per-segment results <a href="http://dericed.com/papers/reconsidering-the-checksum-for-audiovisual-preservation/">as used for time-based media</a></li>
 				</ul>
-				<p>This specification describes two fixity verification mechanisms: firstly, as part of content transmission, to guard against faults in transmission, and secondly, by comparison to a known or proffered digest value, to monitor for faults in persistence.</p>
+				<p>
+          This specification describes two fixity verification mechanisms: firstly, as part of
+          content transmission, to guard against faults in transmission, and secondly, by comparison
+          to a known or proffered digest value, to monitor for faults in persistence.
+        </p>
 			</section>
       <section id="transmission-fixity" class="informative">
         <h2>Transmission Fixity</h2>
-				<p>Transmission fixity is verified by application of the <code>Digest</code> header defined in [[!RFC3230]] to POST and PUT requests for LDP-NR.</p>
+				<p>
+          Transmission fixity is verified by application of the <code>Digest</code> header
+          defined in [[!RFC3230]] to POST and PUT requests for LDP-NR.
+        </p>
       </section>
 
       <section id="persistence-fixity">
         <h2>Persistence Fixity</h2>
         <section id="persistence-fixity-preamble" class="informative">
-          <p>In the minimal case, a client that has an original digest value can verify persistence fixity by downloading the LDP-NR and calculating the checksum. To avoid the necessity of transferring a potentially large binary, this specification describes a new expectation token for the <code>Expect</code> header described in [[!RFC7231]]: <code>202-digest</code>, and a <code>digest-link</code> parameter.</p>
+          <p>
+            In the minimal case, a client that has an original digest value can verify persistence
+            fixity by downloading the LDP-NR and calculating the checksum. To avoid the necessity
+            of transferring a potentially large binary, this specification describes a new expectation
+            token for the <code>Expect</code> header described in [[!RFC7231]]: <code>202-digest</code>,
+            and a <code>digest-link</code> parameter.
+          </p>
 				</section>
         <section id="202-digest">
           <h3>Expect: 202-digest</h3>
-          <p>The <code>202-digest</code> expectation indicates that the client is requesting that the server verify an instance digest for the resource at the request URI.</p>
+          <p>
+            The <code>202-digest</code> expectation indicates that the client is requesting that
+            the server verify an instance digest for the resource at the request URI.
+          </p>
           <pre><code>
             Expect                  =  "Expect" ":" 1#digest-expectation
             digest-expectation      = "202-digest" [(digest-param|digest-link-param)]
@@ -578,20 +651,50 @@
             digest-link-param       = ";" "digest-link" "=" URI-reference
           </code></pre>
           <p>
-            <code>instance-digest</code> values are of the syntax described in [[!RFC3230]] for the <code>Digest</code> header. <code>URI-reference</code> values for the <code>digest-link-param</code> are described in [[!RFC2396]].
+            <code>instance-digest</code> values are of the syntax described in [[!RFC3230]] for the
+            <code>Digest</code> header. <code>URI-reference</code> values for the
+            <code>digest-link-param</code> are described in [[!RFC2396]].
           </p>
-          <p>HTTP/1.1 servers that do not support the 202-digest expectation MUST reject requests with 417 Expectation Failed.</p>
-          <p>An implementing server MAY allow <code>202-digest</code> without a <code>digest-param</code>, indicating that the compared and calculated digests are selected by the server. Such servers SHOULD compare the calculated instance digest to a stored original digest. Servers that require a client-proffered <code>digest-param</code> MUST reject requests without a digest with 417 Expectation Failed.</p>
-          <p>If the compared digests do not match, an implementing server MUST reject the request with 412 Precondition Failed. If the compared digests match, an implementing server MUST complete the request with 202 Accepted. A 200 OK status indicates that the server did not understand the request, and ignored the expectation.</p>
-          <p>An implementing server SHOULD accompany HTTP status 417 and 412 responses with an explanatory entity.</p>
+          <p>
+            HTTP/1.1 servers that do not support the 202-digest expectation MUST reject requests
+            with 417 Expectation Failed.
+          </p>
+          <p>
+            An implementing server MAY allow <code>202-digest</code> without a <code>digest-param</code>,
+            indicating that the compared and calculated digests are selected by the server. Such servers
+            SHOULD compare the calculated instance digest to a stored original digest. Servers that require
+            a client-proffered <code>digest-param</code> MUST reject requests without a digest with
+            417 Expectation Failed.
+          </p>
+          <p>
+            If the compared digests do not match, an implementing server MUST reject the request with
+            412 Precondition Failed. If the compared digests match, an implementing server MUST complete
+            the request with 202 Accepted. A 200 OK status indicates that the server did not understand
+            the request, and ignored the expectation.
+          </p>
+          <p>
+            An implementing server SHOULD accompany HTTP status 417 and 412 responses with an
+            explanatory entity.
+          </p>
         </section>
         <section id="202-digest-ignored" class="informative">
           <h3>Ignored Expectations and 200 (OK)</h3>
-          <p>A client aware of <code>202-digest</code> that receives a 200 should assume it is responsible for verifying fixity by downloading the resource.</p>
+          <p>
+            A client aware of <code>202-digest</code> that receives a 200 should assume it is responsible
+            for verifying fixity by downloading the resource.
+          </p>
         </section>
         <section id="202-digest-link" class="informative">
           <h3>Complex Fixity and the digest-link parameter</h3>
-          <p>Digital preservationists acknowledge the <a href="http://dericed.com/papers/reconsidering-the-checksum-for-audiovisual-preservation/">limits of simple bit fixity verification</a> to describe the state of some types of resources, eg large media files. Servers that can support more sophisticated assessments of content difference may use the <a href="#202-digest">202-digest expectation</a> with a <code>digest-link</code> parameter identifying a more appropriate verification of such resources, with 412 responses accompanied by appropriate explanatory entities.</p>
+          <p>
+            Digital preservationists acknowledge the
+            <a href="http://dericed.com/papers/reconsidering-the-checksum-for-audiovisual-preservation/">limits of simple bit fixity verification</a>
+            to describe the state of some types of resources, eg large media files. Servers that can
+            support more sophisticated assessments of content difference may use the
+            <a href="#202-digest">202-digest expectation</a> with a <code>digest-link</code> parameter
+            identifying a more appropriate verification of such resources, with 412 responses
+            accompanied by appropriate explanatory entities.
+          </p>
         </section>
       </section>
     </section>
@@ -713,11 +816,11 @@
           This section defines when messages are emitted by a Fedora
           implementation, the minimal set of data contained in those messages and how
           those data are serialized. These messages may occur synchronously or asynchronously
-	  with the API operations that cause them to be emitted. They are typically used to
-	  support external integrations. The structure of these messages draws upon the
-	  existing [[activitystreams-core]] and [[ldn]] specifications.
-	  An implementation is free to choose from any messaging technology so long as
-	  the messages conform to what is described in the following sections.
+          with the API operations that cause them to be emitted. They are typically used to
+          support external integrations. The structure of these messages draws upon the
+          existing [[activitystreams-core]] and [[ldn]] specifications.
+          An implementation is free to choose from any messaging technology so long as
+          the messages conform to what is described in the following sections.
         </p>
       </section>
 
