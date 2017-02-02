@@ -703,15 +703,17 @@
     </section>
 
     <section id="messaging-spi">
-      <h2>Messaging SPI</h2>
+      <h2>Messaging</h2>
       <section class="informative">
+	<h3>Introduction</h3>
         <p>
-          Non-normative: the messaging SPI defines when messages are emitted by a Fedora
+          This section defines when messages are emitted by a Fedora
           implementation, the minimal set of data contained in those messages and how
           those data are serialized. These messages may occur synchronously or asynchronously
 	  with the API operations that cause them to be emitted. They are typically used to
 	  support external integrations. The structure of these messages draws upon the
 	  existing [[activitystreams-core]] and [[ldn]] specifications.
+	  The messaging interface is not defined here and will be implementation specific.
         </p>
       </section>
 
