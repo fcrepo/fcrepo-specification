@@ -1,0 +1,29 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix vs: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix : <http://fedora.info/definitions/repository#> .
+
+: a owl:Ontology ;
+    owl:versionInfo "1.0" ;
+    rdfs:label "Fedora Vocabulary"@en ;
+    rdfs:comment "This ontology provides a representation of the terms defined in the Fedora specification. Consult the Fedora specification for normative reference."@en ;
+    rdfs:seeAlso <http://fedora.info/spec/> ;
+    dc:created "2017-02-06"^^xsd:date ;
+    vann:preferredNamespaceUri "http://fedora.info/definitions/repository#" ;
+    vann:preferredNamespacePrefix "fedora" .
+
+:InboundReferences a rdfs:Class ;
+    rdfs:label "inbound references"@en ;
+    rdfs:comment "The set of triples representing other repository resources which link to a given resource."@en ;
+    rdfs:isDefinedBy : ;
+    vs:term_status "working-draft" .
+
+:EmbedResources a rdfs:Class ;
+    rdfs:label "embed resources"@en ;
+    rdfs:comment "The set of triples representing child resources of a given resource."@en ;
+    rdfs:isDefinedBy : ;
+    vs:term_status "working-draft" .
+
