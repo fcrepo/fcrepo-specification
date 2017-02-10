@@ -142,6 +142,14 @@
           A successful PATCH request MUST respond with a 2xx status code; the specific code in the 2xx
           range MAY vary according to the response body or request state.
         </p>
+        <section id="httpPATCH-ixn-models">
+          <h3>Interaction models</h3>
+          <p>
+            The server MUST disallow a PATCH request that would change the LDP interaction model of a
+            resource to a type that is not a subtype of the current resource type. That request MUST be
+            rejected with a 409 Conflict response.
+          </p>
+        </section>
       </section>
 
       <section id="httpPOST">
