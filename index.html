@@ -142,6 +142,11 @@
           A successful PATCH request MUST respond with a 2xx status code; the specific code in the 2xx
           range MAY vary according to the response body or request state.
         </p>
+        <p>
+          When receiving a PATCH request that would change the LDP interaction model of a resource
+          to a type that is not a subtype of the current resource type, the request MUST be rejected
+          with a 409 Conflict response.
+        </p>
       </section>
 
       <section id="httpPOST">
