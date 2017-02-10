@@ -174,7 +174,7 @@
         <h2>HTTP PUT</h2>
         <p>
           When accepting a PUT request against an extant resource, an HTTP <code>Link: rel="type"</code>
-          header may be included. If that type is a value in the LDP namespace and is not either a
+          header MAY be included. If that type is a value in the LDP namespace and is not either a
           current type of the resource or a subtype of a current type of the resource, the request
           MUST be rejected with a 409 Conflict response containing a corresponding explanatory message
           in the response body. If the type in the Link header is a subtype of a current type of the
@@ -273,7 +273,7 @@
               MAY support unparameterized <code>202-digest</code> expectations. Implementations that do not
               support one of these expectations MUST reject <a href="#202-digest">202-digest</a> requests
               for the expectation with a 417 Expectation Failed. If the LDP-NR is of
-              <code>Content-Type: message/external-body</code>, the server must respond with a 3xx. If the
+              <code>Content-Type: message/external-body</code>, the server MUST respond with a 3xx. If the
               digest parameter does not match the current instance digest of the resource, the request MUST
               be rejected with a 412 Precondition Failed. If the digest matches, the request MUST be
               completed with a 202 Accepted.
@@ -347,9 +347,9 @@
             <h2>General</h2>
             <p>
               An <a>LDPRv</a> MAY support PUT. An implementation receiving a PUT request for an
-              <a>LDPRv</a> must both correctly respond as per [[!LDP]] as well as create a new
+              <a>LDPRv</a> MUST both correctly respond as per [[!LDP]] as well as create a new
               <a>LDPRm</a> contained in an appropriate <a>LDPCv</a>. The newly-created <a>LDPRm</a>
-              should be the version of the <a>LDPRv</a> that was created by the <code>PUT</code> request.
+              SHOULD be the version of the <a>LDPRv</a> that was created by the <code>PUT</code> request.
             </p>
           </section>
 
@@ -387,7 +387,7 @@
           <p>
             When a <a>LDPR</a> is created with a <code>Link</code> header indicating versioning,
             it is created as both an LDP Resource and a Memento: a <a>LDPRm</a>. An <a>LDPRm</a>
-            MUST be invariant: While it may be deleted, it MUST NOT be modified once created.
+            MUST be invariant: While it MAY be deleted, it MUST NOT be modified once created.
           </p>
         </section>
 
@@ -404,7 +404,7 @@
           <h2>HTTP GET</h2>
           <p>
             An implementation MUST support <code>GET</code>, as is the case for any <a>LDPR</a>.
-            The headers for <code>GET</code> requests and responses on this resource must conform
+            The headers for <code>GET</code> requests and responses on this resource MUST conform
             to [[!RFC7089]]. Particularly it should be noted that the relevant <a>TimeGate</a> for
             an <a>LDPRm</a> is the original versioned <a>LDPRv</a>.
           </p>
@@ -421,7 +421,7 @@
           <h2>HTTP OPTIONS</h2>
           <p>
             An implementation MUST support <code>OPTIONS</code>. A response to an <code>OPTIONS</code>
-            request must include <code>Allow: GET, HEAD, OPTIONS</code> as per [[LDP]]. An
+            request MUST include <code>Allow: GET, HEAD, OPTIONS</code> as per [[LDP]]. An
             implementation MAY include <code>Allow: DELETE</code> if clients can remove a version
             from the version history, as noted <a href="#h-http-delete">above</a>.
           </p>
@@ -515,7 +515,7 @@
         <section>
           <h2 id='ldpcvpost'>HTTP POST</h2>
           <p>
-            If a <a>LDPCv</a> supports <code>POST</code>, <code>POST</code> should be understood to
+            If a <a>LDPCv</a> supports <code>POST</code>, <code>POST</code> SHOULD be understood to
             create a new <a>LDPRm</a> contained by the <a>LDPCv</a>, reflecting the state of the
             <a>LDPRv</a> at the time of the <code>POST</code>. If supported, but the representation
             at the time of version creation can only be that which is current for the <a>LDPRv</a>,
@@ -525,7 +525,7 @@
             <a>LDPCv</a> with a 415 response and a link to an appropriate constraints document
             (see <a href='https://www.w3.org/TR/ldp/#h-ldpr-gen-pubclireqs'>LDP 4.2.1.6</a>). As per
             [[!LDP]], any resource created via <code>POST</code>, in this case a <a>LDPRm</a>)
-            should be advertised in the response's <code>Location</code> header.
+            SHOULD be advertised in the response's <code>Location</code> header.
           </p>
           <p>
             If a <a>LDPCv</a> does accept <code>POST</code> with a request body, it SHOULD respect
@@ -855,7 +855,7 @@
           each of the contained child resources.
         </p>
         <p>
-          Non-normative: consumers of these messages SHOULD NOT expect a strict ordering of
+          Non-normative: consumers of these messages should not expect a strict ordering of
           the events reported therein: the fact that a message for Event A is received before
           a message for Event B should not imply that Event A occurred before Event B.
       Implementations MAY choose to make further guarantees about ordering.
