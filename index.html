@@ -197,8 +197,12 @@
           </p>
           <p>
             A HTTP PUT request that includes a <code>Digest</code> header (as described
-            in [[!RFC3230]]) for which the instance-digest in that header does not match
-            the instance it describes, MUST be rejected with a 409 Conflict response.
+            in [[!RFC3230]]) for which any instance-digest in that header does not match the instance
+            it describes, MUST be rejected with a 409 Conflict response.
+          </p>
+          <p>
+            A HTTP PUT/POST request that includes an unsupported <code>Digest</code> type (as described
+            in [[!RFC3230]]), SHOULD be rejected with a 400 Bad Request response.
           </p>
           <p>
             Implementations MUST support <code>Content-Type: message/external-body</code> extensions
