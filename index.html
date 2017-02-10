@@ -182,6 +182,10 @@
           be assigned the new type and the interaction model of the resource MUST be changed to the
           interaction model assigned to the new type by [[LDP]].
         </p>
+        <p>
+          A PUT request that creates a new resource MUST NOT, while so doing, change the containment
+          triples for any LDPC.
+        </p>
         <section id="httpPUTLDPNR">
           <h2>LDP-NRs</h2>
           <p>
