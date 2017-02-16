@@ -686,7 +686,7 @@
             If the compared digests do not match, an implementing server MUST reject the request with
             412 Precondition Failed. If the compared digests match, an implementing server MUST complete
             the request with 202 Accepted. A client that receives a non-202 response to a
-            <code>202-digest</code> expectation should assume it is responsible for verifying fixity by
+            <code>202-digest</code> expectation SHOULD assume it is responsible for verifying fixity by
             downloading the resource.
           </p>
           <p>
