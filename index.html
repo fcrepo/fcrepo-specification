@@ -672,8 +672,8 @@
             <code>digest-link-param</code> are described in [[!RFC2396]].
           </p>
           <p>
-            HTTP/1.1 servers that do not support the 202-digest expectation MUST reject requests
-            with 417 Expectation Failed.
+            HTTP/1.1 servers that do not support the <code>202-digest</code> expectation MUST reject
+            requests with 417 Expectation Failed.
           </p>
           <p>
             An implementing server MAY allow <code>202-digest</code> without a <code>digest-param</code>,
@@ -685,19 +685,13 @@
           <p>
             If the compared digests do not match, an implementing server MUST reject the request with
             412 Precondition Failed. If the compared digests match, an implementing server MUST complete
-            the request with 202 Accepted. A 200 OK status indicates that the server did not understand
-            the request, and ignored the expectation.
+            the request with 202 Accepted. A client that receives a non-202 response to a
+            <code>202-digest</code> expectation should assume it is responsible for verifying fixity by
+            downloading the resource.
           </p>
           <p>
             An implementing server SHOULD accompany HTTP status 417 and 412 responses with an
             explanatory entity.
-          </p>
-        </section>
-        <section id="202-digest-ignored" class="informative">
-          <h3>Ignored Expectations and 200 (OK)</h3>
-          <p>
-            A client aware of <code>202-digest</code> that receives a 200 should assume it is responsible
-            for verifying fixity by downloading the resource.
           </p>
         </section>
         <section id="202-digest-link" class="informative">
