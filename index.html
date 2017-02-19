@@ -878,14 +878,6 @@
         </p>
         <ul>
           <li>Resource Identifier: the URI of the <a>LDPR</a> that was added, changed or removed.</li>
-          <li>
-            Timestamp: a timestamp marking the time of the event. The value of the timestamp
-            SHOULD correspond to the time the resource was added/modified/deleted, but there is no
-            strict requirement about the precision of this value. If the operation in question
-            occurred as part of an atomic operation, the timestamps SHOULD correspond to the time
-            the individual operation was performed (and not to the time the atomic operation
-            was completed).
-          </li>
           <li>Event identifier: a unique identifier for this event.</li>
         </ul>
         <p>
@@ -928,31 +920,11 @@
           <div class="example">
             <pre class="json">
 {
-  "@context": [
-    "https://www.w3.org/ns/activitystreams",
-    {
-      "date": {
-        "@id": "http://purl.org/dc/terms/date",
-        "@type": "xsd:dateTime"
-      }
-    }
-  ],
+  "@context": "https://www.w3.org/ns/activitystreams",
   "id": "urn:uuid:3c834a8f-5638-4412-aa4b-35ea80416a18",
   "type": "Create",
   "name": "Resource Creation",
-  "date": "2016-05-19T17:17:39Z",
-  "actor": [
-    {
-      "id": "#actor0",
-      "type": "Person",
-      "name": "fedo raAdmin"
-    },
-    {
-      "id": "#actor1",
-      "type": "Application",
-      "name": "FcrepoClient/0.1"
-    }
-  ],
+  "actor": "http://example.org/agent/fedoraAdmin",
   "object": {
     "id": "http://example.org/fcrepo/rest/resource/path",
     "type": [
