@@ -658,18 +658,19 @@
           <h3>Expect: 202-digest</h3>
           <p>
             The <code>202-digest</code> expectation indicates that the client is requesting that
-            the server verify an instance digest for the resource at the request URI.
+            the server verify an instance digest for the resource at the request IRI.
           </p>
           <pre><code>
             Expect                  =  "Expect" ":" 1#digest-expectation
             digest-expectation      = "202-digest" [(digest-param|digest-link-param)]
             digest-param            = ";" #(instance-digest)
-            digest-link-param       = ";" "digest-link" "=" URI-reference
+            digest-link-param       = ";" "digest-link" "=" IRI-reference
           </code></pre>
           <p>
             <code>instance-digest</code> values are of the syntax described in [[!RFC3230]] for the
-            <code>Digest</code> header. <code>URI-reference</code> values for the
-            <code>digest-link-param</code> are described in [[!RFC3986]].
+            <code>Digest</code> header. <code>IRI-reference</code> values for the
+            <code>digest-link-param</code> are described in [[!RFC3987]].
+
           </p>
           <p>
             HTTP/1.1 servers that do not support the <code>202-digest</code> expectation MUST reject
@@ -877,7 +878,7 @@
           Emitted events MUST contain exactly one value for each of the following elements:
         </p>
         <ul>
-          <li>Resource Identifier: the URI of the <a>LDPR</a> that was added, changed or removed.</li>
+          <li>Resource Identifier: the IRI of the <a>LDPR</a> that was added, changed or removed.</li>
           <li>Event identifier: a unique identifier for this event.</li>
         </ul>
         <p>
