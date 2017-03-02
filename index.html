@@ -960,10 +960,6 @@
   "@context": [
     "https://www.w3.org/ns/activitystreams",
     {
-      "date": {
-        "@id": "http://purl.org/dc/terms/date",
-        "@type": "xsd:dateTime"
-      },
       "isPartOf": {
         "@id": "http://purl.org/dc/terms/date",
         "@type": "@id"
@@ -973,7 +969,7 @@
   "id": "urn:uuid:be29ae69-2134-f1b0-34be-2f91b6d1f029",
   "type": "Update",
   "name": "Resource Modification",
-  "date": "2016-07-04T13:46:39Z",
+  "published": "2016-07-04T13:46:39Z",
   "inbox": "http://example.org/ldn/inbox/path",
   "actor": [
     {
@@ -989,6 +985,7 @@
   ],
   "object": {
     "id": "http://example.org/fcrepo/rest/resource/path",
+    "updated": "2016-07-04T13:44:39Z",
     "type": [
       "ldp:Container",
       "ldp:RDFSource",
