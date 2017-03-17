@@ -1057,6 +1057,39 @@
       </section>
     </section>
 
+    <section id="privacy">
+      <h2>Privacy Considerations</h2>
+      <p>
+        Fedora resources may contain personally identifiable information such as the identify of
+        the agents who create and modify resources. As such, this information could be analyzed
+        to generate profiles of the behavior of individuals or groups.
+      </p>
+      <p>
+        As such, Fedora implementations that produce or consume personally identifiable
+        information MUST clearly document the type and extent of personal information that
+        is collected and published along with the reasons for doing so.
+      </p>
+      <p class="informative">
+        Non-normative note: for example, if user data is collected and stored as part of a
+        resource's audit trail or in a server log, an implementation would need to document
+        that behavior.
+      </p>
+    </section>
+
+    <section id="security">
+      <h2>Security Considerations</h2>
+      <p>
+        There are security considerations for any HTTP server exposed to the Internet.
+        As such, implementations SHOULD make use of the many security-related features
+        of HTTP, including use of the authentication framework defined in the Authentication
+        chapter of the HTTP specification [[!RFC7235]].
+      </p>
+      <p>
+        Fedora implementations are subject to the same security considerations as HTTP/1.1
+        ([[!RFC7230]] and [[!RFC7231]]), [[!LDP]], Memento ([[!RFC7089]]) and [[!activitystreams-core]].
+      </p>
+    </section>
+
     <section class='appendix'>
       <h2>Acknowledgments</h2>
       <p>
