@@ -110,29 +110,94 @@
 
     <section id="conformance">
       <p>
-        A conforming <b>Fedora server</b> is a conforming [[!LDP]] server that also follows
-        the rules defined by Fedora in <a href="#resource-management"></a>, <a href="#resource-versioning"></a>,
-        <a href="#binary-fixity"></a>, <a href="#resource-authorization"></a>, <a href="#atomic-operations"></a>,
-        and <a href="#messaging"></a>.
+        A conforming <b>Fedora server</b> is a conforming [[!LDP]] 1.0 server except where described in this document
+        that also follows the rules defined by Fedora in <a href="#resource-management"></a>,
+        <a href="#resource-versioning"></a>, <a href="#binary-fixity"></a>, <a href="#resource-authorization"></a>, 
+        <a href="#atomic-operations"></a>, and <a href="#messaging"></a>.
       </p>
     </section>
-
+    <section id="terminology">
+    <h2>Terminology</h2>
+    <p>
+      Terminology is based on W3C's Linked Data Platform 1.0 [[LDP]] and Memento [[RFC7089]].
+      <dl>
+        <dt><dfn>LDPR</dfn>:</dt>
+        <dd>
+          A Linked Data Platform Resource as defined in [<a href="https://www.w3.org/TR/ldp/#dfn-linked-data-platform-resource">LDP</a>].
+          This may be an <a href="https://www.w3.org/TR/ldp/#dfn-linked-data-platform-rdf-source">LDP RDF Source</a> (<a>LDP-RS</a>) or an 
+          <a href="https://www.w3.org/TR/ldp/#dfn-linked-data-platform-non-rdf-source">LDP Non-RDF Source</a> (<a>LDP-NR</a>).
+        </dd>
+        <dt><dfn>LDP-RS</dfn>:</dt>
+        <dd>
+          An <a>LDPR</a> whose state is fully represented in RDF as defined in 
+          [<a href="https://www.w3.org/TR/ldp/#dfn-linked-data-platform-rdf-source">LDP</a>].
+        </dd>
+        <dt><dfn>LDP-NR</dfn>:</dt>
+        <dd>
+          An <a>LDPR</a> whose state is not represented in RDF as defined in 
+          [<a href="https://www.w3.org/TR/ldp/#dfn-linked-data-platform-non-rdf-source">LDP</a>].
+        </dd>
+        <dt><dfn>LDPRv</dfn>:</dt>
+        <dd>
+          An <a>LDPR</a> that is simultaneously a Memento <a>URI-R</a>.
+        </dd>
+        <dt><dfn>LDPRm</dfn>:</dt>
+        <dd>
+          An <a>LDPR</a> that is simultaneously a Memento <a>URI-M</a>.
+        </dd>
+        <dt><dfn>LDPC</dfn>:</dt>
+        <dd>
+          A collection of linked documents or information resources as defined in 
+          [<a href="https://www.w3.org/TR/ldp/#dfn-linked-data-platform-container">LDP</a>].
+        </dd>
+        <dt><dfn>LDPCv</dfn>:</dt>
+        <dd>
+          A version container: an <a>LDPC</a> that is simultaneously a Memento <a>TimeMap</a>.
+        </dd>
+        <dt><dfn>LDP-contained</dfn>:</dt>
+        <dd>
+          The relationship binding an <a>LDPC</a> to <a>LDPR</a>s whose lifecycle it controls and is aware of as defined in
+          [<a href="https://www.w3.org/TR/ldp/#dfn-containment">LDP</a>].
+        </dd>
+        <dt><dfn>URI-R</dfn>:</dt>
+        <dd>
+          A type of versioned resource defined in [<a href="https://tools.ietf.org/html/rfc7089#section-1.1">Memento</a>].
+        </dd>
+        <dt><dfn>URI-M</dfn>:</dt>
+        <dd>
+          A type of resource that is defined in [<a href="https://tools.ietf.org/html/rfc7089#section-1.1">Memento</a>]
+          as representing a version of a given <a>URI-R</a>.
+        </dd>
+        <dt><dfn>TimeGate</dfn>:</dt>
+        <dd>
+          A type of resource defined in [<a href="https://tools.ietf.org/html/rfc7089#section-1.1">Memento</a>] providing
+          <code>Accept-Datetime</code>-varied negotiation of versions of an <a>URI-R</a>.
+        </dd>
+        <dt><dfn>TimeMap</dfn>:</dt>
+        <dd>
+          A type of resource defined in [<a href="https://tools.ietf.org/html/rfc7089#section-1.1">Memento</a>] that 
+          contains a machine-readable listing of <a>URI-M</a>s associated to a given <a>URI-R</a>.
+        </dd>
+      </dl>
+  </section>
     <section id="resource-management">
       <h2>Resource Management</h2>
 
       <section id="general">
         <h2>General</h2>
         <p>
-          If a <code>Link: rel="type"</code> header specifies an LDP-NR interaction model
+          If a <code>Link: rel="type"</code> header specifies an <a>LDP-NR</a> interaction model
           (<code>ldp:NonRDFSource</code>), then the server SHOULD handle subsequent requests
-          to the newly created resource as if it is a LDP-NR. ([[!LDP]] 5.2.3.4 extension)
+          to the newly created resource as if it is a <a>LDP-NR</a>. 
+          ([[!LDP]] <a href="https://www.w3.org/TR/ldp/#ldpc-post-createrdf">5.2.3.4 extension</a>)
         </p>
         <section id="LDPC">
           <h2>LDP Containers</h2>
           <p>
             Implementations MUST support the creation and management of [[!LDP]] Containers.
             LDP Direct Containers MUST NOT permit <code>ldp:contains</code> as their membership-predicate
-            and requests that would so do MUST fail with 409 Conflict. ([[!LDP]] 5.4.1.4 expansion)
+            and requests that would do so MUST fail with 409 Conflict. 
+            ([[!LDP]] <a href="https://www.w3.org/TR/ldp/#ldpdc-containtriples">5.4.1.4 expansion</a>)
           </p>
         </section>
       </section>
@@ -140,15 +205,18 @@
       <section id="httpPATCH">
         <h2>HTTP PATCH</h2>
         <p>
-          Any LDP-RS MUST support PATCH ([[!LDP]] 4.2.7 MAY becomes MUST). [[!sparql11-update]] MUST
-          be an accepted content-type for PATCH. Other content-types (e.g. [[ldpatch]]) MAY be available.
-          If an otherwise valid HTTP PATCH request is received that attempts to add statements to a
-          resource that a server disallows (not ignores per [[!LDP]] 4.2.4.1), the server MUST fail
+          Any <a>LDP-RS</a> MUST support PATCH ([[!LDP]] 
+          <a href="https://www.w3.org/TR/ldp/#ldpr-HTTP_PATCH">4.2.7</a> MAY becomes MUST). 
+          [[!sparql11-update]] MUST be an accepted content-type for PATCH. Other content-types (e.g. [[ldpatch]])
+          MAY be available. If an otherwise valid HTTP PATCH request is received that attempts to add statements to a
+          resource that a server disallows (not ignores per [[!LDP]] 
+          <a href="https://www.w3.org/TR/ldp/#ldpr-put-replaceall">4.2.4.1</a>), the server MUST fail
           the request by responding with a 4xx range status code (e.g. 409 Conflict). The server MUST
           provide a corresponding response body containing information about which statements could
-          not be persisted. ([[!LDP]] 4.2.4.4 SHOULD becomes MUST). In that response the restrictions
-          causing such a request to fail MUST be described in a resource indicated by a
-          <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code> response header per [[!LDP]] 4.2.1.6.
+          not be persisted. ([[!LDP]] <a href="https://www.w3.org/TR/ldp/#ldprs-put-failed">4.2.4.4</a> SHOULD becomes 
+          MUST). In that response the restrictions causing such a request to fail MUST be described in a resource 
+          indicated by a <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code> response header per 
+          [[!LDP]] <a href='https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs'>4.2.1.6</a>.
           A successful PATCH request MUST respond with a 2xx status code; the specific code in the 2xx
           range MAY vary according to the response body or request state.
         </p>
@@ -165,19 +233,22 @@
       <section id="httpPOST">
         <h2>HTTP POST</h2>
         <p>
-          Any LDPC MUST support POST ([[!LDP]] 4.2.3 / 5.2.3). The default interaction model that
+          Any <a>LDPC</a> MUST support POST ([[!LDP]] <a href="https://www.w3.org/TR/ldp/#ldpr-HTTP_POST">4.2.3</a> / 
+          <a href="https://www.w3.org/TR/ldp/#ldpc-HTTP_POST">5.2.3</a>). The default interaction model that
           will be assigned when there is no explicit Link header in the request MUST be recorded
           in the constraints document referenced in the <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code>
-          header ([[!LDP]] 4.2.1.6 clarification). Any LDPC MUST support creation of LDP-NRs on POST
-          (LDP 5.2.3.3 MAY becomes MUST). On creation of an LDP-NR an implementation MUST create an
-          associated LDP-RS describing that LDP-NR ([[!LDP]] 5.2.3.12 MAY becomes MUST).
+          header ([[!LDP]] <a href='https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs'>4.2.1.6</a> clarification). 
+          Any <a>LDPC</a> MUST support creation of <a>LDP-NR</a>s on POST ([[!LDP]] 
+          <a href="https://www.w3.org/TR/ldp/#h-ldpc-post-createbins">5.2.3.3</a> MAY becomes MUST). On creation of an 
+          <a>LDP-NR</a> an implementation MUST create an associated <a>LDP-RS</a> describing that <a>LDP-NR</a> 
+          ([[!LDP]] <a href="https://www.w3.org/TR/ldp/#h-ldpc-post-createbinlinkmetahdr">5.2.3.12</a> MAY becomes MUST).
         </p>
         <section id="httpPOSTLDPNR">
           <h2>LDP-NRs</h2>
           <p>
-            A HTTP POST request that would create a LDP-NR and includes a <code>Digest</code> header
+            A HTTP POST request that would create a <a>LDP-NR</a> and includes a <code>Digest</code> header
             (as described in [[!RFC3230]]) for which the instance-digest in that header does not
-            match that of the new LDP-NR MUST be rejected with a 409 Conflict response.
+            match that of the new <a>LDP-NR</a> MUST be rejected with a 409 Conflict response.
           </p>
           <p>
             A HTTP POST request that includes an unsupported <code>Digest</code> type (as described
@@ -185,7 +256,7 @@
           </p>
           <p>
             Implementations SHOULD support <code>Content-Type: message/external-body</code> extensions for
-            request bodies for HTTP <code>POST</code> that would create LDP-NRs. This content-type requires
+            request bodies for HTTP <code>POST</code> that would create <a>LDP-NR</a>s. This content-type requires
             a complete <code>Content-Type</code> header that includes the location of the external body, e.g
             <code>Content-Type: message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</code>,
             as defined in [[!RFC2017]].
@@ -205,9 +276,9 @@
           interaction model assigned to the new type by [[!LDP]].
         </p>
         <section id="httpPUTLDPNR">
-          <h2>LDP-NRs</h2>
+          <h2><a>LDP-NR</a>s</h2>
           <p>
-            Any LDP-NR MUST support PUT to replace the binary content of that resource.
+            Any <a>LDP-NR</a> MUST support PUT to replace the binary content of that resource.
           </p>
           <p>
             A HTTP PUT request that includes a <code>Digest</code> header (as described
@@ -220,7 +291,7 @@
           </p>
           <p>
             Implementations MUST support <code>Content-Type: message/external-body</code> extensions
-            for request bodies for HTTP <code>PUT</code> to LDP-NRs. This content-type requires a
+            for request bodies for HTTP <code>PUT</code> to <a>LDP-NR</a>s. This content-type requires a
             complete <code>Content-Type</code> header that includes the location of the external body, e.g
             <code>Content-Type: message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</code>,
             as defined in [[!RFC2017]].
@@ -230,26 +301,28 @@
         <section id="httpPUTLDPRS">
           <h2>LDP-RSs</h2>
           <p>
-            Any LDP-RS MUST support PUT to update statements that are not server-managed triples
-            (as defined in [[!LDP]] 2). [[!LDP]] 4.2.4.1 and 4.2.4.3 remain in effect. If an otherwise
-            valid HTTP PUT request is received that attempts to add statements to a resource that a
-            server disallows (not ignores per [[!LDP]] 4.2.4.1), the server MUST fail the request by
-            responding with a 4xx range status code (e.g. 409 Conflict). The server MUST provide a
-            corresponding response body containing information about which statements could not be
-            persisted. ([[!LDP]] 4.2.4.4 SHOULD becomes MUST). In that response the restrictions
-            causing such a request to fail MUST be described in a resource indicated by a
-            <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code> response header per [[!LDP]] 4.2.1.6.
+            Any <a>LDP-RS</a> MUST support PUT to update statements that are not server-managed triples
+            (as defined in [[!LDP]] 2). [[!LDP]] <a href="https://www.w3.org/TR/ldp/#ldpr-put-replaceall">4.2.4.1</a> 
+            and <a href="https://www.w3.org/TR/ldp/#ldprs-put-servermanagedprops">4.2.4.3</a> remain in effect. If an 
+            otherwise valid HTTP PUT request is received that attempts to add statements to a resource that a
+            server disallows (not ignores per [[!LDP]] <a href="https://www.w3.org/TR/ldp/#ldpr-put-replaceall">4.2.4.1</a>), 
+            the server MUST fail the request by responding with a 4xx range status code (e.g. 409 Conflict). The server 
+            MUST provide a corresponding response body containing information about which statements could not be
+            persisted. ([[!LDP]] <a href="https://www.w3.org/TR/ldp/#ldprs-put-failed">4.2.4.4</a> SHOULD becomes MUST). 
+            In that response the restrictions causing such a request to fail MUST be described in a resource indicated 
+            by a <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code> response header per [[!LDP]] 
+            <a href='https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs'>4.2.1.6</a>.
           </p>
         </section>
 
         <section id="httpPUTcreate">
           <h2>Creating resources with HTTP PUT</h2>
           <p>
-            An implementation MUST accept HTTP PUT to create resources.([[!LDP]] 4.2.4.6 MAY becomes
-            MUST). The default interaction model that will be assigned when there is no explicit
-            <code>Link: rel="type"</code> header in the request MUST be recorded in the constraints
-            document referenced in the <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code>
-            header ([[!LDP]] 4.2.1.6 clarification).
+            An implementation MUST accept HTTP PUT to create resources.([[!LDP]] 
+            <a href="https://www.w3.org/TR/ldp/#ldpr-put-create">4.2.4.6</a> MAY becomes MUST). The default interaction model that will
+            be assigned when there is no explicit <code>Link: rel="type"</code> header in the request MUST be recorded 
+            in the constraints document referenced in the <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code>
+            header ([[!LDP]] <a href='https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs'>4.2.1.6</a> clarification).
           </p>
         </section>
       </section>
@@ -257,8 +330,8 @@
       <section id="httpGET">
         <h2>HTTP GET</h2>
         <p>
-          When the request is to the LDP-RS created to describe a LDP-NR, the response MUST include
-          a <code>Link: rel="describes"</code> header referencing the LDP-NR in question, as defined
+          When the request is to the <a>LDP-RS</a> created to describe a <a>LDP-NR</a>, the response MUST include
+          a <code>Link: rel="describes"</code> header referencing the <a>LDP-NR</a> in question, as defined
           in [[!RFC6892]].
         </p>
         <section id="additionalPreferValues">
@@ -266,7 +339,7 @@
           <p>
               In addition to the requirements of [[!LDP]], an implementation MAY support either or
               both of the following additional values for the <code>Prefer</code> header when making
-              <code>GET</code> requests on LDPC resources:
+              <code>GET</code> requests on <a>LDPC</a> resources:
           </p>
           <ul>
             <li>
@@ -276,30 +349,30 @@
             </li>
             <li>
               <code>http://fedora.info/definitions/repository#PreferInboundReferences</code>:
-              Requires a server to include triples from any LDP-RS housed in that server that
+              Requires a server to include triples from any <a>LDP-RS</a> housed in that server that
               feature the requested resource as RDF-object.
             </li>
           </ul>
         </section>
         <section id="httpGETLDPNR">
-          <h2>LDP-NRs</h2>
+          <h2><a>LDP-NR</a>s</h2>
           <p>
-            GET requests to any LDP-NR MUST correctly respond to the <code>Want-Digest</code> header
-            defined in [[!RFC3230]] unless the <code>Content-Type</code> of the LDP-NR is a
+            GET requests to any <a>LDP-NR</a> MUST correctly respond to the <code>Want-Digest</code> header
+            defined in [[!RFC3230]] unless the <code>Content-Type</code> of the <a>LDP-NR</a> is a
             <code>message/external-body</code> extension.
           </p>
           <p>
-            GET requests to a LDP-NR with <code>Content-Type: message/external-body</code>, MUST result
+            GET requests to a <a>LDP-NR</a> with <code>Content-Type: message/external-body</code>, MUST result
             in an HTTP 3xx redirect message redirecting to the external URL.
           </p>
           <section id="httpGETLDPNR-fixity-expectation">
             <h3><code>Expect: 202-digest</code></h3>
             <p>
-              GET requests to a LDP-NR SHOULD respond to <code>Expect</code> request headers with a
+              GET requests to a <a>LDP-NR</a> SHOULD respond to <code>Expect</code> request headers with a
               parameterized <a href="#202-digest"><code>202-digest</code></a> expectation. Implementations
               MAY support unparameterized <code>202-digest</code> expectations. Implementations that do not
               support one of these expectations MUST reject <a href="#202-digest">202-digest</a> requests
-              for the expectation with a 417 Expectation Failed. If the LDP-NR is of
+              for the expectation with a 417 Expectation Failed. If the <a>LDP-NR</a> is of
               <code>Content-Type: message/external-body</code>, the server MUST respond with a 3xx. If the
               digest parameter does not match the current instance digest of the resource, the request MUST
               be rejected with a 412 Precondition Failed. If the digest matches, the request MUST be
@@ -320,21 +393,6 @@
 
     <section id="resource-versioning">
       <h2>Resource Versioning</h2>
-        <section id="terminology">
-          <h2>Terminology</h2>
-            <dl>
-              <dt><dfn>LDPR</dfn>:</dt> <dd>An [[!LDP]] Resource. This may be an [[!LDP]] RDF Source or an [[!LDP]] Non-RDF Source.</dd>
-              <dt><dfn>LDPRv</dfn>:</dt> <dd>A <a>LDPR</a> that is simultaneously a Memento <a>URI-R</a>.</dd>
-              <dt><dfn>LDPRm</dfn>:</dt> <dd>A <a>LDPR</a> that is simultaneously a Memento <a>URI-M</a>.</dd>
-              <dt><dfn>LDPC</dfn>:</dt> <dd>An [[!LDP]] Container.</dd>
-              <dt><dfn>LDPCv</dfn>:</dt> <dd>A version container: an <a>LDPC</a> that is simultaneously a Memento <a>TimeMap</a>.</dd>
-              <dt><dfn>URI-R</dfn>:</dt> <dd>A type of versioned resource defined in the Memento framework.</dd>
-              <dt><dfn>URI-M</dfn>:</dt> <dd>A type of resource that is defined in the Memento framework as representing a version of a given <a>URI-R</a>.</dd>
-              <dt><dfn>TimeGate</dfn>:</dt> <dd>A type of resource defined in the Memento framework providing <code>Accept-Datetime</code>-varied negotiation of versions of an <a>URI-R</a>.</dd>
-              <dt><dfn>TimeMap</dfn>:</dt> <dd>A type of resource defined in the Memento framework that contains a machine-readable listing of <a>URI-M</a>s associated to a given <a>URI-R</a>.</dd>
-            </dl>
-        </section>
-
       <section>
         <h2>Versioned Resources (<a>LDPRv</a>)</h2>
         <section>
@@ -494,7 +552,7 @@
             [[!RFC6690]] <a href='https://tools.ietf.org/html/rfc6690#section-7.3'>section 7.3</a>.
           </p>
           <p>
-            An implementation MUST NOT allow the creation of an <a>LDPCv</a> that is LDP-contained
+            An implementation MUST NOT allow the creation of an <a>LDPCv</a> that is <a>LDP-contained</a>
             by its associated <a>LDPRv</a>.
           </p>
           <p>
@@ -550,7 +608,7 @@
             that no request body is accepted via the form <code>Accept-Post: */*; p=0.0</code>, and
             that implementation SHOULD respond to any body-containing <code>POST</code> to that
             <a>LDPCv</a> with a 415 response and a link to an appropriate constraints document
-            (see <a href='https://www.w3.org/TR/ldp/#h-ldpr-gen-pubclireqs'>LDP 4.2.1.6</a>). As per
+            (see <a href='https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs'>LDP 4.2.1.6</a>). As per
             [[!LDP]], any resource created via <code>POST</code>, in this case a <a>LDPRm</a>)
             SHOULD be advertised in the response's <code>Location</code> header.
           </p>
@@ -631,7 +689,7 @@
         <h2>What is fixity?</h2>
         <p>
           For the purposes of the following specification, a fixity result is an extract or summary
-          of some LDPNR made according to some explicit procedure. Fixity results are taken for the
+          of some <a>LDP-NR</a> made according to some explicit procedure. Fixity results are taken for the
           purpose of comparing different fixity results for the same resource over time, to ensure
           a continuity of that resource's identity according to the particular procedure used.
           Examples might include:
@@ -651,7 +709,7 @@
         <h2>Transmission Fixity</h2>
         <p>
           Transmission fixity is verified by application of the <code>Digest</code> header
-          defined in [[RFC3230]] to POST and PUT requests for LDP-NR.
+          defined in [[RFC3230]] to POST and PUT requests for <a>LDP-NR</a>.
         </p>
       </section>
 
@@ -661,7 +719,7 @@
           <h2>Extension of <code>Expect</code> header</h2>
           <p>
             In the minimal case, a client that has an original digest value can verify persistence
-            fixity by downloading the LDP-NR and calculating the checksum. To avoid the necessity
+            fixity by downloading the <a>LDP-NR</a> and calculating the checksum. To avoid the necessity
             of transferring a potentially large binary, this specification describes a new expectation
             token for the <code>Expect</code> header described in [[RFC7231]]: <code>202-digest</code>,
             and a <code>digest-link</code> parameter.
@@ -731,7 +789,7 @@
       </p>
       <p>
         Implementations supporting access control MUST use the [[!WEBAC]] model to
-        configure that functionality. Any access control resource in use MUST be a LDP-RS,
+        configure that functionality. Any access control resource in use MUST be a <a>LDP-RS</a>,
         which SHOULD be located in the same server as the controlled resource. Implementations
         MUST support extended control relationships in which the access control resource for some
         resource has its own access control resource and so on. Implementations MUST make access
