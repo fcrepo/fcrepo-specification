@@ -555,7 +555,7 @@
             An implementation MUST NOT allow the creation of an <a>LDPCv</a> that is <a>LDP-contained</a>
             by its associated <a>LDPRv</a>.
           </p>
-          <p>
+          <p class="informative">
             Non-normative: The <code>application/link-format</code> representation of a <a>LDPCv</a>
             is not required to include all statements in the <a>LDPCv</a> graph, only those required
             by <a>TimeMap</a> behaviors.
@@ -617,7 +617,7 @@
             a <code>Memento-Datetime</code> request header for the created <a>LDPRm</a>.
             Absent this header, it MUST use the current time.
           </p>
-          <p>
+          <p class="informative">
             Non-normative note: If an <a>LDPCv</a> does not <code>Allow: POST</code>, the constraints
             document indicated in <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code> for
             that <a>LDPCv</a> should describe the versioning mechanism (e.g. by <code>PUT</code> or
@@ -640,8 +640,8 @@
         </p>
       </section>
 
-      <section>
-        <h2 class='informative'>Implementation Patterns</h2>
+      <section class="informative">
+        <h2>Implementation Patterns</h2>
 
         <section>
           <h2>Introduction</h2>
@@ -935,7 +935,7 @@
           changing the state of its child resources MUST result in corresponding events for
           each of the contained child resources.
         </p>
-        <p>
+        <p class="informative">
           Non-normative: consumers of these messages should not expect a strict ordering of
           the events reported therein: the fact that a message for Event A is received before
           a message for Event B should not imply that Event A occurred before Event B.
@@ -985,11 +985,8 @@
         </p>
       </section>
 
-      <section id="message-examples">
+      <section id="message-examples" class="informative">
         <h3>Examples</h3>
-        <p>
-          <em>This section is non-normative.</em>
-        </p>
         <section id="minimal-message-example">
           <h4>A minimal message</h4>
           <div class="example">
