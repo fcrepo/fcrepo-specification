@@ -1060,7 +1060,7 @@
     <section id="privacy">
       <h2>Privacy Considerations</h2>
       <p>
-        Fedora resources may contain personally identifiable information such as the identify of
+        Fedora resources may contain personally identifiable information such as the identity of
         the agents who create and modify resources. As such, this information could be analyzed
         to generate profiles of the behavior of individuals or groups.
       </p>
@@ -1085,9 +1085,25 @@
         chapter of the HTTP/1.1 specification [[!RFC7235]].
       </p>
       <p>
-        Fedora implementations are subject to the same security considerations as HTTP/1.1
-        ([[!RFC7230]] and [[!RFC7231]]), [[!LDP]], Memento ([[!RFC7089]]) and [[!activitystreams-core]].
+        Fedora implementations are subject to the same security considerations that are found
+        in the following specifications:
       </p>
+      <ul>
+        <li>
+          HTTP/1.1: [[!RFC7230]] <a href="https://tools.ietf.org/html/rfc7230#section-9">9. Security
+          Considerations</a> and [[!RFC7231]] <a href="https://tools.ietf.org/html/rfc7231#section-9">9.
+          Security Considerations</a>
+        </li>
+        <li>[[!LDP]] <a href="https://www.w3.org/TR/ldp/#security">9. Security Considerations</a></li>
+        <li>
+          Memento [[!RFC7089]] <a href="https://tools.ietf.org/html/rfc7089#section-7">7. Security
+          Considerations</a>
+        </li>
+        <li>
+          [[!activitystreams-core]] <a href="https://www.w3.org/TR/activitystreams-core/#security-considerations">7.
+          Security Considerations</a>
+        </li>
+      </ul>
     </section>
 
     <section class='appendix'>
