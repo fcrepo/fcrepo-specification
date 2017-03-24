@@ -96,10 +96,6 @@
           interaction patterns for use with binary fixity information,
         </li>
         <li>
-          a scheme for assembling multiple operations against an [[LDP]] server into
-          one atomic operation,
-        </li>
-        <li>
           integration with the <a href="https://www.w3.org/wiki/WebAccessControl">Web Access Control proposal,</a>
         </li>
         <li>
@@ -112,8 +108,7 @@
       <p>
         A conforming <b>Fedora server</b> is a conforming [[!LDP]] 1.0 server except where described in this document
         that also follows the rules defined by Fedora in <a href="#resource-management"></a>,
-        <a href="#resource-versioning"></a>, <a href="#binary-fixity"></a>, <a href="#resource-authorization"></a>,
-        <a href="#atomic-operations"></a>, and <a href="#messaging"></a>.
+        <a href="#resource-versioning"></a>, <a href="#binary-fixity"></a>, <a href="#resource-authorization"></a>, and <a href="#messaging"></a>.
       </p>
     </section>
     <section id="terminology">
@@ -806,90 +801,6 @@
       </section>
     </section>
 
-    <section id ="atomic-operations">
-      <h2>Atomic Operations</h2>
-
-      <section id="atomic-operations-introduction" class="informative">
-        <h2>Introduction</h2>
-        <p>
-          Fedora provides factilities by which to conduct multiple operations against a repository
-          in an atomic fashion. This is accomplished by the use of headers on requests. An atomic
-          series of operations should not require any more requests than the same series of
-          operations performed non-atomically.
-        </p>
-      </section>
-
-      <section id="begin">
-        <h2>Beginning an atomic series of operations</h2>
-        <p>
-          A client begins an atomic series of requests by sending any request to any resource with
-          the header <code>Atomic-Start</code>. The server MUST respond by including a header
-          <code>Atomic-ID</code> with a unique identifier for the series. The effect of the
-          request, if it has one, and if the request is successful, MUST be visible to clients
-          using that identifier to add to this series of requests, as described
-          <a href="#adding">below</a>, until the series expires or is finished. The effect of the
-          request, if it has one, and if the request is successful, SHOULD NOT be visible to
-          clients not using that identifier to add to this series of requests. The effect of the
-          request MUST NOT be durable unless and until the series is successfully
-          <a href="#commit">finished</a>.
-        </p>
-      </section>
-
-      <section id="adding">
-        <h2>Adding to an atomic series of operations</h2>
-        <p>
-          A client adds to an atomic series of requests by sending any request to any resource with
-          the header <code>Atomic-ID</code> and the identifier for that series. The effect of the
-          request, if it has one, and if the request is successful, MUST be visible to clients
-          using that identifier to add to this series of requests, until the series expires or is
-          finished. The effect of the request, if it has one, and if the request is successful,
-          SHOULD NOT be visible to clients not using that identifier to add to this series of
-          requests. The effect of the request MUST NOT be durable unless and until the series is
-          successfully <a href="#commit">finished</a>. An implementation MUST respond
-          to any request with multiple <code>Atomic-ID</code> headers with different values or
-          with an <code>Atomic-ID</code> header with a value that has not been assigned to a
-          series or that has expired (see <a href="#expiration">below</a>) with a 409 response.
-          That response MUST include an <code>Atomic-Invalid</code> header or headers with the
-          invalid identifier or identifiers.
-        </p>
-      </section>
-
-      <section id="expiration">
-        <h2>Expiration</h2>
-        <p>
-          An implementation MAY enforce automatic expiration for an atomic series of requests.
-          If so, the response to any request made as part of the series MUST have a
-          <code>Atomic-Expires</code> header with the HTTP datetime at which the series will
-          expire. An implementation MAY extend the lifetime of a series upon the receipt of any
-          request specifying the unique identifier of that series in the <code>Atomic-ID</code>
-          header.
-        </p>
-      </section>
-
-      <section id="commit">
-        <h2>Committing a series</h2>
-        <p>
-          A client can finish an atomic series of requests by sending any
-          <code>PUT</code>/<code>POST</code>/<code>PATCH</code>/<code>DELETE</code> request
-          including both a <code>Atomic-Commit</code> header and a <code>Atomic-ID</code>
-          header with the unique identifier of an existing series. The effects of all requests
-          in the series MUST become durable and MUST become visible to all clients. The unique
-          identifier of the series MUST be expired and MUST NOT be reused.
-        </p>
-      </section>
-
-      <section id="abort">
-        <h2>Aborting a series</h2>
-        <p>
-          A client can finish an atomic series of requests by sending any request including
-          both a <code>Atomic-Abort</code> header and a <code>Atomic-ID</code> header with
-          the unique identifier of an existing series. The effects of all requests in the
-          series MUST disappear to all clients, and MUST be durably gone. The unique identifier
-          of the series MUST be expired and MUST NOT be reused.
-        </p>
-      </section>
-    </section>
-
     <section id="messaging">
       <h2>Messaging</h2>
       <section class="informative">
@@ -911,10 +822,6 @@
         <p>
           Any operation that causes the state of a resource to durably change MUST cause a
           message to be emitted with a corresponding resource identifier.
-        </p>
-        <p>
-          In the context of a batch operation, messages MUST NOT be emitted until after all
-          operations have been successfully committed.
         </p>
         <p>
           A failed operation (HTTP 4xx or 5xx) MUST NOT emit any messages.
