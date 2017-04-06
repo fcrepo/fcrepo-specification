@@ -704,7 +704,7 @@
         <h2>Transmission Fixity</h2>
         <p>
           Transmission fixity is verified by application of the <code>Digest</code> header
-          defined in [[RFC3230]] to <code>POST</code> and <code>PUT</code> requests for <a>LDP-NR</a>.
+          defined in [[RFC3230]] to <code>POST</code> and <code>PUT</code> requests for <a>LDP-NR</a>s.
         </p>
       </section>
 
@@ -713,6 +713,8 @@
         <section id="persistence-fixity-preamble" class="informative">
           <h2>Extension of <code>Expect</code> header</h2>
           <p>
+            Persistence fixity is verified by comparison of stored fixity results with newly
+            computed fixity results using <code>HEAD</code> or <code>GET</code> requests to <a>LDP-NR</a>s.
             In the minimal case, a client that has an original digest value can verify persistence
             fixity by downloading the <a>LDP-NR</a> and calculating the checksum. To avoid the necessity
             of transferring a potentially large binary, this specification describes a new expectation
