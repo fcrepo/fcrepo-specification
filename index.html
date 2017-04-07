@@ -360,27 +360,6 @@
             <code>GET</code> requests to a <a>LDP-NR</a> with <code>Content-Type: message/external-body</code>, MUST result
             in an HTTP 3xx redirect message redirecting to the external URL.
           </p>
-          <section id="httpGETLDPNR-fixity-expectation">
-            <h3><code>Expect: 202-digest</code></h3>
-            <p>
-              <code>GET</code> requests to a <a>LDP-NR</a> SHOULD respond to <code>Expect</code> request headers with a
-              parameterized <a href="#202-digest"><code>202-digest</code></a> expectation. Implementations
-              MAY support unparameterized <code>202-digest</code> expectations. Implementations that do not
-              support one of these expectations MUST reject <a href="#202-digest">202-digest</a> requests
-              for the expectation with a 417 Expectation Failed. If the <a>LDP-NR</a> is of
-              <code>Content-Type: message/external-body</code>, the server MUST respond with a 3xx. If the
-              digest parameter does not match the current instance digest of the resource, the request MUST
-              be rejected with a 412 Precondition Failed. If the digest matches, the request MUST be
-              completed with a 202 Accepted.
-            </p>
-            <section id="httpGETLDPNR-fixity-expectation-conneg" class="informative">
-              <h4><code>Expect: 202-digest</code> and <code>Accept:</code></h4>
-              <p>
-                This specification takes no position on the interaction of <code>Expect: 202-digest</code>
-                and <code>Accept:</code> headers on the same request, or on the meaning of the 406 Unacceptable
-                status in that context. Implementations are not required to support combinations of these headers.
-              </p>
-            </section>
           </section>
         </section>
       </section>
@@ -707,76 +686,6 @@
           defined in [[RFC3230]] to <code>POST</code> and <code>PUT</code> requests for <a>LDP-NR</a>s.
         </p>
       </section>
-
-      <section id="persistence-fixity">
-        <h2>Persistence Fixity</h2>
-        <section id="persistence-fixity-preamble" class="informative">
-          <h2>Extension of <code>Expect</code> header</h2>
-          <p>
-            Persistence fixity is verified by comparison of previous fixity results with newly
-            computed fixity results using <code>HEAD</code> or <code>GET</code> requests to <a>LDP-NR</a>s.
-            In the minimal case, a client that has an original digest value can verify persistence
-            fixity by downloading the <a>LDP-NR</a> and calculating the checksum. To avoid the necessity
-            of transferring a potentially large binary, this specification describes a new expectation
-            token for the <code>Expect</code> header described in [[RFC7231]]: <code>202-digest</code>,
-            and a <code>digest-link</code> parameter.
-          </p>
-        </section>
-        <section id="202-digest">
-          <h3>Expect: 202-digest</h3>
-          <p>
-            The <code>202-digest</code> expectation indicates that the client is requesting that
-            the server verify an instance digest for the resource at the request IRI.
-          </p>
-          <pre><code>
-            Expect                  =  "Expect" ":" 1#digest-expectation
-            digest-expectation      = "202-digest" [(digest-param|digest-link-param)]
-            digest-param            = ";" #(instance-digest)
-            digest-link-param       = ";" "digest-link" "=" IRI-reference
-          </code></pre>
-          <p>
-            <code>instance-digest</code> values are of the syntax described in [[!RFC3230]] for the
-            <code>Digest</code> header. <code>IRI-reference</code> values for the
-            <code>digest-link-param</code> are described in [[!RFC3987]].
-
-          </p>
-          <p>
-            HTTP/1.1 servers that do not support the <code>202-digest</code> expectation MUST reject
-            requests with 417 Expectation Failed.
-          </p>
-          <p>
-            An implementing server MAY allow <code>202-digest</code> without a <code>digest-param</code>,
-            indicating that the compared and calculated digests are selected by the server. Such servers
-            MUST compare the calculated instance digest to a stored original digest. Servers that require
-            a client-proffered <code>digest-param</code> MUST reject requests without a digest with
-            417 Expectation Failed.
-          </p>
-          <p>
-            If the compared digests do not match, an implementing server MUST reject the request with
-            412 Precondition Failed. If the compared digests match, an implementing server MUST complete
-            the request with 202 Accepted. A client that receives a non-202 response to a
-            <code>202-digest</code> expectation SHOULD assume it is responsible for verifying fixity by
-            downloading the resource.
-          </p>
-          <p>
-            An implementing server SHOULD accompany HTTP status 417 and 412 responses with an
-            explanatory entity.
-          </p>
-        </section>
-        <section id="202-digest-link" class="informative">
-          <h3>Complex Fixity and the digest-link parameter</h3>
-          <p>
-            Digital preservationists acknowledge the
-            <a href="http://dericed.com/papers/reconsidering-the-checksum-for-audiovisual-preservation/">limits of simple bit fixity verification</a>
-            to describe the state of some types of resources, eg large media files. Servers that can
-            support more sophisticated assessments of content difference may use the
-            <a href="#202-digest">202-digest expectation</a> with a <code>digest-link</code> parameter
-            identifying a more appropriate verification of such resources, with 412 responses
-            accompanied by appropriate explanatory entities.
-          </p>
-        </section>
-      </section>
-    </section>
 
     <section id="resource-authorization">
       <h2>Resource Authorization</h2>
