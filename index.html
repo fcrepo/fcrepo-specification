@@ -747,7 +747,7 @@
           <p>
             An implementing server MAY allow <code>202-digest</code> without a <code>digest-param</code>,
             indicating that the compared and calculated digests are selected by the server. Such servers
-            SHOULD compare the calculated instance digest to a stored original digest. Servers that require
+            MUST compare the calculated instance digest to a stored original digest. Servers that require
             a client-proffered <code>digest-param</code> MUST reject requests without a digest with
             417 Expectation Failed.
           </p>
