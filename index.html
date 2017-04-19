@@ -362,6 +362,27 @@
           </p>
         </section>
       </section>
+
+      <section id="httpHEAD">
+        <h2>HTTP HEAD</h2>
+        <p>
+          When the request is to the <a>LDP-RS</a> created to describe a <a>LDP-NR</a>, the response MUST include
+          a <code>Link: rel="describes"</code> header referencing the <a>LDP-NR</a> in question, as defined
+          in [[!RFC6892]].
+        </p>
+        <section id="httpHEADLDPNR">
+          <h2><a>LDP-NR</a>s</h2>
+          <p>
+            <code>HEAD</code> requests to any <a>LDP-NR</a> MUST correctly respond to the <code>Want-Digest</code> header
+            defined in [[!RFC3230]] unless the <code>Content-Type</code> of the <a>LDP-NR</a> is a
+            <code>message/external-body</code> extension.
+          </p>
+          <p>
+            <code>HEAD</code> requests to a <a>LDP-NR</a> with <code>Content-Type: message/external-body</code>, MUST result
+            in an HTTP 3xx redirect message redirecting to the external URL.
+          </p>
+        </section>
+      </section>
     </section>
 
     <section id="resource-versioning">
