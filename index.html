@@ -108,7 +108,7 @@
       <p>
         A conforming <b>Fedora server</b> is a conforming [[!LDP]] 1.0 server except where described in this document
         that also follows the rules defined by Fedora in <a href="#resource-management"></a>,
-        <a href="#resource-versioning"></a>, <a href="#binary-fixity"></a>, <a href="#resource-authorization"></a>, and <a href="#messaging"></a>.
+        <a href="#resource-versioning"></a>, <a href="#binary-fixity"></a>, <a href="#resource-authorization"></a>, and <a href="#notifications"></a>.
       </p>
     </section>
     <section id="terminology">
@@ -712,101 +712,79 @@
       </section>
     </section>
 
-    <section id="messaging">
-      <h2>Messaging</h2>
+    <section id="notifications">
+      <h2>Notifications</h2>
       <section class="informative">
         <h3>Introduction</h3>
         <p>
-          This section defines when messages are emitted by a Fedora
-          implementation, the minimal set of data contained in those messages and how
-          those data are serialized. These messages may occur synchronously or asynchronously
-          with the API operations that cause them to be emitted. They are typically used to
-          support external integrations. The structure of these messages draws upon the
+          This section defines when notifications are made available by a Fedora
+          implementation, the minimal set of data contained in these notifications and how
+          the data are serialized. Notifications may be emitted synchronously or asynchronously
+          with the API operations that cause them to be emitted. These notifications are typically
+          used to support external integrations. The structure of these notifications draws upon the
           existing [[activitystreams-core]] and [[ldn]] specifications.
-          An implementation is free to choose from any messaging technology so long as
-          the messages conform to what is described in the following sections.
-        </p>
-      </section>
-
-      <section id="emitting-messages">
-        <h3>Emitting Messages</h3>
-        <p>
-          Any operation that causes the state of a resource to durably change MUST cause a
-          message to be emitted with a corresponding resource identifier.
+          An implementation is free to choose from any transport technology so long as
+          the notifications conform to what is described in the following sections.
         </p>
         <p>
-          A failed operation (HTTP 4xx or 5xx) MUST NOT emit any messages.
+          Implementers should be aware that some operations cause multiple resources to change.
+          In these cases, there will be a corresponding notification describing each of the changes.
+          This is especially true for changes to containment or membership triples. This is also true
+          if a <code>DELETE</code> operation triggers changes in any contained resources.
         </p>
         <p>
-          Messages MUST NOT be emitted until after any changes have been persisted to durable storage.
-        </p>
-        <p>
-          Repository start, stop and configuration change operations MAY cause a message to be emitted.
-        </p>
-        <p>
-          Any operation on an <a>LDPR</a> that results in a change to the containment or membership
-          triples of a distinct other <a>LDPR</a> MUST also trigger an event for that other <a>LDPR</a>.
-        </p>
-        <p>
-          Any operation that causes contained resources to change MUST trigger corresponding
-          events for those resources. For example, deleting a parent resource and thereby
-          changing the state of its child resources MUST result in corresponding events for
-          each of the contained child resources.
-        </p>
-        <p class="informative">
-          Non-normative: consumers of these messages should not expect a strict ordering of
-          the events reported therein: the fact that a message for Event A is received before
-          a message for Event B should not imply that Event A occurred before Event B.
+          Consumers of these notifications should not expect a strict ordering of
+          the events reported therein: the fact that a notification for Event A is received before
+          a notification for Event B should not imply that Event A occurred before Event B.
           Implementations may choose to make further guarantees about ordering.
         </p>
-      </section>
-
-      <section id="message-data">
-        <h3>Message Data</h3>
         <p>
-          Emitted events MUST contain exactly one value for each of the following elements:
-        </p>
-        <ul>
-          <li>Resource Identifier: the IRI of the <a>LDPR</a> that was added, changed or removed.</li>
-          <li>Event identifier: a unique identifier for this event.</li>
-        </ul>
-        <p>
-          A message MUST contain at least one value for the event type. Event types SHOULD be drawn
-          from the [[!activitystreams-vocabulary]].
-        </p>
-        <p>
-          A message SHOULD contain at least one value for the agent operating on the resource.
-        </p>
-        <p>
-          A message SHOULD contain a collection of RDF types corresponding to the resource that
-          was changed.
-        </p>
-        <p>
-          If the corresponding <a>LDPR</a> includes an <code>ldp:inbox</code>, the location of
-          that inbox SHOULD be included in the message.
-        </p>
-        <p>
-          Messages MAY contain a timestamp marking the time the resource was added/modified/deleted.
-        </p>
-        <p>
-          Messages SHOULD NOT contain the entire content of repository resources.
+          According to the [[activitystreams-core]] specification, it is possible to collect multiple
+          events into a single notification. This specification makes no restriction on the use of
+          activity stream collections.
         </p>
       </section>
 
-      <section id="message-serialization">
-        <h3>Message Serialization</h3>
+      <section id="notification-events">
+        <h3>Notification Events</h3>
         <p>
-          The message body serialization MUST conform to the [[!activitystreams-core]] specification.
+          For every resource whose state is changed as a result of an HTTP operation,
+          there MUST be a corresponding notification made available describing that change.
+        </p>
+      </section>
+
+      <section id="notification-serialization">
+        <h3>Notification Serialization</h3>
+        <p>
+          The notification serialization MUST conform to the [[!activitystreams-core]] specification.
         </p>
         <p>
           Wherever possible, data SHOULD be expressed using the [[!activitystreams-vocabulary]].
         </p>
+        <p>
+          Each event described by a notification MUST contain:
+        </p>
+        <ul>
+          <li>The IRI of the resource that was created, modified or deleted</li>
+          <li>The event type(s), corresponding to the HTTP operation</li>
+        </ul>
+        <p>
+          Each event described by a notification SHOULD contain:
+        </p>
+        <ul>
+          <li>The agent(s) that caused the change to occur</li>
+          <li>The RDF type(s) of the resource that was changed</li>
+          <li>The location of the <code>ldp:inbox</code> for the resource that was changed, if such an inbox link exists</li>
+        </ul>
+        <p>
+          Notifications SHOULD NOT contain the entire content of repository resources.
+        </p>
       </section>
 
-      <section id="message-examples" class="informative">
+      <section id="notification-examples" class="informative">
         <h3>Examples</h3>
-        <section id="minimal-message-example">
-          <h4>A minimal message</h4>
+        <section id="minimal-notification-example">
+          <h4>A minimal notification</h4>
           <div class="example">
             <pre class="json">
 {
@@ -827,8 +805,8 @@
           </div>
         </section>
 
-        <section id="basic-message-example">
-          <h4>A basic event with some additional detail</h4>
+        <section id="basic-notification-example">
+          <h4>A basic notification with some additional detail</h4>
           <div class="example">
             <pre class="json">
 {
