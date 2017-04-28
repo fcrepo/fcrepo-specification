@@ -336,9 +336,10 @@
         <section id="additionalPreferValues">
           <h2>Additional values for the <code>Prefer</code> header</h2>
           <p>
-              In addition to the requirements of [[!LDP]], an implementation MAY support either or
-              both of the following additional values for the <code>Prefer</code> header when making
-              <code>GET</code> requests on <a>LDPC</a> resources:
+              In addition to the requirements of [[!LDP]], an implementation MAY support the value
+              <code>http://www.w3.org/ns/oa#PreferContainedDescriptions</code> and SHOULD support the value
+              <code>http://fedora.info/definitions/repository#PreferInboundReferences</code> for the
+              <code>Prefer</code> header when making <code>GET</code> requests on <a>LDPC</a> resources:
           </p>
           <ul>
             <li>
@@ -352,6 +353,14 @@
               feature the requested resource as RDF-object.
             </li>
           </ul>
+        </section>
+        <section id="httpGETLDPRS">
+          <h2><a>LDP-RS</a>s</h2>
+          <p>
+            <code>GET</code> requests that include a <code>Prefer</code> header to any <a>LDP-RS</a> MUST
+            include the <code>Preference-Applied</code> response header defined in [[!RFC7240]]
+            <a href='https://tools.ietf.org/html/rfc7240#section-3'>section 3</a>.
+          </p>
         </section>
         <section id="httpGETLDPNR">
           <h2><a>LDP-NR</a>s</h2>
