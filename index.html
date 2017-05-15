@@ -723,6 +723,15 @@
           resource.
         </p>
       </section>
+      <section id="link-rel-acl">
+        <h2>ACLs are discoverable via Link Headers</h2>
+        <p>
+          A conforming server MUST advertise the linked Access Control
+          List Resource (ACL) for a controlled resource in HTTP responses
+          with a <code>Link: rel="acl"</code> header. This interaction
+          pattern is described in [[!WEBAC]] and [!SOLIDWEBAC]].
+        </p>
+      </section>
       <section id="inheritance">
         <h2>Inheritance</h2>
         <p>
