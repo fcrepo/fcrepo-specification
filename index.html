@@ -718,23 +718,32 @@
       <h2>Resource Authorization</h2>
       <p>
         To configure access control restrictions, implementations MUST follow the recommendations
-        of [[!SOLIDWEBAC]].
+        of [[!SOLIDWEBAC]] with the following additional requirements:
       </p>
-      <p>
-        Implementations supporting access control MUST use the [[!WEBAC]] model to
-        configure that functionality. Any access control resource in use MUST be a <a>LDP-RS</a>,
-        which SHOULD be located in the same server as the controlled resource. Implementations
-        MUST support extended control relationships in which the access control resource for some
-        resource has its own access control resource and so on. Implementations MUST make access
-        control resources discoverable via the <code>Link: rel="acl"</code> HTTP header, as discussed
-        <a href="https://github.com/solid/web-access-control-spec#acl-resource-location-discovery">here</a>.
-      </p>
-
+      <section id="solid-ldp-acls">
+        <h2>ACLs are LDP RDF Sources</h2>
+        <p>
+          The linked Access Control List Resource (ACL) for a controlled
+          resource by a conforming server MUST itself be a LDPRS. This ACL
+          resource SHOULD be located in the same server as the controlled
+          resource.
+        </p>
+      </section>
+      <section id="link-rel-acl">
+        <h2>ACLs are discoverable via Link Headers</h2>
+        <p>
+          A conforming server MUST advertise the linked Access Control
+          List Resource (ACL) for a controlled resource in HTTP responses
+          with a <code>Link: rel="acl"</code> header. This interaction
+          pattern is described in [[!WEBAC]] and [!SOLIDWEBAC]].
+        </p>
+      </section>
       <section id="inheritance">
         <h2>Inheritance</h2>
         <p>
-          An implementation MUST respect [[!LDP]]-containment for access control, as described
-          <a href="https://github.com/solid/web-access-control-spec#acl-inheritance-algorithm">here</a>.
+          Inheritance of ACLs as defined in [[!SOLIDWEBAC]] MUST be
+          reckoned along the <code>ldp:contains</code> axis linking
+          controlled resources.
         </p>
       </section>
     </section>
