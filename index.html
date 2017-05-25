@@ -320,14 +320,13 @@
           </p>
         </section>
 
-        <section id="httpPUTcreate">
+        <section id="httpPUTcreate" class="informative">
           <h2>Creating resources with HTTP PUT</h2>
           <p>
-            An implementation MUST accept HTTP <code>PUT</code> to create resources.([[!LDP]]
-            <a href="https://www.w3.org/TR/ldp/#ldpr-put-create">4.2.4.6</a> MAY becomes MUST). The default interaction model that will
-            be assigned when there is no explicit <code>Link: rel="type"</code> header in the request MUST be recorded
-            in the constraints document referenced in the <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code>
-            header ([[!LDP]] <a href='https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs'>4.2.1.6</a> clarification).
+            An implementation MAY accept HTTP <code>PUT</code> to create resources ([[!LDP]]
+            <a href="https://www.w3.org/TR/ldp/#ldpr-put-create">4.2.4.6</a>). Behavior regarding
+            containment or non-containment of resources created with HTTP <code>PUT</code> is
+            not defined by [[!LDP]] or this specification.
           </p>
         </section>
       </section>
