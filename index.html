@@ -259,12 +259,12 @@
             A HTTP <code>POST</code> request that includes an unsupported <code>Digest</code> type (as described
             in [[!RFC3230]]), SHOULD be rejected with a 400 Bad Request response.
           </p>
-          <p>
-            Implementations SHOULD support <code>Content-Type: message/external-body</code> extensions for
-            request bodies for HTTP <code>POST</code> that would create <a>LDP-NR</a>s. This content-type requires
-            a complete <code>Content-Type</code> header that includes the location of the external body, e.g
-            <code>Content-Type: message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</code>,
-            as defined in [[!RFC2017]].
+          <p class='informative'>
+            Implementations may support <code>Content-Type: message/external-body</code> extensions for
+            request bodies for HTTP <code>POST</code> that would create <a>LDP-NR</a>s.
+            This content-type requires a complete <code>Content-Type</code> header that includes the location
+            of the external body, e.g <code>Content-Type: message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</code>,
+            as defined in [[!RFC2017]]. Requirements for this interaction are detailed in <a href="#external-content">External LDP-NR Content</a>.
           </p>
         </section>
       </section>
@@ -294,12 +294,12 @@
             A HTTP <code>PUT</code> request that includes an unsupported <code>Digest</code> type (as described
             in [[!RFC3230]]), SHOULD be rejected with a 400 Bad Request response.
           </p>
-          <p>
-            Implementations MUST support <code>Content-Type: message/external-body</code> extensions
-            for request bodies for HTTP <code>PUT</code> to <a>LDP-NR</a>s. This content-type requires a
-            complete <code>Content-Type</code> header that includes the location of the external body, e.g
-            <code>Content-Type: message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</code>,
-            as defined in [[!RFC2017]].
+          <p class='informative'>
+            Implementations may support <code>Content-Type: message/external-body</code> extensions for
+            request bodies for HTTP <code>PUT</code> that would create <a>LDP-NR</a>s.
+            This content-type requires a complete <code>Content-Type</code> header that includes the location
+            of the external body, e.g <code>Content-Type: message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</code>,
+            as defined in [[!RFC2017]]. Requirements for this interaction are detailed in <a href="#external-content">External LDP-NR Content</a>.
           </p>
         </section>
 
@@ -372,12 +372,7 @@
           <h2><a>LDP-NR</a>s</h2>
           <p>
             <code>GET</code> requests to any <a>LDP-NR</a> MUST correctly respond to the <code>Want-Digest</code> header
-            defined in [[!RFC3230]] unless the <code>Content-Type</code> of the <a>LDP-NR</a> is a
-            <code>message/external-body</code> extension.
-          </p>
-          <p>
-            <code>GET</code> requests to a <a>LDP-NR</a> with <code>Content-Type: message/external-body</code>, MUST result
-            in an HTTP 3xx redirect message redirecting to the external URL.
+            defined in [[!RFC3230]].
           </p>
         </section>
       </section>
@@ -388,6 +383,69 @@
          The HEAD method is identical to GET except that the server MUST NOT return a message-body in the response,
          as specified in [[!RFC7231]] <a href='https://tools.ietf.org/html/rfc7231#section-4.3.2'>section 4.3.2</a>.
         </p>
+      </section>
+
+      <section id='external-content'>
+        <h3>External Binary Content</h3>
+        <blockquote id='message-external-body-variability' class='informative'>
+          Non-normative note: Variability among client types and locations may mean that LDP-NR
+          content is addressed in ways that are external to the Fedora server but not resolvable
+          by all clients. This specification describes the use of <code>Content-Type: message/external-body</code>
+          values to signal, on POST or PUT, that the Fedora server should should not consider the
+          request entity to be the LDP-NR's content, but that a <code>Content-Type</code> value will signal a
+          name or address at which the content might be retreived. The <code>url</code>
+          and <code>local-file</code> type values motivate this specification, but a Fedora server
+          may support any type parameters per the requirements for advertisement and
+          rejection specified here.
+        </blockquote>
+        <p id='message-external-body-accept-post'>
+          Fedora servers that support LDP-NR with <code>message/external-body</code>
+          MUST advertise that support in the <code>Accept-Post</code> response
+          header for each supported <code>type</code> parameter of supported <code>Content-Type</code> values.
+        </p>
+        <p id='message-external-body-unsupported-type'>
+          Fedora servers receiving requests that would create or update a LDP-NR
+          with a <code>message/external-body</code> with an unsupported
+          <code>type</code> parameter MUST respond with HTTP 415 UNSUPPORTED MEDIA TYPE.
+          In the case that a Fedora server does not support external LDP-NR content, all
+          <code>message/external-body</code> messages must be rejected with HTTP 415.
+        </p>
+        <p id='message-external-body-response-headers'>
+          Fedora servers receiving requests that would create or update a LDP-NR
+          with a <code>message/external-body</code> MUST NOT accept the
+          request if it cannot guarantee all of the response headers required
+          by the LDP-NR interaction model in this specification.
+        </p>
+        <p id='external-content-content-location'>
+          LDP-NR GET and HEAD responses SHOULD include a <code>Content-Location</code> header with a URI
+          representation of the location of the external content if the Fedora server is proxying
+          the content.
+        </p>
+        <p id='external-content-expires'>
+          Per [[!RFC1521]], all <code>Content-Type: message/external-body</code> values
+          MAY include an <code>expiration</code> parameter. Fedora servers receiving requests that
+          would create or update a LDP-NR with a <code>message/external-body</code> content
+          type SHOULD respect the <code>expiration</code> parameter, if present, by copying
+          content. If the <code>expiration</code> parameter cannot be accommodated, the request MUST be rejected
+          with a 4xx or 5xx status code. Following [[!LDP]] <a href="https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs">4.2.1.6</a>
+          and <a href="https://www.w3.org/TR/ldp/#ldprs-put-servermanagedprops">4.2.4.3</a>,
+          4xx responses MUST be accompanied by a <code>Link</code> header
+          with <code>http://www.w3.org/ns/ldp#constrainedBy</code> relation.
+        </p>
+        <section id='external-content-caveats' class='informative'>
+          <h4>Referenced RDF Content in Mandatory LDP Serializations</h4>
+          <p>
+            This specification takes no position on the use of <code>message/external-body</code>
+            to create or update LDP-RS with ttl or json-ld.
+          </p>
+          <h4>Proxied Content vs Redirected Content</h4>
+          <p>
+            This specification assumes that clients interested in resolving a <code>type='url'</code>
+            or other value without the Fedora server as an intermediary (effectively, redirection as opposed
+            to proxying) will be able to negotiate the <code>Content-Location</code> response header
+            value from a HEAD request.
+          </p>
+        </section>
       </section>
     </section>
 
