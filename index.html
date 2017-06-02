@@ -404,14 +404,14 @@
         <section id="httpDELETEDepth">
           <h3>Depth Header</h3>
           <p>
-          A <code>Depth</code> header <code>may</code> be included in <code>DELETE</code> requests.  Implementations may choose not to
+          A <code>Depth</code> header MAY be included in <code>DELETE</code> requests.  Implementations may choose not to
           support all of the header's values and may define their own default behavior if a Depth header is not present.
           </p>
           <p>
           The recursion of the <code>DELETE</code> must be reckoned along the <code>ldp:contains</code> axis linking contained resources.
           </p>
           <p>
-          Implementations <code>must</code> reject any request regardless of <code>Depth</code> if there is an ACL for any affected
+          Implementations MUST reject any request regardless of <code>Depth</code> if there is an ACL for any affected
           resource that restricts the operation.
           </p>
         </section>
