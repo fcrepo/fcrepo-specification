@@ -404,8 +404,9 @@
         <section id="httpDELETEDepth">
           <h3>Depth Header</h3>
           <p>
-          A <code>Depth</code> header MAY be included in <code>DELETE</code> requests.  Implementations may choose not to
-          support all of the header's values and may define their own default behavior if a Depth header is not present.
+          A <code>Depth</code> header, as defined in [[!RFC2518]] <a href='https://tools.ietf.org/html/rfc2518#section-9.2'> section
+          9.2 </a>, MAY be included in <code>DELETE</code> requests.  Implementations may choose not to support all of the header's
+          values and may define their own default behavior if a Depth header is not present.
           </p>
           <p>
           The recursion of the <code>DELETE</code> must be reckoned along the <code>ldp:contains</code> axis linking contained resources.
