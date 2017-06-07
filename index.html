@@ -395,8 +395,8 @@
       <section id="httpDELETE">
         <h2>HTTP DELETE</h2>
         <p>
-         The <code>DELETE</code> method is optional per [[!RFC7231]] <a href='https://tools.ietf.org/html/rfc7231#section-4.3.5'>section
-         4.3.5</a> and this specification does not require Fedora servers to implement it.  When a Fedora server supports this method,
+         The <code>DELETE</code> method is optional per [[!LDP]] <a href='https://www.w3.org/TR/ldp/#ldpr-HTTP_DELETE'>section
+         4.2.5</a> and this specification does not require Fedora servers to implement it.  When a Fedora server supports this method,
          in addition to the requirements imposed on <a>LDPR</a>s within containers outlined in [[!LDP]]
          <a href='https://www.w3.org/TR/ldp/#ldpc-HTTP_DELETE'> section 5.2.5</a>, it must also follow the additional behavior outlined
          below.
@@ -405,11 +405,11 @@
           <h3>Depth Header</h3>
           <p>
           A <code>Depth</code> header, as defined in [[!RFC2518]] <a href='https://tools.ietf.org/html/rfc2518#section-9.2'> section
-          9.2 </a>, MAY be included in <code>DELETE</code> requests.  Implementations may choose not to support all of the header's
-          values and may define their own default behavior if a Depth header is not present.
+          9.2 </a>, MAY be included in <code>DELETE</code> requests.  Implementations MAY choose not to support all of the header's
+          values and MAY define their own default behavior if a Depth header is not present.
           </p>
           <p>
-          The recursion of the <code>DELETE</code> must be reckoned along the <code>ldp:contains</code> axis linking contained resources.
+          The recursion of the <code>DELETE</code> MUST be reckoned along the <code>ldp:contains</code> axis linking contained resources.
           </p>
           <p>
           Implementations MUST reject any request regardless of <code>Depth</code> if there is an ACL for any affected
