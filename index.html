@@ -404,16 +404,12 @@
         <section id="httpDELETEDepth">
           <h3>Depth Header</h3>
           <p>
-          A <code>Depth</code> header, as defined in [[!RFC2518]] <a href='https://tools.ietf.org/html/rfc2518#section-9.2'> section
-          9.2 </a>, MAY be included in <code>DELETE</code> requests.  Implementations MAY choose not to support all of the header's
-          values and MAY define their own default behavior if a Depth header is not present.
+          A Feodra server MAY support the <code>Depth</code> header, as defined in [[!RFC4918]] <a href='https://tools.ietf.org/html/rfc4918#section-10.2'> section
+          10.2 </a>. Implementations MAY choose not to support all of the header's values and MUST reject a request containing an unsupported <code>Depth</code>
+          value with a 400 (Bad Request).  Implementations MUST define their own default behavior if a Depth header is not present.
           </p>
           <p>
-          The recursion of the <code>DELETE</code> MUST be reckoned along the <code>ldp:contains</code> axis linking contained resources.
-          </p>
-          <p>
-          Implementations MUST reject any request regardless of <code>Depth</code> if there is an ACL for any affected
-          resource that prohibits the operation.
+          The recursion of a <code>DELETE</code> for <code>Depth</code> values greater than zero MUST be reckoned along the axis of Basic Containment.
           </p>
         </section>
       </section>
