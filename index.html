@@ -409,7 +409,7 @@
           value with a 400 (Bad Request).  Implementations MUST define their own default behavior if a Depth header is not present.
           </p>
           <p>
-          The recursion of the <code>DELETE</code> MUST be reckoned along the <code>ldp:contains</code> axis linking contained resources.
+          If a server supports recursive <code>DELETE</code>, that recursion MUST be reckoned along the <code>ldp:contains</code> axis linking contained resources.
           </p>
         </section>
       </section>
