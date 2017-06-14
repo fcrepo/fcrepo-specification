@@ -118,7 +118,7 @@
       <p>
         A conforming <b>Fedora server</b> is a conforming [[!LDP]] 1.0 server except where described in this document
         that also follows the rules defined by Fedora in <a href="#resource-management"></a>,
-        <a href="#resource-versioning"></a>, <a href="#binary-fixity"></a>, <a href="#resource-authorization"></a>, and <a href="#notifications"></a>.
+        <a href="#resource-versioning"></a>, <a href="#resource-authorization"></a>, and <a href="#notifications"></a>.
       </p>
     </section>
     <section id="terminology">
@@ -740,37 +740,6 @@
       </section>
     </section>
 
-    <section id="binary-fixity">
-      <h2>Binary Resource Fixity</h2>
-      <section id="what-is-fixity" class="informative">
-        <h2>What is fixity?</h2>
-        <p>
-          For the purposes of the following specification, a fixity result is an extract or summary
-          of some <a>LDP-NR</a> made according to some explicit procedure. Fixity results are taken for the
-          purpose of comparing different fixity results for the same resource over time, to ensure
-          a continuity of that resource's identity according to the particular procedure used.
-          Examples might include:
-        </p>
-        <ul>
-          <li>Checksums like MD5 or SHA1, often used for digital images.</li>
-          <li><a href="https://www.w3.org/TR/xmldsig-core/">XML Signatures</a></li>
-          <li>Per-segment results <a href="http://dericed.com/papers/reconsidering-the-checksum-for-audiovisual-preservation/">as used for time-based media</a></li>
-        </ul>
-        <p>
-          This specification describes two fixity verification mechanisms: firstly, as part of
-          content transmission, to guard against faults in transmission, and secondly, by comparison
-          to a known or proffered digest value, to monitor for faults in persistence.
-        </p>
-      </section>
-      <section id="transmission-fixity" class="informative">
-        <h2>Transmission Fixity</h2>
-        <p>
-          Transmission fixity is verified by application of the <code>Digest</code> header
-          defined in [[RFC3230]] to <code>POST</code> and <code>PUT</code> requests for <a>LDP-NR</a>s.
-        </p>
-      </section>
-    </section>
-
     <section id="resource-authorization">
       <h2>Resource Authorization</h2>
       <p>
@@ -943,6 +912,37 @@
             </pre>
           </div>
         </section>
+      </section>
+    </section>
+
+    <section id="binary-fixity">
+      <h2>Binary Resource Fixity</h2>
+      <section id="what-is-fixity" class="informative">
+        <h2>What is fixity?</h2>
+        <p>
+          For the purposes of the following specification, a fixity result is an extract or summary
+          of some <a>LDP-NR</a> made according to some explicit procedure. Fixity results are taken for the
+          purpose of comparing different fixity results for the same resource over time, to ensure
+          a continuity of that resource's identity according to the particular procedure used.
+          Examples might include:
+        </p>
+        <ul>
+          <li>Checksums like MD5 or SHA1, often used for digital images.</li>
+          <li><a href="https://www.w3.org/TR/xmldsig-core/">XML Signatures</a></li>
+          <li>Per-segment results <a href="http://dericed.com/papers/reconsidering-the-checksum-for-audiovisual-preservation/">as used for time-based media</a></li>
+        </ul>
+        <p>
+          This specification describes two fixity verification mechanisms: firstly, as part of
+          content transmission, to guard against faults in transmission, and secondly, by comparison
+          to a known or proffered digest value, to monitor for faults in persistence.
+        </p>
+      </section>
+      <section id="transmission-fixity" class="informative">
+        <h2>Transmission Fixity</h2>
+        <p>
+          Transmission fixity is verified by application of the <code>Digest</code> header
+          defined in [[RFC3230]] to <code>POST</code> and <code>PUT</code> requests for <a>LDP-NR</a>s.
+        </p>
       </section>
     </section>
 
