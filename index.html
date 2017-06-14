@@ -92,6 +92,7 @@
   </head>
   <body>
     <section id='abstract' class='informative'>
+      <h2>Introduction</h2>
       <p>
         This specification refines the semantics and interaction patterns of [[LDP]] in order
         to better serve the specific needs of those interested in implementing repositories
@@ -112,6 +113,13 @@
           and a design for the publication of asynchronous events emitted from an implementation.
         </li>
       </ul>
+      <p>
+        The goal of this specification is to define the behaviors of Fedora server implementations in order to
+        facilitate interoperability with client applications.  Although Fedora servers are not necessarily drop-in replacements
+        for one another, a client developed against this specification should work against any Fedora server with little modification.
+        Some implementations may be unable to provide all features described in this document due to conscious design decisions, but
+        at least the method of rejection for requests against such features is defined.
+      </p>
     </section>
 
     <section id="conformance">
