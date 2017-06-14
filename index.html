@@ -944,6 +944,14 @@
           defined in [[RFC3230]] to <code>POST</code> and <code>PUT</code> requests for <a>LDP-NR</a>s.
         </p>
       </section>
+      <section id="persistence-fixity" class="informative">
+        <h2>Persistence Fixity</h2>
+        <p>
+          Persistence fixity is verified by application of the <code>Want-Digest</code> header defined in
+          [[RFC3230]] to <code>HEAD</code> and <code>GET</code> requests for <a>LDP-NR</a>s, and comparing
+          the newly computed fixity results to previous fixity results.
+        </p>
+      </section>
     </section>
 
     <section id="privacy">
