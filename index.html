@@ -114,6 +114,22 @@
       </ul>
     </section>
 
+    <section id='intent'>
+      <h2>Intent</h2>
+      <p>
+        The intent of this specification is to clarify the behavior of all Fedora servers. This is of interest to
+        both implementers of Fedora servers and those seeking understanding while developing client applications.
+      </p>
+      <p>
+        A secondary goal of this specification is to facilitate interoperability between a client and various
+        Fedora implementations.  Although Fedora servers are not drop-in replacements for one another,
+        a client developed against the core behaviors in this specification stands to work against a large subset
+        of all Fedora implementations with little modification.  Some implementations may be unable to provide
+        all features described in this document due to conscious design decisions, but at least the method of
+        rejection for requests against such features is defined.
+      </p>
+    </section>
+
     <section id="conformance">
       <p>
         A conforming <b>Fedora server</b> is a conforming [[!LDP]] 1.0 server except where described in this document
