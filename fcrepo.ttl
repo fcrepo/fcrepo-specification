@@ -4,7 +4,7 @@
 @prefix vs: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix dc: <http://purl.org/dc/terms/> .
-@prefix : <http://fedora.info/definitions/repository#> .
+@prefix : <http://fedora.info/definitions/fcrepo#> .
 
 : a owl:Ontology ;
     owl:versionInfo "1.0" ;
@@ -12,8 +12,8 @@
     rdfs:comment "This ontology provides a representation of the terms defined in the Fedora specification. Consult the Fedora specification for normative reference."@en ;
     rdfs:seeAlso <http://fedora.info/spec/> ;
     dc:created "2017-02-06"^^xsd:date ;
-    vann:preferredNamespaceUri "http://fedora.info/definitions/repository#" ;
-    vann:preferredNamespacePrefix "fedora" .
+    vann:preferredNamespaceUri "http://fedora.info/definitions/fcrepo#" ;
+    vann:preferredNamespacePrefix "fcrepo" .
 
 :PreferInboundReferences a rdfs:Resource ;
     rdfs:label "prefer inbound references"@en ;
