@@ -381,6 +381,10 @@
             <code>GET</code> requests to any <a>LDP-NR</a> MUST correctly respond to the <code>Want-Digest</code> header
             defined in [[!RFC3230]].
           </p>
+          <p class='informative'>
+            Non-normative note: Given the use of checksums to validate content integrity, the digest values
+            should be calculated instead of cached.
+          </p>
         </section>
       </section>
 
@@ -970,8 +974,18 @@
       <section id="transmission-fixity" class="informative">
         <h2>Transmission Fixity</h2>
         <p>
-          Transmission fixity is verified by application of the <code>Digest</code> header
-          defined in [[RFC3230]] to <code>POST</code> and <code>PUT</code> requests for <a>LDP-NR</a>s.
+          Transmission fixity may be verified by including a <code>Digest</code> header (defined in
+          [[RFC3230]]) in <code>POST</code> and <code>PUT</code> requests for <a>LDP-NR</a>s.
+        </p>
+      </section>
+      <section id="persistence-fixity" class="informative">
+        <h2>Persistence Fixity</h2>
+        <p>
+          A client may retrieve the checksum of an <a>LDP-NR</a> by performing a <code>HEAD</code> or
+          <code>GET</code> request on it with the <code>Want-Digest</code> header (using a <code>HEAD</code>
+          request allows the client to avoid transferring the entire content when only the checksum is
+          needed). The <code>Digest</code> header in the response can be used to infer persistence fixity by
+          comparing it to previously-computed values.
         </p>
       </section>
     </section>
