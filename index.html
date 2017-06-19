@@ -391,8 +391,15 @@
       <section id="httpHEAD">
         <h2>HTTP HEAD</h2>
         <p>
-         The HEAD method is identical to GET except that the server MUST NOT return a message-body in the response,
-         as specified in [[!RFC7231]] <a href='https://tools.ietf.org/html/rfc7231#section-4.3.2'>section 4.3.2</a>.
+         The <code>HEAD</code> method is identical to <code>GET</code> except that the server
+         MUST NOT return a message-body in the response, as specified in [[!RFC7231]]
+         <a href='https://tools.ietf.org/html/rfc7231#section-4.3.2'>section 4.3.2</a>.
+         The server MUST send the same <code>Digest</code> header in the response as it would
+         have sent if the request had been a <code>GET</code> (or omit it if it would have been
+         omitted for a <code>GET</code>). In other cases, the server SHOULD send the same
+         headers in response to a <code>HEAD</code> request as it would have sent if the
+         request had been a <code>GET</code>, except that the payload headers (defined in [[!RFC7231]]
+         <a href='https://tools.ietf.org/html/rfc7231#section-3.3'>section 3.3</a>) MAY be omitted.
         </p>
       </section>
 
