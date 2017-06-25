@@ -211,9 +211,23 @@
           <h2>LDP Containers</h2>
           <p>
             Implementations MUST support the creation and management of [[!LDP]] Containers.
-            LDP Direct Containers MUST NOT permit <code>ldp:contains</code> as their membership-predicate
-            and requests that would do so MUST fail with 409 Conflict.
+          </p>
+          <p>
+            LDP Containers MUST distinguish containment triples from membership and minimal-container triples.
+            If an implementation cannot make this distinction solely from the predicate, it MUST NOT permit
+            <code>ldp:contains</code> as the <code>membership predicate</code> for LDP Direct and Indirect
+            Containers or as a client-managed property, and requests that would do so MUST fail with 409 Conflict
+            and accompanying constraints document. Implementations that can distinguish containment triples MAY
+            permit  <code>ldp:contains</code> as a <code>membership predicate</code> or client-managed property;
+            such implementations SHOULD support <code>Prefer:</code> header values allowing clients to distinguish this data in the representation of a LDP-R as defined in [[!LDP]]:
+            <code>http://www.w3.org/ns/ldp#PreferContainment</code>,
+            <code>http://www.w3.org/ns/ldp#PreferMembership</code>, and
+            <code>http://www.w3.org/ns/ldp#PreferMinimalContainer</code>.
             ([[!LDP]] <a href="https://www.w3.org/TR/ldp/#ldpdc-containtriples">5.4.1.4 expansion</a>)
+          </p>
+          <p class='informative'>
+            Non-normative note: [[!LDP]] defines containment relationships as binding an LDPC to LDPRs whose lifecycle it controls and is aware of, and are expressed through containment triples of the form &lt;LDPC-URI&gt; ldp:contains &lt;LDPR-URI&gt;. However, implementations that segregate containment
+            and membership triples may allow the creation of other triples with the ldp:contains predicate, and thus triples with this predicate do not necessarily imply containment.
           </p>
         </section>
       </section>
@@ -423,7 +437,7 @@
           value with a 400 (Bad Request).  Implementations MUST define their own default behavior if a Depth header is not present.
           </p>
           <p>
-          If a server supports recursive <code>DELETE</code>, that recursion MUST be reckoned along the <code>ldp:contains</code> axis linking contained resources.
+          If a server supports recursive <code>DELETE</code>, that recursion MUST be reckoned along the [[!LDP]] <code>containment relationships</code> linking contained resources.
           </p>
         </section>
       </section>
@@ -812,7 +826,7 @@
         <h2>Inheritance</h2>
         <p>
           Inheritance of ACLs as defined in [[!SOLIDWEBAC]] MUST be
-          reckoned along the <code>ldp:contains</code> axis linking
+          reckoned along the {{!LDP]] <code>containment</code> relationships linking
           controlled resources.
         </p>
       </section>
