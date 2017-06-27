@@ -213,12 +213,12 @@
             Implementations MUST support the creation and management of [[!LDP]] Containers.
           </p>
           <p>
-            LDP Containers MUST distinguish containment triples from membership and minimal-container triples.
+            LDP Containers MUST distinguish [<a href="https://www.w3.org/TR/ldp/#dfn-containment-triples">containment triples</a>] from [<a href="https://www.w3.org/TR/ldp/#dfn-membership-triples">membership</a>] and [<a href="https://www.w3.org/TR/ldp/#dfn-minimal-container-triples">minimal-container</a> triples.
             If an implementation cannot make this distinction, it MUST NOT permit <code>ldp:contains</code> as
-            the <code>membership predicate</code> for LDP Direct and Indirect Containers or as a client-managed
+            the [<a href="https://www.w3.org/TR/ldp/#dfn-membership-predicate">membership predicate</a>] for LDP Direct and Indirect Containers or as a client-managed
             property, and requests that would do so MUST fail with 409 Conflict and accompanying constraints
             document. Implementations that can distinguish containment triples MAY permit <code>ldp:contains</code>
-            as a <code>membership predicate</code> or client-managed property; such implementations SHOULD support
+            as a membership predicate or client-managed property; such implementations SHOULD support
             <code>Prefer:</code> header values allowing clients to distinguish this data in the representation of
             a LDP-R as defined in [[!LDP]]: <code>http://www.w3.org/ns/ldp#PreferContainment</code>,
             <code>http://www.w3.org/ns/ldp#PreferMembership</code>, and <code>http://www.w3.org/ns/ldp#PreferMinimalContainer</code>.
@@ -436,7 +436,7 @@
           value with a 400 (Bad Request).  Implementations MUST define their own default behavior if a Depth header is not present.
           </p>
           <p>
-          If a server supports recursive <code>DELETE</code>, that recursion MUST be reckoned along the [[!LDP]] <code>containment relationships</code> linking contained resources.
+          If a server supports recursive <code>DELETE</code>, that recursion MUST be reckoned along the [[!LDP]] <a href="https://www.w3.org/TR/ldp/#dfn-containment">containment relationships</a> linking contained resources.
           </p>
         </section>
       </section>
@@ -825,7 +825,7 @@
         <h2>Inheritance</h2>
         <p>
           Inheritance of ACLs as defined in [[!SOLIDWEBAC]] MUST be
-          reckoned along the [[!LDP]] <code>containment</code> relationships linking
+          reckoned along the [[!LDP]] <a href="https://www.w3.org/TR/ldp/#dfn-containment">containment relationships</a> linking
           controlled resources.
         </p>
       </section>
