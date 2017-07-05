@@ -97,14 +97,14 @@
     <section id='abstract' class='informative'>
       <h2>Introduction</h2>
       <p>
-        This specification refines the semantics and interaction patterns of [[LDP]] in order
-        to better serve the specific needs of those interested in implementing repositories
-        for durable access to digital data. Additionally, this specification contains:
+        This specification refines the semantics and interaction patterns of [[LDP]] in order to better serve the
+        specific needs of those interested in implementing repositories for durable access to digital data.
+        Additionally, this specification contains:
       </p>
       <ul>
         <li>
-          a reconciliation of [[LDP]] and the well-established version identification and
-          navigation scheme delineated in the [[RFC7089]] (Memento) specification,
+          a reconciliation of [[LDP]] and the well-established version identification and navigation scheme delineated
+        in the [[RFC7089]] (Memento) specification,
         </li>
         <li>
           interaction patterns for use with binary fixity information,
@@ -118,10 +118,11 @@
       </ul>
       <p>
         The goal of this specification is to define the behaviors of Fedora server implementations in order to
-        facilitate interoperability with client applications.  Although Fedora servers are not necessarily drop-in replacements
-        for one another, a client developed against this specification should work against any Fedora server with little modification.
-        Some implementations may be unable to provide all features described in this document due to conscious design decisions, but
-        at least the method of rejection for requests against such features is defined.
+        facilitate interoperability with client applications. Although Fedora servers are not necessarily drop-in
+        replacements for one another, a client developed against this specification should work against any Fedora
+        server with little modification. Some implementations may be unable to provide all features described in this
+        document due to conscious design decisions, but at least the method of rejection for requests against such
+        features is defined.
       </p>
     </section>
 
@@ -139,9 +140,11 @@
       <dl>
         <dt><dfn>LDPR</dfn>:</dt>
         <dd>
-          A Linked Data Platform Resource as defined in [<a href="https://www.w3.org/TR/ldp/#dfn-linked-data-platform-resource">LDP</a>].
-          This may be an <a href="https://www.w3.org/TR/ldp/#dfn-linked-data-platform-rdf-source">LDP RDF Source</a> (<a>LDP-RS</a>) or an
-          <a href="https://www.w3.org/TR/ldp/#dfn-linked-data-platform-non-rdf-source">LDP Non-RDF Source</a> (<a>LDP-NR</a>).
+          A Linked Data Platform Resource as defined in
+          [<a href="https://www.w3.org/TR/ldp/#dfn-linked-data-platform-resource">LDP</a>]. This may be an
+          <a href="https://www.w3.org/TR/ldp/#dfn-linked-data-platform-rdf-source">LDP RDF Source</a> (<a>LDP-RS</a>) or
+          an <a href="https://www.w3.org/TR/ldp/#dfn-linked-data-platform-non-rdf-source">LDP Non-RDF Source</a>
+          (<a>LDP-NR</a>).
         </dd>
         <dt><dfn>LDP-RS</dfn>:</dt>
         <dd>
@@ -172,12 +175,13 @@
         </dd>
         <dt><dfn>LDP-contained</dfn>:</dt>
         <dd>
-          The relationship binding an <a>LDPC</a> to <a>LDPR</a>s whose lifecycle it controls and is aware of as defined in
-          [<a href="https://www.w3.org/TR/ldp/#dfn-containment">LDP</a>].
+          The relationship binding an <a>LDPC</a> to <a>LDPR</a>s whose lifecycle it controls and is aware of as
+          defined in [<a href="https://www.w3.org/TR/ldp/#dfn-containment">LDP</a>].
         </dd>
         <dt><dfn>URI-R</dfn>:</dt>
         <dd>
-          A type of versioned resource defined in [<a href="https://tools.ietf.org/html/rfc7089#section-1.1">Memento</a>].
+          A type of versioned resource defined in
+          [<a href="https://tools.ietf.org/html/rfc7089#section-1.1">Memento</a>].
         </dd>
         <dt><dfn>URI-M</dfn>:</dt>
         <dd>
@@ -186,8 +190,8 @@
         </dd>
         <dt><dfn>TimeGate</dfn>:</dt>
         <dd>
-          A type of resource defined in [<a href="https://tools.ietf.org/html/rfc7089#section-1.1">Memento</a>] providing
-          <code>Accept-Datetime</code>-varied negotiation of versions of an <a>URI-R</a>.
+          A type of resource defined in [<a href="https://tools.ietf.org/html/rfc7089#section-1.1">Memento</a>]
+          providing <code>Accept-Datetime</code>-varied negotiation of versions of an <a>URI-R</a>.
         </dd>
         <dt><dfn>TimeMap</dfn>:</dt>
         <dd>
@@ -203,9 +207,9 @@
         <h2>General</h2>
         <p>
           If a <code>Link: rel="type"</code> header specifies an <a>LDP-NR</a> interaction model
-          (<code>ldp:NonRDFSource</code>), then the server SHOULD handle subsequent requests
-          to the newly created resource as if it is a <a>LDP-NR</a>.
-          ([[!LDP]] <a href="https://www.w3.org/TR/ldp/#ldpc-post-createrdf">5.2.3.4 extension</a>)
+          (<code>ldp:NonRDFSource</code>), then the server SHOULD handle subsequent requests to the newly created
+          resource as if it is a <a>LDP-NR</a>. ([[!LDP]]
+          <a href="https://www.w3.org/TR/ldp/#ldpc-post-createrdf">5.2.3.4 extension</a>)
         </p>
         <section id="LDPC">
           <h2>LDP Containers</h2>
@@ -213,20 +217,27 @@
             Implementations MUST support the creation and management of [[!LDP]] Containers.
           </p>
           <p>
-            LDP Containers MUST distinguish [<a href="https://www.w3.org/TR/ldp/#dfn-containment-triples">containment triples</a>] from [<a href="https://www.w3.org/TR/ldp/#dfn-membership-triples">membership</a>] and [<a href="https://www.w3.org/TR/ldp/#dfn-minimal-container-triples">minimal-container</a> triples.
-            If an implementation cannot make this distinction, it MUST NOT permit <code>ldp:contains</code> as
-            the [<a href="https://www.w3.org/TR/ldp/#dfn-membership-predicate">membership predicate</a>] for LDP Direct and Indirect Containers or as a client-managed
-            property, and requests that would do so MUST fail with 409 Conflict and accompanying constraints
-            document. Implementations that can distinguish containment triples MAY permit <code>ldp:contains</code>
-            as a membership predicate or client-managed property; such implementations SHOULD support
-            <code>Prefer:</code> header values allowing clients to distinguish this data in the representation of
-            a LDP-R as defined in [[!LDP]]: <code>http://www.w3.org/ns/ldp#PreferContainment</code>,
-            <code>http://www.w3.org/ns/ldp#PreferMembership</code>, and <code>http://www.w3.org/ns/ldp#PreferMinimalContainer</code>.
-            ([[!LDP]] <a href="https://www.w3.org/TR/ldp/#ldpdc-containtriples">5.4.1.4 expansion</a>)
+            LDP Containers MUST distinguish [<a href="https://www.w3.org/TR/ldp/#dfn-containment-triples">containment
+            triples</a>] from [<a href="https://www.w3.org/TR/ldp/#dfn-membership-triples">membership</a>] and
+            [<a href="https://www.w3.org/TR/ldp/#dfn-minimal-container-triples">minimal-container</a>] triples. If an
+            implementation cannot make this distinction, it MUST NOT permit <code>ldp:contains</code> as the
+            [<a href="https://www.w3.org/TR/ldp/#dfn-membership-predicate">membership predicate</a>] for LDP Direct and
+            Indirect Containers or as a client-managed property, and requests that would do so MUST fail with 409
+            Conflict and accompanying constraints document. Implementations that can distinguish containment triples MAY
+            permit <code>ldp:contains</code> as a membership predicate or client-managed property; such implementations
+            SHOULD support <code>Prefer:</code> header values allowing clients to distinguish this data in the
+            representation of a LDP-R as defined in [[!LDP]]: <code>http://www.w3.org/ns/ldp#PreferContainment</code>,
+            <code>http://www.w3.org/ns/ldp#PreferMembership</code>, and
+            <code>http://www.w3.org/ns/ldp#PreferMinimalContainer</code>. ([[!LDP]]
+            <a href="https://www.w3.org/TR/ldp/#ldpdc-containtriples">5.4.1.4 expansion</a>)
           </p>
           <p class='informative'>
-            Non-normative note: [[!LDP]] defines containment relationships as binding an LDPC to LDPRs whose lifecycle it controls and is aware of, and are expressed through containment triples of the form &lt;LDPC-URI&gt; ldp:contains &lt;LDPR-URI&gt;. However, implementations that segregate containment
-            and membership triples - for example, by storing containment relationships in a dedicated named graph - may allow the creation of other triples with the ldp:contains predicate, and thus triples with this predicate do not necessarily imply containment.
+            Non-normative note: [[!LDP]] defines containment relationships as binding an LDPC to LDPRs whose lifecycle
+            it controls and is aware of, and are expressed through containment triples of the form &lt;LDPC-URI&gt;
+            ldp:contains &lt;LDPR-URI&gt;. However, implementations that segregate containment and membership triples -
+            for example, by storing containment relationships in a dedicated named graph - may allow the creation of
+            other triples with the ldp:contains predicate, and thus triples with this predicate do not necessarily imply
+            containment.
           </p>
         </section>
       </section>
@@ -235,26 +246,26 @@
         <h2>HTTP PATCH</h2>
         <p>
           Any <a>LDP-RS</a> MUST support <code>PATCH</code> ([[!LDP]]
-          <a href="https://www.w3.org/TR/ldp/#ldpr-HTTP_PATCH">4.2.7</a> MAY becomes MUST).
-          [[!sparql11-update]] MUST be an accepted content-type for <code>PATCH</code>. Other content-types (e.g. [[ldpatch]])
-          MAY be available. If an otherwise valid HTTP <code>PATCH</code> request is received that attempts to add statements to a
+          <a href="https://www.w3.org/TR/ldp/#ldpr-HTTP_PATCH">4.2.7</a> MAY becomes MUST). [[!sparql11-update]] MUST
+          be an accepted content-type for <code>PATCH</code>. Other content-types (e.g. [[ldpatch]]) MAY be available.
+          If an otherwise valid HTTP <code>PATCH</code> request is received that attempts to add statements to a
           resource that a server disallows (not ignores per [[!LDP]]
-          <a href="https://www.w3.org/TR/ldp/#ldpr-put-replaceall">4.2.4.1</a>), the server MUST fail
-          the request by responding with a 4xx range status code (e.g. 409 Conflict). The server MUST
-          provide a corresponding response body containing information about which statements could
-          not be persisted. ([[!LDP]] <a href="https://www.w3.org/TR/ldp/#ldprs-put-failed">4.2.4.4</a> SHOULD becomes
-          MUST). In that response the restrictions causing such a request to fail MUST be described in a resource
-          indicated by a <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code> response header per
-          [[!LDP]] <a href='https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs'>4.2.1.6</a>.
-          A successful <code>PATCH</code> request MUST respond with a 2xx status code; the specific code in the 2xx
-          range MAY vary according to the response body or request state.
+          <a href="https://www.w3.org/TR/ldp/#ldpr-put-replaceall">4.2.4.1</a>), the server MUST fail the request by
+          responding with a 4xx range status code (e.g. 409 Conflict). The server MUST provide a corresponding
+          response body containing information about which statements could not be persisted. ([[!LDP]]
+          <a href="https://www.w3.org/TR/ldp/#ldprs-put-failed">4.2.4.4</a> SHOULD becomes MUST). In that response the
+          restrictions causing such a request to fail MUST be described in a resource indicated by a <code>Link:
+          rel="http://www.w3.org/ns/ldp#constrainedBy"</code> response header per [[!LDP]]
+          <a href='https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs'>4.2.1.6</a>. A successful <code>PATCH</code>
+          request MUST respond with a 2xx status code; the specific code in the 2xx range MAY vary according to the
+          response body or request state.
         </p>
         <section id="httpPATCH-ixn-models">
           <h3>Interaction models</h3>
           <p>
             The server MUST disallow a <code>PATCH</code> request that would change the LDP interaction model of a
-            resource to a type that is not a subtype of the current resource type. That request MUST be
-            rejected with a 409 Conflict response.
+            resource to a type that is not a subtype of the current resource type. That request MUST be rejected with a
+            409 Conflict response.
           </p>
         </section>
       </section>
@@ -262,33 +273,36 @@
       <section id="httpPOST">
         <h2>HTTP POST</h2>
         <p>
-          Any <a>LDPC</a> MUST support <code>POST</code> ([[!LDP]] <a href="https://www.w3.org/TR/ldp/#ldpr-HTTP_POST">4.2.3</a> /
-          <a href="https://www.w3.org/TR/ldp/#ldpc-HTTP_POST">5.2.3</a>). The default interaction model that
-          will be assigned when there is no explicit Link header in the request MUST be recorded
-          in the constraints document referenced in the <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code>
-          header ([[!LDP]] <a href='https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs'>4.2.1.6</a> clarification).
-          Any <a>LDPC</a> MUST support creation of <a>LDP-NR</a>s on <code>POST</code> ([[!LDP]]
+          Any <a>LDPC</a> MUST support <code>POST</code> ([[!LDP]]
+          <a href="https://www.w3.org/TR/ldp/#ldpr-HTTP_POST">4.2.3</a> /
+          <a href="https://www.w3.org/TR/ldp/#ldpc-HTTP_POST">5.2.3</a>). The default interaction model that will be
+          assigned when there is no explicit Link header in the request MUST be recorded in the constraints document
+          referenced in the <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code> header ([[!LDP]]
+          <a href='https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs'>4.2.1.6</a> clarification). Any <a>LDPC</a> MUST
+          support creation of <a>LDP-NR</a>s on <code>POST</code> ([[!LDP]]
           <a href="https://www.w3.org/TR/ldp/#h-ldpc-post-createbins">5.2.3.3</a> MAY becomes MUST). On creation of an
           <a>LDP-NR</a> an implementation MUST create an associated <a>LDP-RS</a> describing that <a>LDP-NR</a>
-          ([[!LDP]] <a href="https://www.w3.org/TR/ldp/#h-ldpc-post-createbinlinkmetahdr">5.2.3.12</a> MAY becomes MUST).
+          ([[!LDP]] <a href="https://www.w3.org/TR/ldp/#h-ldpc-post-createbinlinkmetahdr">5.2.3.12</a> MAY becomes
+          MUST).
         </p>
         <section id="httpPOSTLDPNR">
           <h2>LDP-NRs</h2>
           <p>
             A HTTP <code>POST</code> request that would create a <a>LDP-NR</a> and includes a <code>Digest</code> header
-            (as described in [[!RFC3230]]) for which the instance-digest in that header does not
-            match that of the new <a>LDP-NR</a> MUST be rejected with a 409 Conflict response.
+            (as described in [[!RFC3230]]) for which the instance-digest in that header does not match that of the new
+            <a>LDP-NR</a> MUST be rejected with a 409 Conflict response.
           </p>
           <p>
-            A HTTP <code>POST</code> request that includes an unsupported <code>Digest</code> type (as described
-            in [[!RFC3230]]), SHOULD be rejected with a 400 Bad Request response.
+            A HTTP <code>POST</code> request that includes an unsupported <code>Digest</code> type (as described in
+            [[!RFC3230]]), SHOULD be rejected with a 400 Bad Request response.
           </p>
           <p class='informative'>
-            Implementations may support <code>Content-Type: message/external-body</code> extensions for
-            request bodies for HTTP <code>POST</code> that would create <a>LDP-NR</a>s.
-            This content-type requires a complete <code>Content-Type</code> header that includes the location
-            of the external body, e.g <code>Content-Type: message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</code>,
-            as defined in [[!RFC2017]]. Requirements for this interaction are detailed in <a href="#external-content">External LDP-NR Content</a>.
+            Implementations may support <code>Content-Type: message/external-body</code> extensions for request bodies
+            for HTTP <code>POST</code> that would create <a>LDP-NR</a>s. This content-type requires a complete
+            <code>Content-Type</code> header that includes the location of the external body, e.g <code>Content-Type:
+            message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</code>, as defined in
+            [[!RFC2017]]. Requirements for this interaction are detailed in
+            <a href="#external-content">External LDP-NR Content</a>.
           </p>
         </section>
       </section>
@@ -297,12 +311,12 @@
         <h2>HTTP PUT</h2>
         <p>
           When accepting a <code>PUT</code> request against an extant resource, an HTTP <code>Link: rel="type"</code>
-          header MAY be included. If that type is a value in the LDP namespace and is not either a
-          current type of the resource or a subtype of a current type of the resource, the request MUST be
-          rejected with a 409 Conflict response. If the type in the Link header is a subtype of a current type
-          of the resource, and has an interaction model assigned to it by [[!LDP]], then the resource MUST
-          be assigned the new type and the interaction model of the resource MUST be changed to the
-          interaction model assigned to the new type by [[!LDP]].
+          header MAY be included. If that type is a value in the LDP namespace and is not either a current type of the
+          resource or a subtype of a current type of the resource, the request MUST be rejected with a 409 Conflict
+          response. If the type in the Link header is a subtype of a current type of the resource, and has an
+          interaction model assigned to it by [[!LDP]], then the resource MUST be assigned the new type and the
+          interaction model of the resource MUST be changed to the interaction model assigned to the new type by
+          [[!LDP]].
         </p>
         <section id="httpPUTLDPNR">
           <h2><a>LDP-NR</a>s</h2>
@@ -310,20 +324,21 @@
             Any <a>LDP-NR</a> MUST support <code>PUT</code> to replace the binary content of that resource.
           </p>
           <p>
-            A HTTP <code>PUT</code> request that includes a <code>Digest</code> header (as described
-            in [[!RFC3230]]) for which any instance-digest in that header does not match the instance
-            it describes, MUST be rejected with a 409 Conflict response.
+            A HTTP <code>PUT</code> request that includes a <code>Digest</code> header (as described in [[!RFC3230]])
+            for which any instance-digest in that header does not match the instance it describes, MUST be rejected with
+            a 409 Conflict response.
           </p>
           <p>
-            A HTTP <code>PUT</code> request that includes an unsupported <code>Digest</code> type (as described
-            in [[!RFC3230]]), SHOULD be rejected with a 400 Bad Request response.
+            A HTTP <code>PUT</code> request that includes an unsupported <code>Digest</code> type (as described in
+            [[!RFC3230]]), SHOULD be rejected with a 400 Bad Request response.
           </p>
           <p class='informative'>
-            Implementations may support <code>Content-Type: message/external-body</code> extensions for
-            request bodies for HTTP <code>PUT</code> that would create <a>LDP-NR</a>s.
-            This content-type requires a complete <code>Content-Type</code> header that includes the location
-            of the external body, e.g <code>Content-Type: message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</code>,
-            as defined in [[!RFC2017]]. Requirements for this interaction are detailed in <a href="#external-content">External LDP-NR Content</a>.
+            Implementations may support <code>Content-Type: message/external-body</code> extensions for request bodies
+            for HTTP <code>PUT</code> that would create <a>LDP-NR</a>s. This content-type requires a complete
+            <code>Content-Type</code> header that includes the location of the external body, e.g <code>Content-Type:
+            message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</code>, as defined in
+            [[!RFC2017]]. Requirements for this interaction are detailed in <a href="#external-content">External LDP-NR
+            Content</a>.
           </p>
         </section>
 
@@ -333,13 +348,14 @@
             Any <a>LDP-RS</a> MUST support <code>PUT</code> to update statements that are not server-managed triples
             (as defined in [[!LDP]] 2). [[!LDP]] <a href="https://www.w3.org/TR/ldp/#ldpr-put-replaceall">4.2.4.1</a>
             and <a href="https://www.w3.org/TR/ldp/#ldprs-put-servermanagedprops">4.2.4.3</a> remain in effect. If an
-            otherwise valid HTTP <code>PUT</code> request is received that attempts to add statements to a resource that a
-            server disallows (not ignores per [[!LDP]] <a href="https://www.w3.org/TR/ldp/#ldpr-put-replaceall">4.2.4.1</a>),
-            the server MUST fail the request by responding with a 4xx range status code (e.g. 409 Conflict). The server
-            MUST provide a corresponding response body containing information about which statements could not be
-            persisted. ([[!LDP]] <a href="https://www.w3.org/TR/ldp/#ldprs-put-failed">4.2.4.4</a> SHOULD becomes MUST).
-            In that response the restrictions causing such a request to fail MUST be described in a resource indicated
-            by a <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code> response header per [[!LDP]]
+            otherwise valid HTTP <code>PUT</code> request is received that attempts to add statements to a resource that
+            a server disallows (not ignores per [[!LDP]]
+            <a href="https://www.w3.org/TR/ldp/#ldpr-put-replaceall">4.2.4.1</a>), the server MUST fail the request by
+            responding with a 4xx range status code (e.g. 409 Conflict). The server MUST provide a corresponding
+            response body containing information about which statements could not be persisted. ([[!LDP]]
+            <a href="https://www.w3.org/TR/ldp/#ldprs-put-failed">4.2.4.4</a> SHOULD becomes MUST). In that response the
+            restrictions causing such a request to fail MUST be described in a resource indicated by a <code>Link:
+            rel="http://www.w3.org/ns/ldp#constrainedBy"</code> response header per [[!LDP]]
             <a href='https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs'>4.2.1.6</a>.
           </p>
         </section>
@@ -348,9 +364,9 @@
           <h2>Creating resources with HTTP PUT</h2>
           <p>
             An implementation MAY accept HTTP <code>PUT</code> to create resources ([[!LDP]]
-            <a href="https://www.w3.org/TR/ldp/#ldpr-put-create">4.2.4.6</a>). Behavior regarding
-            containment or non-containment of resources created with HTTP <code>PUT</code> is
-            not defined by [[!LDP]] or this specification.
+            <a href="https://www.w3.org/TR/ldp/#ldpr-put-create">4.2.4.6</a>). Behavior regarding containment or
+            non-containment of resources created with HTTP <code>PUT</code> is not defined by [[!LDP]] or this
+            specification.
           </p>
         </section>
       </section>
@@ -358,48 +374,46 @@
       <section id="httpGET">
         <h2>HTTP GET</h2>
         <p>
-          When the request is to the <a>LDP-RS</a> created to describe a <a>LDP-NR</a>, the response MUST include
-          a <code>Link: rel="describes"</code> header referencing the <a>LDP-NR</a> in question, as defined
-          in [[!RFC6892]].
+          When the request is to the <a>LDP-RS</a> created to describe a <a>LDP-NR</a>, the response MUST include a
+          <code>Link: rel="describes"</code> header referencing the <a>LDP-NR</a> in question, as defined in
+          [[!RFC6892]].
         </p>
         <section id="additionalPreferValues">
           <h2>Additional values for the <code>Prefer</code> header</h2>
           <p>
-              In addition to the requirements of [[!LDP]], an implementation MAY support the value
-              <code>http://www.w3.org/ns/oa#PreferContainedDescriptions</code> and SHOULD support the value
-              <code>http://fedora.info/definitions/fcrepo#PreferInboundReferences</code> for the
-              <code>Prefer</code> header when making <code>GET</code> requests on <a>LDPC</a> resources:
+            In addition to the requirements of [[!LDP]], an implementation MAY support the value
+            <code>http://www.w3.org/ns/oa#PreferContainedDescriptions</code> and SHOULD support the value
+            <code>http://fedora.info/definitions/fcrepo#PreferInboundReferences</code> for the <code>Prefer</code>
+            header when making <code>GET</code> requests on <a>LDPC</a> resources:
           </p>
           <ul>
             <li>
-              <code>http://www.w3.org/ns/oa#PreferContainedDescriptions</code>:
-              Requires a server to include representations of any contained resources in the response,
-              as defined in [[!annotation-vocab]].
+              <code>http://www.w3.org/ns/oa#PreferContainedDescriptions</code>: Requires a server to include
+              representations of any contained resources in the response, as defined in [[!annotation-vocab]].
             </li>
             <li>
-              <code>http://fedora.info/definitions/fcrepo#PreferInboundReferences</code>:
-              Requires a server to include triples from any <a>LDP-RS</a> housed in that server that
-              feature the requested resource as RDF-object.
+              <code>http://fedora.info/definitions/fcrepo#PreferInboundReferences</code>: Requires a server to include
+              triples from any <a>LDP-RS</a> housed in that server that feature the requested resource as RDF-object.
             </li>
           </ul>
         </section>
         <section id="httpGETLDPRS">
           <h2><a>LDP-RS</a>s</h2>
           <p>
-            Responses to <code>GET</code> requests that apply a <code>Prefer</code> request header to any
-            <a>LDP-RS</a> MUST include the <code>Preference-Applied</code> response header as defined in
-            [[!RFC7240]] <a href='https://tools.ietf.org/html/rfc7240#section-3'>section 3</a>.
+            Responses to <code>GET</code> requests that apply a <code>Prefer</code> request header to any <a>LDP-RS</a>
+            MUST include the <code>Preference-Applied</code> response header as defined in [[!RFC7240]]
+            <a href='https://tools.ietf.org/html/rfc7240#section-3'>section 3</a>.
           </p>
         </section>
         <section id="httpGETLDPNR">
           <h2><a>LDP-NR</a>s</h2>
           <p>
-            <code>GET</code> requests to any <a>LDP-NR</a> MUST correctly respond to the <code>Want-Digest</code> header
-            defined in [[!RFC3230]].
+            <code>GET</code> requests to any <a>LDP-NR</a> MUST correctly respond to the <code>Want-Digest</code>
+            header defined in [[!RFC3230]].
           </p>
           <p class='informative'>
-            Non-normative note: Given the use of checksums to validate content integrity, the digest values
-            should be calculated instead of cached.
+            Non-normative note: Given the use of checksums to validate content integrity, the digest values should be
+            calculated instead of cached.
           </p>
         </section>
       </section>
@@ -407,36 +421,40 @@
       <section id="httpHEAD">
         <h2>HTTP HEAD</h2>
         <p>
-         The <code>HEAD</code> method is identical to <code>GET</code> except that the server
-         MUST NOT return a message-body in the response, as specified in [[!RFC7231]]
-         <a href='https://tools.ietf.org/html/rfc7231#section-4.3.2'>section 4.3.2</a>.
-         The server MUST send the same <code>Digest</code> header in the response as it would
-         have sent if the request had been a <code>GET</code> (or omit it if it would have been
-         omitted for a <code>GET</code>). In other cases, the server SHOULD send the same
-         headers in response to a <code>HEAD</code> request as it would have sent if the
-         request had been a <code>GET</code>, except that the payload headers (defined in [[!RFC7231]]
-         <a href='https://tools.ietf.org/html/rfc7231#section-3.3'>section 3.3</a>) MAY be omitted.
+          The <code>HEAD</code> method is identical to <code>GET</code> except that the server MUST NOT return a
+          message-body in the response, as specified in [[!RFC7231]]
+          <a href='https://tools.ietf.org/html/rfc7231#section-4.3.2'>section 4.3.2</a>. The server MUST send the same
+          <code>Digest</code> header in the response as it would have sent if the request had been a <code>GET</code>
+          (or omit it if it would have been omitted for a <code>GET</code>). In other cases, the server SHOULD send the
+          same headers in response to a <code>HEAD</code> request as it would have sent if the request had been a
+          <code>GET</code>, except that the payload headers (defined in [[!RFC7231]]
+          <a href='https://tools.ietf.org/html/rfc7231#section-3.3'>section 3.3</a>) MAY be omitted.
         </p>
       </section>
 
       <section id="httpDELETE">
         <h2>HTTP DELETE</h2>
         <p>
-         The <code>DELETE</code> method is optional per [[!LDP]] <a href='https://www.w3.org/TR/ldp/#ldpr-HTTP_DELETE'>section
-         4.2.5</a> and this specification does not require Fedora servers to implement it.  When a Fedora server supports this method,
-         in addition to the requirements imposed on <a>LDPR</a>s within containers outlined in [[!LDP]]
-         <a href='https://www.w3.org/TR/ldp/#ldpc-HTTP_DELETE'> section 5.2.5</a>, it must also follow the additional behavior outlined
-         below.
+          The <code>DELETE</code> method is optional per [[!LDP]]
+          <a href='https://www.w3.org/TR/ldp/#ldpr-HTTP_DELETE'>section 4.2.5</a> and this specification does not
+          require Fedora servers to implement it. When a Fedora server supports this method, in addition to the
+          requirements imposed on <a>LDPR</a>s within containers outlined in [[!LDP]]
+          <a href='https://www.w3.org/TR/ldp/#ldpc-HTTP_DELETE'>section 5.2.5</a>, it must also follow the additional
+          behavior outlined below.
         </p>
         <section id="httpDELETEDepth">
           <h3>Depth Header</h3>
           <p>
-          A Feodra server MAY support the <code>Depth</code> header, as defined in [[!RFC4918]] <a href='https://tools.ietf.org/html/rfc4918#section-10.2'> section
-          10.2 </a>. Implementations MAY choose not to support all of the header's values and MUST reject a request containing an unsupported <code>Depth</code>
-          value with a 400 (Bad Request).  Implementations MUST define their own default behavior if a Depth header is not present.
+            A Feodra server MAY support the <code>Depth</code> header, as defined in [[!RFC4918]]
+            <a href='https://tools.ietf.org/html/rfc4918#section-10.2'> section 10.2 </a>. Implementations MAY choose
+            not to support all of the header's values and MUST reject a request containing an unsupported
+            <code>Depth</code> value with a 400 (Bad Request). Implementations MUST define their own default behavior if
+            a Depth header is not present.
           </p>
           <p>
-          If a server supports recursive <code>DELETE</code>, that recursion MUST be reckoned along the [[!LDP]] <a href="https://www.w3.org/TR/ldp/#dfn-containment">containment relationships</a> linking contained resources.
+            If a server supports recursive <code>DELETE</code>, that recursion MUST be reckoned along the [[!LDP]]
+            <a href="https://www.w3.org/TR/ldp/#dfn-containment">containment relationships</a> linking contained
+            resources.
           </p>
         </section>
       </section>
@@ -444,62 +462,55 @@
       <section id='external-content'>
         <h3>External Binary Content</h3>
         <blockquote id='message-external-body-variability' class='informative'>
-          Non-normative note: Variability among client types and locations may mean that LDP-NR
-          content is addressed in ways that are external to the Fedora server but not resolvable
-          by all clients. This specification describes the use of <code>Content-Type: message/external-body</code>
-          values to signal, on POST or PUT, that the Fedora server should should not consider the
-          request entity to be the LDP-NR's content, but that a <code>Content-Type</code> value will signal a
-          name or address at which the content might be retreived. The <code>url</code>
-          and <code>local-file</code> type values motivate this specification, but a Fedora server
-          may support any type parameters per the requirements for advertisement and
-          rejection specified here.
+          Non-normative note: Variability among client types and locations may mean that LDP-NR content is addressed in
+          ways that are external to the Fedora server but not resolvable by all clients. This specification describes
+          the use of <code>Content-Type: message/external-body</code> values to signal, on POST or PUT, that the Fedora
+          server should should not consider the request entity to be the LDP-NR's content, but that a
+          <code>Content-Type</code> value will signal a name or address at which the content might be retreived. The
+          <code>url</code> and <code>local-file</code> type values motivate this specification, but a Fedora server may
+          support any type parameters per the requirements for advertisement and rejection specified here.
         </blockquote>
         <p id='message-external-body-accept-post'>
-          Fedora servers that support LDP-NR with <code>message/external-body</code>
-          MUST advertise that support in the <code>Accept-Post</code> response
-          header for each supported <code>type</code> parameter of supported <code>Content-Type</code> values.
+          Fedora servers that support LDP-NR with <code>message/external-body</code> MUST advertise that support in the
+          <code>Accept-Post</code> response header for each supported <code>type</code> parameter of supported
+          <code>Content-Type</code> values.
         </p>
         <p id='message-external-body-unsupported-type'>
-          Fedora servers receiving requests that would create or update a LDP-NR
-          with a <code>message/external-body</code> with an unsupported
-          <code>type</code> parameter MUST respond with HTTP 415 UNSUPPORTED MEDIA TYPE.
-          In the case that a Fedora server does not support external LDP-NR content, all
+          Fedora servers receiving requests that would create or update a LDP-NR with a
+          <code>message/external-body</code> with an unsupported <code>type</code> parameter MUST respond with HTTP 415
+          UNSUPPORTED MEDIA TYPE. In the case that a Fedora server does not support external LDP-NR content, all
           <code>message/external-body</code> messages must be rejected with HTTP 415.
         </p>
         <p id='message-external-body-response-headers'>
-          Fedora servers receiving requests that would create or update a LDP-NR
-          with a <code>message/external-body</code> MUST NOT accept the
-          request if it cannot guarantee all of the response headers required
-          by the LDP-NR interaction model in this specification.
+          Fedora servers receiving requests that would create or update a LDP-NR with a
+          <code>message/external-body</code> MUST NOT accept the request if it cannot guarantee all of the response
+          headers required by the LDP-NR interaction model in this specification.
         </p>
         <p id='external-content-content-location'>
-          LDP-NR GET and HEAD responses SHOULD include a <code>Content-Location</code> header with a URI
-          representation of the location of the external content if the Fedora server is proxying
-          the content.
+          LDP-NR GET and HEAD responses SHOULD include a <code>Content-Location</code> header with a URI representation
+          of the location of the external content if the Fedora server is proxying the content.
         </p>
         <p id='external-content-expires'>
-          Per [[!RFC1521]], all <code>Content-Type: message/external-body</code> values
-          MAY include an <code>expiration</code> parameter. Fedora servers receiving requests that
-          would create or update a LDP-NR with a <code>message/external-body</code> content
-          type SHOULD respect the <code>expiration</code> parameter, if present, by copying
-          content. If the <code>expiration</code> parameter cannot be accommodated, the request MUST be rejected
-          with a 4xx or 5xx status code. Following [[!LDP]] <a href="https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs">4.2.1.6</a>
-          and <a href="https://www.w3.org/TR/ldp/#ldprs-put-servermanagedprops">4.2.4.3</a>,
-          4xx responses MUST be accompanied by a <code>Link</code> header
-          with <code>http://www.w3.org/ns/ldp#constrainedBy</code> relation.
+          Per [[!RFC1521]], all <code>Content-Type: message/external-body</code> values MAY include an
+          <code>expiration</code> parameter. Fedora servers receiving requests that would create or update a LDP-NR with
+          a <code>message/external-body</code> content type SHOULD respect the <code>expiration</code> parameter, if
+          present, by copying content. If the <code>expiration</code> parameter cannot be accommodated, the request MUST
+          be rejected with a 4xx or 5xx status code. Following [[!LDP]]
+          <a href="https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs">4.2.1.6</a> and
+          <a href="https://www.w3.org/TR/ldp/#ldprs-put-servermanagedprops">4.2.4.3</a>, 4xx responses MUST be
+          accompanied by a <code>Link</code> header with <code>http://www.w3.org/ns/ldp#constrainedBy</code> relation.
         </p>
         <section id='external-content-caveats' class='informative'>
           <h4>Referenced RDF Content in Mandatory LDP Serializations</h4>
           <p>
-            This specification takes no position on the use of <code>message/external-body</code>
-            to create or update LDP-RS with ttl or json-ld.
+            This specification takes no position on the use of <code>message/external-body</code> to create or update
+          LDP-RS with ttl or json-ld.
           </p>
           <h4>Proxied Content vs Redirected Content</h4>
           <p>
-            This specification assumes that clients interested in resolving a <code>type='url'</code>
-            or other value without the Fedora server as an intermediary (effectively, redirection as opposed
-            to proxying) will be able to negotiate the <code>Content-Location</code> response header
-            value from a HEAD request.
+            This specification assumes that clients interested in resolving a <code>type='url'</code> or other value
+            without the Fedora server as an intermediary (effectively, redirection as opposed to proxying) will be able
+            to negotiate the <code>Content-Location</code> response header value from a HEAD request.
           </p>
         </section>
       </section>
@@ -512,10 +523,9 @@
         <section>
           <h2>General</h2>
           <p>
-            A versioned resource for this document provides a <a>TimeGate</a> interaction model as
-            detailed in the Memento specification and indicated by an HTTP header
-            <code>Link: rel="timegate"</code> referencing itself. It otherwise follows the relevant
-            [[!LDP]] specification with the additional behaviors below.
+            A versioned resource for this document provides a <a>TimeGate</a> interaction model as detailed in the
+            Memento specification and indicated by an HTTP header <code>Link: rel="timegate"</code> referencing itself.
+            It otherwise follows the relevant [[!LDP]] specification with the additional behaviors below.
           </p>
         </section>
 
@@ -531,8 +541,8 @@
           <section>
             <h2>Response Headers</h2>
             <p>
-              At least one <code>Link: rel="timemap"</code> referencing an <a>LDPCv</a>. It is the
-              presence of this header that indicates that the resource is versioned.
+              At least one <code>Link: rel="timemap"</code> referencing an <a>LDPCv</a>. It is the presence of this
+              header that indicates that the resource is versioned.
             </p>
             <p>
               <code>Vary: Accept-Datetime</code>, exactly as per Memento.
@@ -545,10 +555,10 @@
           <section id="httpput-general">
             <h2>General</h2>
             <p>
-              An <a>LDPRv</a> MAY support <code>PUT</code>. An implementation receiving a <code>PUT</code> request for an
-              <a>LDPRv</a> MUST both correctly respond as per [[!LDP]] as well as create a new
-              <a>LDPRm</a> contained in an appropriate <a>LDPCv</a>. The newly-created <a>LDPRm</a>
-              SHOULD be the version of the <a>LDPRv</a> that was created by the <code>PUT</code> request.
+              An <a>LDPRv</a> MAY support <code>PUT</code>. An implementation receiving a <code>PUT</code> request for
+              an <a>LDPRv</a> MUST both correctly respond as per [[!LDP]] as well as create a new <a>LDPRm</a> contained
+              in an appropriate <a>LDPCv</a>. The newly-created <a>LDPRm</a> SHOULD be the version of the <a>LDPRv</a>
+              that was created by the <code>PUT</code> request.
             </p>
           </section>
 
@@ -562,8 +572,8 @@
           <section>
             <h2>Response Headers</h2>
             <p>
-              At least one <code>Link: rel="timemap"</code> referencing a <a>LDPCv</a>. It is the
-              presence of this header that indicates that the resource is versioned.
+              At least one <code>Link: rel="timemap"</code> referencing a <a>LDPCv</a>. It is the presence of this
+              header that indicates that the resource is versioned.
             </p>
             <p>
               <code>Vary: Accept-Datetime</code>, exactly as per Memento.
@@ -584,28 +594,27 @@
         <section>
           <h2>General</h2>
           <p>
-            When a <a>LDPR</a> is created with a <code>Link</code> header indicating versioning,
-            it is created as both an LDP Resource and a Memento: a <a>LDPRm</a>. An <a>LDPRm</a>
-            MUST be invariant: While it MAY be deleted, it MUST NOT be modified once created.
+            When a <a>LDPR</a> is created with a <code>Link</code> header indicating versioning, it is created as both
+            an LDP Resource and a Memento: a <a>LDPRm</a>. An <a>LDPRm</a> MUST be invariant: While it MAY be deleted,
+            it MUST NOT be modified once created.
           </p>
         </section>
 
         <section>
           <h2>HTTP DELETE</h2>
           <p>
-            An implementation MAY support <code>DELETE</code> for <a>LDPRm</a>s. If <code>DELETE</code> is
-            supported, the server is responsible for all behaviors implied by the LDP-containment
-            of the <a>LDPRm</a>.
+            An implementation MAY support <code>DELETE</code> for <a>LDPRm</a>s. If <code>DELETE</code> is supported,
+            the server is responsible for all behaviors implied by the LDP-containment of the <a>LDPRm</a>.
           </p>
         </section>
 
         <section>
           <h2>HTTP GET</h2>
           <p>
-            An implementation MUST support <code>GET</code>, as is the case for any <a>LDPR</a>.
-            The headers for <code>GET</code> requests and responses on this resource MUST conform
-            to [[!RFC7089]] (Memento). Particularly it should be noted that the relevant <a>TimeGate</a> for
-            an <a>LDPRm</a> is the original versioned <a>LDPRv</a>.
+            An implementation MUST support <code>GET</code>, as is the case for any <a>LDPR</a>. The headers for
+            <code>GET</code> requests and responses on this resource MUST conform to [[!RFC7089]] (Memento).
+            Particularly it should be noted that the relevant <a>TimeGate</a> for an <a>LDPRm</a> is the original
+            versioned <a>LDPRv</a>.
           </p>
         </section>
 
@@ -619,10 +628,10 @@
         <section>
           <h2>HTTP OPTIONS</h2>
           <p>
-            An implementation MUST support <code>OPTIONS</code>. A response to an <code>OPTIONS</code>
-            request MUST include <code>Allow: GET, HEAD, OPTIONS</code> as per [[!LDP]]. An
-            implementation MAY include <code>Allow: DELETE</code> if clients can remove a version
-            from the version history, as noted <a href="#h-http-delete">above</a>.
+            An implementation MUST support <code>OPTIONS</code>. A response to an <code>OPTIONS</code> request MUST
+            include <code>Allow: GET, HEAD, OPTIONS</code> as per [[!LDP]]. An implementation MAY include <code>Allow:
+            DELETE</code> if clients can remove a version from the version history, as noted
+            <a href="#h-http-delete">above</a>.
           </p>
         </section>
 
@@ -654,89 +663,84 @@
         <section>
           <h2>General</h2>
           <p>
-            When a <a>LDPR</a> is created with a <code>Link</code> header indicating versioning, a
-            version container (<a>LDPCv</a>) is created that contains Memento-identified resources
-            (<a>LDPRm</a>) capturing time-varying representations of the associated <a>LDPR</a>. An
-            <a>LDPCv</a> is both a <a>TimeMap</a> per [[!RFC7089]] (Memento) and an LDP Container.
-            As a <a>TimeMap</a> an <a>LDPCv</a> MUST conform to the specification for such resources
-            in [[!RFC7089]]. An implementation MUST indicate <a>TimeMap</a> in the same way it
-            indicates the Container interaction model of the resource via HTTP headers. An <a>LDPCv</a>
-            MUST respond to <code>GET Accept: application/link-format</code> as indicated in [[!RFC7089]]
-            <a href='https://tools.ietf.org/html/rfc7089#section-5'>section 5</a> and specified in
-            [[!RFC6690]] <a href='https://tools.ietf.org/html/rfc6690#section-7.3'>section 7.3</a>.
+            When a <a>LDPR</a> is created with a <code>Link</code> header indicating versioning, a version container
+            (<a>LDPCv</a>) is created that contains Memento-identified resources (<a>LDPRm</a>) capturing time-varying
+            representations of the associated <a>LDPR</a>. An <a>LDPCv</a> is both a <a>TimeMap</a> per [[!RFC7089]]
+            (Memento) and an LDP Container. As a <a>TimeMap</a> an <a>LDPCv</a> MUST conform to the specification for
+            such resources in [[!RFC7089]]. An implementation MUST indicate <a>TimeMap</a> in the same way it indicates
+            the Container interaction model of the resource via HTTP headers. An <a>LDPCv</a> MUST respond to <code>GET
+            Accept: application/link-format</code> as indicated in [[!RFC7089]]
+            <a href='https://tools.ietf.org/html/rfc7089#section-5'>section 5</a> and specified in [[!RFC6690]]
+            <a href='https://tools.ietf.org/html/rfc6690#section-7.3'>section 7.3</a>.
           </p>
           <p>
-            An implementation MUST NOT allow the creation of an <a>LDPCv</a> that is <a>LDP-contained</a>
-            by its associated <a>LDPRv</a>.
+            An implementation MUST NOT allow the creation of an <a>LDPCv</a> that is <a>LDP-contained</a> by its
+            associated <a>LDPRv</a>.
           </p>
           <p class="informative">
-            Non-normative: The <code>application/link-format</code> representation of a <a>LDPCv</a>
-            is not required to include all statements in the <a>LDPCv</a> graph, only those required
-            by <a>TimeMap</a> behaviors.
+            Non-normative: The <code>application/link-format</code> representation of a <a>LDPCv</a> is not required to
+            include all statements in the <a>LDPCv</a> graph, only those required by <a>TimeMap</a> behaviors.
           </p>
         </section>
 
         <section>
           <h2 id='ldpcvdelete'>HTTP DELETE</h2>
           <p>
-            An implementation MAY support <code>DELETE</code>. An implementation that does support
-            <code>DELETE</code> SHOULD do so by both removing the <a>LDPCv</a> and removing the
-            versioning interaction model from the original <a>LDPRv</a>.
+            An implementation MAY support <code>DELETE</code>. An implementation that does support <code>DELETE</code>
+            SHOULD do so by both removing the <a>LDPCv</a> and removing the versioning interaction model from the
+            original <a>LDPRv</a>.
           </p>
         </section>
 
         <section>
           <h2>HTTP OPTIONS</h2>
           <p>
-            An implementation MUST <code>Allow: GET, HEAD, OPTIONS</code> as per [[!LDP]]. An
-            implementation MAY <code>Allow: DELETE</code> if the versioning behavior is removable
-            by deleting the <a>LDPCv</a>. See <a href='#ldpcvdelete'></a> for requirements on
-            <code>DELETE</code> if supported.
+            An implementation MUST <code>Allow: GET, HEAD, OPTIONS</code> as per [[!LDP]]. An implementation MAY
+            <code>Allow: DELETE</code> if the versioning behavior is removable by deleting the <a>LDPCv</a>. See
+            <a href='#ldpcvdelete'></a> for requirements on <code>DELETE</code> if supported.
           </p>
           <p>
-            An implementation MAY <code>Allow: PATCH</code> if the <a>LDPCv</a> has mutable properties.
-            See <a href='#ldpcvpatch'></a> for requirements on <code>PATCH</code> if supported.
+            An implementation MAY <code>Allow: PATCH</code> if the <a>LDPCv</a> has mutable properties. See
+            <a href='#ldpcvpatch'></a> for requirements on <code>PATCH</code> if supported.
           </p>
           <p>
-            An implementation MAY <code>Allow: POST</code> if versions can be explicitly minted by a
-            client. See <a href='#ldpcvpost'></a> for requirements on <code>POST</code> if supported.
+            An implementation MAY <code>Allow: POST</code> if versions can be explicitly minted by a client. See
+            <a href='#ldpcvpost'></a> for requirements on <code>POST</code> if supported.
           </p>
         </section>
 
         <section>
           <h2 id='ldpcvpatch'>HTTP PATCH</h2>
           <p>
-            An implementation MAY <code>Allow: PATCH</code>, but if so, it MUST NOT permit clients
-            to modify containment triples.
+            An implementation MAY <code>Allow: PATCH</code>, but if so, it MUST NOT permit clients to modify containment
+            triples.
           </p>
         </section>
 
         <section>
           <h2 id='ldpcvpost'>HTTP POST</h2>
           <p>
-            If a <a>LDPCv</a> supports <code>POST</code>, <code>POST</code> SHOULD be understood to
-            create a new <a>LDPRm</a> contained by the <a>LDPCv</a>, reflecting the state of the
-            <a>LDPRv</a> at the time of the <code>POST</code>. If supported, but the representation
-            at the time of version creation can only be that which is current for the <a>LDPRv</a>,
-            the <code>Accept-Post</code> header of any response from the <a>LDPCv</a> SHOULD indicate
-            that no request body is accepted via the form <code>Accept-Post: */*; p=0.0</code>, and
-            that implementation SHOULD respond to any body-containing <code>POST</code> to that
-            <a>LDPCv</a> with a 415 response and a link to an appropriate constraints document
-            (see <a href='https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs'>LDP 4.2.1.6</a>). As per
-            [[!LDP]], any resource created via <code>POST</code>, in this case a <a>LDPRm</a>)
-            SHOULD be advertised in the response's <code>Location</code> header.
+            If a <a>LDPCv</a> supports <code>POST</code>, <code>POST</code> SHOULD be understood to create a new
+            <a>LDPRm</a> contained by the <a>LDPCv</a>, reflecting the state of the <a>LDPRv</a> at the time of the
+            <code>POST</code>. If supported, but the representation at the time of version creation can only be that
+            which is current for the <a>LDPRv</a>, the <code>Accept-Post</code> header of any response from the
+            <a>LDPCv</a> SHOULD indicate that no request body is accepted via the form <code>Accept-Post: */*;
+            p=0.0</code>, and that implementation SHOULD respond to any body-containing <code>POST</code> to that
+            <a>LDPCv</a> with a 415 response and a link to an appropriate constraints document (see
+            <a href='https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs'>LDP 4.2.1.6</a>). As per [[!LDP]], any resource
+            created via <code>POST</code>, in this case a <a>LDPRm</a>) SHOULD be advertised in the response's
+            <code>Location</code> header.
           </p>
           <p>
-            If a <a>LDPCv</a> does accept <code>POST</code> with a request body, it SHOULD respect
-            a <code>Memento-Datetime</code> request header for the created <a>LDPRm</a>.
-            Absent this header, it MUST use the current time.
+            If a <a>LDPCv</a> does accept <code>POST</code> with a request body, it SHOULD respect a
+            <code>Memento-Datetime</code> request header for the created <a>LDPRm</a>. Absent this header, it MUST use
+            the current time.
           </p>
           <p class="informative">
-            Non-normative note: If an <a>LDPCv</a> does not <code>Allow: POST</code>, the constraints
-            document indicated in <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code> for
-            that <a>LDPCv</a> should describe the versioning mechanism (e.g. by <code>PUT</code> or
-            <code>PATCH</code> to the <a>LDPRv</a> described by that <a>LDPCv</a>). Disallowing
-            <code>POST</code> suggests that the [[!LDP]] server will manage all <a>LDPRm</a>
+            Non-normative note: If an <a>LDPCv</a> does not <code>Allow: POST</code>, the constraints document indicated
+            in <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code> for that <a>LDPCv</a> should describe the
+            versioning mechanism (e.g. by <code>PUT</code> or <code>PATCH</code> to the <a>LDPRv</a> described by that
+            <a>LDPCv</a>). Disallowing <code>POST</code> suggests that the [[!LDP]] server will manage all <a>LDPRm</a>
             creation; see <a href ="#server-managed">here</a>.
           </p>
         </section>
@@ -746,10 +750,9 @@
       <section>
         <h2 class='informative'>Vary</h2>
         <p>
-          When a <code>POST</code> to an <a>LDPCv</a> or <code>PUT</code> or <code>PATCH</code> to
-          an <a>LDPRv</a> creates a new <a>LDPRm</a>, the response indicates that using a
-          <code>Vary</code> header as appropriate. When a <a>LDPCv</a> supports  <code>POST</code>,
-          and allows clients to specify a datetime for created <a>URI-M</a>s,
+          When a <code>POST</code> to an <a>LDPCv</a> or <code>PUT</code> or <code>PATCH</code> to an <a>LDPRv</a>
+          creates a new <a>LDPRm</a>, the response indicates that using a <code>Vary</code> header as appropriate. When
+          a <a>LDPCv</a> supports <code>POST</code>, and allows clients to specify a datetime for created <a>URI-M</a>s,
           Vary-Post/Vary-Put: Memento-Datetime.
         </p>
       </section>
@@ -760,12 +763,11 @@
         <section>
           <h2>Introduction</h2>
           <p>
-            This is a non-normative section describing the way the normative specification might be
-            applied to implement discoverable versioning patterns. If an implementation of a
-            <a>LDPCv</a> does not support <code>POST</code> to mint versions, that must be advertised
-            via <code>OPTIONS</code> as described above. The implementation may automatically mint
-            versions instead, but that is outside the requirements of this specification. This
-            document specifies normatively only how <a>LDPCv</a>s and <a>LDPRm</a>s can be
+            This is a non-normative section describing the way the normative specification might be applied to
+            implement discoverable versioning patterns. If an implementation of a <a>LDPCv</a> does not support
+            <code>POST</code> to mint versions, that must be advertised via <code>OPTIONS</code> as described above. The
+            implementation may automatically mint versions instead, but that is outside the requirements of this
+            specification. This document specifies normatively only how <a>LDPCv</a>s and <a>LDPRm</a>s can be
             discovered, and how they should act.
           </p>
         </section>
@@ -775,21 +777,20 @@
           <section id="server-managed">
             <h2>Server-Managed Version Creation</h2>
             <p>
-              Upon <code>PUT</code> or <code>PATCH</code> to the <a>LDPRv</a>, a new <a>LDPRm</a>
-              is created in an appropriate <a>LDPCv</a>. This <a>LDPRm</a> is the version of the
-              original <a>LDPRv</a> that was just created.
+              Upon <code>PUT</code> or <code>PATCH</code> to the <a>LDPRv</a>, a new <a>LDPRm</a> is created in an
+              appropriate <a>LDPCv</a>. This <a>LDPRm</a> is the version of the original <a>LDPRv</a> that was just
+              created.
             </p>
           </section>
 
           <section id="client-managed">
             <h2>Client-Managed Version Creation</h2>
             <p>
-              An <a>LDPRm</a> for a particular <a>LDPRv</a> is created on <code>POST</code> to any
-              <a>LDPCv</a> associated with that <a>LDPRv</a>. The new <a>LDPRm</a> is contained in
-              the <a>LDPCv</a> to which the <code>POST</code> was made and features in that
-              <a>LDPCv</a>-as-a<a>TimeMap</a> . This pattern is more open to manipulation and could
-              be useful for migration from other systems into Fedora implementations. Responses from
-              requests to the <a>LDPRv</a> include a <code>Link: rel="timemap"</code> to the same
+              An <a>LDPRm</a> for a particular <a>LDPRv</a> is created on <code>POST</code> to any <a>LDPCv</a>
+              associated with that <a>LDPRv</a>. The new <a>LDPRm</a> is contained in the <a>LDPCv</a> to which the
+              <code>POST</code> was made and features in that <a>LDPCv</a>-as-a<a>TimeMap</a> . This pattern is more
+              open to manipulation and could be useful for migration from other systems into Fedora implementations.
+              Responses from requests to the <a>LDPRv</a> include a <code>Link: rel="timemap"</code> to the same
               <a>LDPCv</a> as per [[!RFC7089]] (Memento).
             </p>
           </section>
@@ -800,33 +801,30 @@
     <section id="resource-authorization">
       <h2>Resource Authorization</h2>
       <p>
-        To configure access control restrictions, implementations MUST follow the recommendations
-        of [[!SOLIDWEBAC]] with the following additional requirements:
+        To configure access control restrictions, implementations MUST follow the recommendations of [[!SOLIDWEBAC]]
+        with the following additional requirements:
       </p>
       <section id="solid-ldp-acls">
         <h2>ACLs are LDP RDF Sources</h2>
         <p>
-          The linked Access Control List Resource (ACL) for a controlled
-          resource by a conforming server MUST itself be a LDPRS. This ACL
-          resource SHOULD be located in the same server as the controlled
-          resource.
+          The linked Access Control List Resource (ACL) for a controlled resource by a conforming server MUST itself be
+          a LDPRS. This ACL resource SHOULD be located in the same server as the controlled resource.
         </p>
       </section>
       <section id="link-rel-acl">
         <h2>ACLs are discoverable via Link Headers</h2>
         <p>
-          A conforming server MUST advertise the linked Access Control
-          List Resource (ACL) for a controlled resource in HTTP responses
-          with a <code>Link: rel="acl"</code> header. This interaction
-          pattern is described in [[!WEBAC]] and [[!SOLIDWEBAC]].
+          A conforming server MUST advertise the linked Access Control List Resource (ACL) for a controlled resource in
+          HTTP responses with a <code>Link: rel="acl"</code> header. This interaction pattern is described in [[!WEBAC]]
+          and [[!SOLIDWEBAC]].
         </p>
       </section>
       <section id="inheritance">
         <h2>Inheritance</h2>
         <p>
-          Inheritance of ACLs as defined in [[!SOLIDWEBAC]] MUST be
-          reckoned along the [[!LDP]] <a href="https://www.w3.org/TR/ldp/#dfn-containment">containment relationships</a> linking
-          controlled resources.
+          Inheritance of ACLs as defined in [[!SOLIDWEBAC]] MUST be reckoned along the [[!LDP]]
+          <a href="https://www.w3.org/TR/ldp/#dfn-containment">containment relationships</a> linking controlled
+          resources.
         </p>
       </section>
     </section>
@@ -836,39 +834,35 @@
       <section class="informative">
         <h3>Introduction</h3>
         <p>
-          This section defines when notifications are made available by a Fedora
-          implementation, the minimal set of data contained in these notifications and how
-          the data are serialized. Notifications may be emitted synchronously or asynchronously
-          with the API operations that cause them to be emitted. These notifications are typically
-          used to support external integrations. The structure of these notifications draws upon the
-          existing [[activitystreams-core]] and [[ldn]] specifications.
-          An implementation is free to choose from any transport technology so long as
-          the notifications conform to what is described in the following sections.
+          This section defines when notifications are made available by a Fedora implementation, the minimal set of data
+          contained in these notifications and how the data are serialized. Notifications may be emitted synchronously
+          or asynchronously with the API operations that cause them to be emitted. These notifications are typically
+          used to support external integrations. The structure of these notifications draws upon the existing
+          [[activitystreams-core]] and [[ldn]] specifications. An implementation is free to choose from any transport
+          technology so long as the notifications conform to what is described in the following sections.
         </p>
         <p>
-          Implementers should be aware that some operations cause multiple resources to change.
-          In these cases, there will be a corresponding notification describing each of the changes.
-          This is especially true for changes to containment or membership triples. This is also true
-          if a <code>DELETE</code> operation triggers changes in any contained resources.
+          Implementers should be aware that some operations cause multiple resources to change. In these cases, there
+          will be a corresponding notification describing each of the changes. This is especially true for changes to
+          containment or membership triples. This is also true if a <code>DELETE</code> operation triggers changes in
+          any contained resources.
         </p>
         <p>
-          Consumers of these notifications should not expect a strict ordering of
-          the events reported therein: the fact that a notification for Event A is received before
-          a notification for Event B should not imply that Event A occurred before Event B.
-          Implementations may choose to make further guarantees about ordering.
+          Consumers of these notifications should not expect a strict ordering of the events reported therein: the fact
+          that a notification for Event A is received before a notification for Event B should not imply that Event A
+          occurred before Event B. Implementations may choose to make further guarantees about ordering.
         </p>
         <p>
-          According to the [[activitystreams-core]] specification, it is possible to collect multiple
-          events into a single notification. This specification makes no restriction on the use of
-          activity stream collections.
+          According to the [[activitystreams-core]] specification, it is possible to collect multiple events into a
+          single notification. This specification makes no restriction on the use of activity stream collections.
         </p>
       </section>
 
       <section id="notification-events">
         <h3>Notification Events</h3>
         <p>
-          For every resource whose state is changed as a result of an HTTP operation,
-          there MUST be a corresponding notification made available describing that change.
+          For every resource whose state is changed as a result of an HTTP operation, there MUST be a corresponding
+          notification made available describing that change.
         </p>
       </section>
 
@@ -884,16 +878,26 @@
           Each event described by a notification MUST contain:
         </p>
         <ul>
-          <li>The IRI of the resource that was created, modified or deleted</li>
-          <li>The event type(s), corresponding to the HTTP operation</li>
+          <li>
+            The IRI of the resource that was created, modified or deleted
+          </li>
+          <li>
+            The event type(s), corresponding to the HTTP operation
+          </li>
         </ul>
         <p>
           Each event described by a notification SHOULD contain:
         </p>
         <ul>
-          <li>The agent(s) that caused the change to occur</li>
-          <li>The RDF type(s) of the resource that was changed</li>
-          <li>The location of the <code>ldp:inbox</code> for the resource that was changed, if such an inbox link exists</li>
+          <li>
+            The agent(s) that caused the change to occur
+          </li>
+          <li>
+            The RDF type(s) of the resource that was changed
+          </li>
+          <li>
+            The location of the <code>ldp:inbox</code> for the resource that was changed, if such an inbox link exists
+          </li>
         </ul>
         <p>
           Notifications SHOULD NOT contain the entire content of repository resources.
@@ -977,38 +981,44 @@
       <section id="what-is-fixity" class="informative">
         <h2>What is fixity?</h2>
         <p>
-          For the purposes of the following specification, a fixity result is an extract or summary
-          of some <a>LDP-NR</a> made according to some explicit procedure. Fixity results are taken for the
-          purpose of comparing different fixity results for the same resource over time, to ensure
-          a continuity of that resource's identity according to the particular procedure used.
-          Examples might include:
+          For the purposes of the following specification, a fixity result is an extract or summary of some
+          <a>LDP-NR</a> made according to some explicit procedure. Fixity results are taken for the purpose of comparing
+          different fixity results for the same resource over time, to ensure a continuity of that resource's identity
+          according to the particular procedure used. Examples might include:
         </p>
         <ul>
-          <li>Checksums like MD5 or SHA1, often used for digital images.</li>
-          <li><a href="https://www.w3.org/TR/xmldsig-core/">XML Signatures</a></li>
-          <li>Per-segment results <a href="http://dericed.com/papers/reconsidering-the-checksum-for-audiovisual-preservation/">as used for time-based media</a></li>
+          <li>
+            Checksums like MD5 or SHA1, often used for digital images.
+          </li>
+          <li>
+            <a href="https://www.w3.org/TR/xmldsig-core/">XML Signatures</a>
+          </li>
+          <li>
+            Per-segment results
+            <a href="http://dericed.com/papers/reconsidering-the-checksum-for-audiovisual-preservation/">as used for
+            time-based media</a>
+          </li>
         </ul>
         <p>
-          This specification describes two fixity verification mechanisms: firstly, as part of
-          content transmission, to guard against faults in transmission, and secondly, by comparison
-          to a known or proffered digest value, to monitor for faults in persistence.
+          This specification describes two fixity verification mechanisms: firstly, as part of content transmission, to
+          guard against faults in transmission, and secondly, by comparison to a known or proffered digest value, to
+          monitor for faults in persistence.
         </p>
       </section>
       <section id="transmission-fixity" class="informative">
         <h2>Transmission Fixity</h2>
         <p>
-          Transmission fixity may be verified by including a <code>Digest</code> header (defined in
-          [[RFC3230]]) in <code>POST</code> and <code>PUT</code> requests for <a>LDP-NR</a>s.
+          Transmission fixity may be verified by including a <code>Digest</code> header (defined in [[RFC3230]]) in
+          <code>POST</code> and <code>PUT</code> requests for <a>LDP-NR</a>s.
         </p>
       </section>
       <section id="persistence-fixity" class="informative">
         <h2>Persistence Fixity</h2>
         <p>
-          A client may retrieve the checksum of an <a>LDP-NR</a> by performing a <code>HEAD</code> or
-          <code>GET</code> request on it with the <code>Want-Digest</code> header (using a <code>HEAD</code>
-          request allows the client to avoid transferring the entire content when only the checksum is
-          needed). The <code>Digest</code> header in the response can be used to infer persistence fixity by
-          comparing it to previously-computed values.
+          A client may retrieve the checksum of an <a>LDP-NR</a> by performing a <code>HEAD</code> or <code>GET</code>
+          request on it with the <code>Want-Digest</code> header (using a <code>HEAD</code> request allows the client to
+          avoid transferring the entire content when only the checksum is needed). The <code>Digest</code> header in the
+          response can be used to infer persistence fixity by comparing it to previously-computed values.
         </p>
       </section>
     </section>
@@ -1016,42 +1026,39 @@
     <section id="privacy">
       <h2>Privacy Considerations</h2>
       <p>
-        Fedora implementations are subject to the same privacy considerations that are found
-        in the following specifications:
+        Fedora implementations are subject to the same privacy considerations that are found in the following
+        specifications:
       </p>
       <ul>
         <li>
-          HTTP/1.1: [[!RFC7230]] <a href="https://tools.ietf.org/html/rfc7230#section-9.8">9.8
-            Privacy of Server Log Information</a>
+          HTTP/1.1: [[!RFC7230]] <a href="https://tools.ietf.org/html/rfc7230#section-9.8">9.8 Privacy of Server Log
+          Information</a>
         </li>
         <li>
-          [[!activitystreams-core]] <a href="https://www.w3.org/TR/activitystreams-core/#privacy">
-            6. Privacy Considerations</a>
+          [[!activitystreams-core]] <a href="https://www.w3.org/TR/activitystreams-core/#privacy">6. Privacy
+          Considerations</a>
       </ul>
     </section>
 
     <section id="security">
       <h2>Security Considerations</h2>
       <p>
-        There are security considerations for any HTTP server exposed to the Internet.
-        Implementations SHOULD make use of the many security-related features of HTTP,
-        including use of the authentication framework defined in the Authentication
-        chapter of the HTTP/1.1 specification [[!RFC7235]].
+        There are security considerations for any HTTP server exposed to the Internet. Implementations SHOULD make use
+        of the many security-related features of HTTP, including use of the authentication framework defined in the
+        Authentication chapter of the HTTP/1.1 specification [[!RFC7235]].
       </p>
       <p>
-        Fedora implementations are subject to the same security considerations that are found
-        in the following specifications:
+        Fedora implementations are subject to the same security considerations that are found in the following
+        specifications:
       </p>
       <ul>
         <li>
-          HTTP/1.1: [[!RFC7230]] <a href="https://tools.ietf.org/html/rfc7230#section-9">9. Security
-          Considerations</a> and [[!RFC7231]] <a href="https://tools.ietf.org/html/rfc7231#section-9">9.
-          Security Considerations</a>
+          HTTP/1.1: [[!RFC7230]] <a href="https://tools.ietf.org/html/rfc7230#section-9">9. Security Considerations</a>
+          and [[!RFC7231]] <a href="https://tools.ietf.org/html/rfc7231#section-9">9. Security Considerations</a>
         </li>
         <li>[[!LDP]] <a href="https://www.w3.org/TR/ldp/#security">9. Security Considerations</a></li>
         <li>
-          Memento [[!RFC7089]] <a href="https://tools.ietf.org/html/rfc7089#section-7">7. Security
-          Considerations</a>
+          Memento [[!RFC7089]] <a href="https://tools.ietf.org/html/rfc7089#section-7">7. Security Considerations</a>
         </li>
         <li>
           [[!activitystreams-core]] <a href="https://www.w3.org/TR/activitystreams-core/#security-considerations">7.
