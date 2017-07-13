@@ -417,8 +417,9 @@
             header defined in [[!RFC3230]].
           </p>
           <p class='informative'>
-            Non-normative note: Given the use of checksums to validate content integrity, the digest values should be
-            calculated instead of cached.
+            Non-normative note: In the presence of a <code>Want-Digest</code> header, the current <code>Digest</code>
+            value should be calculated to enable fixity verification. Otherwise, it is expected that ETag values may be
+            cached. See <a href="#persistence-fixity"></a>.
           </p>
         </section>
       </section>
