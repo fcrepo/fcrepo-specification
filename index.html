@@ -322,6 +322,25 @@
           interaction model of the resource MUST be changed to the interaction model assigned to the new type by
           [[!LDP]].
         </p>
+
+        <section id="httpPUTLDPRS">
+          <h2>LDP-RSs</h2>
+          <p>
+            Any <a>LDP-RS</a> MUST support <code>PUT</code> to update statements that are not server-managed triples
+            (as defined in [[!LDP]] 2). [[!LDP]] <a href="https://www.w3.org/TR/ldp/#ldpr-put-replaceall">4.2.4.1</a>
+            and <a href="https://www.w3.org/TR/ldp/#ldprs-put-servermanagedprops">4.2.4.3</a> remain in effect. If an
+            otherwise valid HTTP <code>PUT</code> request is received that attempts to add statements to a resource that
+            a server disallows (not ignores per [[!LDP]]
+            <a href="https://www.w3.org/TR/ldp/#ldpr-put-replaceall">4.2.4.1</a>), the server MUST fail the request by
+            responding with a 4xx range status code (e.g. 409 Conflict). The server MUST provide a corresponding
+            response body containing information about which statements could not be persisted. ([[!LDP]]
+            <a href="https://www.w3.org/TR/ldp/#ldprs-put-failed">4.2.4.4</a> SHOULD becomes MUST). In that response,
+            the restrictions causing such a request to fail MUST be described in a resource indicated by a <code>Link:
+            rel="http://www.w3.org/ns/ldp#constrainedBy"</code> response header per [[!LDP]]
+            <a href='https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs'>4.2.1.6</a>.
+          </p>
+        </section>
+
         <section id="httpPUTLDPNR">
           <h2><a>LDP-NR</a>s</h2>
           <p>
@@ -343,24 +362,6 @@
             message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</code>, as defined in
             [[!RFC2017]]. Requirements for this interaction are detailed in <a href="#external-content">External LDP-NR
             Content</a>.
-          </p>
-        </section>
-
-        <section id="httpPUTLDPRS">
-          <h2>LDP-RSs</h2>
-          <p>
-            Any <a>LDP-RS</a> MUST support <code>PUT</code> to update statements that are not server-managed triples
-            (as defined in [[!LDP]] 2). [[!LDP]] <a href="https://www.w3.org/TR/ldp/#ldpr-put-replaceall">4.2.4.1</a>
-            and <a href="https://www.w3.org/TR/ldp/#ldprs-put-servermanagedprops">4.2.4.3</a> remain in effect. If an
-            otherwise valid HTTP <code>PUT</code> request is received that attempts to add statements to a resource that
-            a server disallows (not ignores per [[!LDP]]
-            <a href="https://www.w3.org/TR/ldp/#ldpr-put-replaceall">4.2.4.1</a>), the server MUST fail the request by
-            responding with a 4xx range status code (e.g. 409 Conflict). The server MUST provide a corresponding
-            response body containing information about which statements could not be persisted. ([[!LDP]]
-            <a href="https://www.w3.org/TR/ldp/#ldprs-put-failed">4.2.4.4</a> SHOULD becomes MUST). In that response,
-            the restrictions causing such a request to fail MUST be described in a resource indicated by a <code>Link:
-            rel="http://www.w3.org/ns/ldp#constrainedBy"</code> response header per [[!LDP]]
-            <a href='https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs'>4.2.1.6</a>.
           </p>
         </section>
 
