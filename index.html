@@ -304,6 +304,7 @@
             [[!RFC3230]]), SHOULD be rejected with a 400 Bad Request response.
           </p>
           <p class='informative'>
+            Non-normative note:
             Implementations may support <code>Content-Type: message/external-body</code> extensions for request bodies
             for HTTP <code>POST</code> that would create <a>LDP-NR</a>s. This content-type requires a complete
             <code>Content-Type</code> header that includes the location of the external body, e.g <code>Content-Type:
@@ -359,6 +360,7 @@
             [[!RFC3230]]), SHOULD be rejected with a 400 Bad Request response.
           </p>
           <p class='informative'>
+            Non-normative note:
             Implementations may support <code>Content-Type: message/external-body</code> extensions for request bodies
             for HTTP <code>PUT</code> that would create <a>LDP-NR</a>s. This content-type requires a complete
             <code>Content-Type</code> header that includes the location of the external body, e.g <code>Content-Type:
@@ -371,7 +373,7 @@
         <section id="httpPUTcreate" class="informative">
           <h2>Creating resources with HTTP PUT</h2>
           <p>
-            An implementation MAY accept HTTP <code>PUT</code> to create resources ([[!LDP]]
+            An implementation may accept HTTP <code>PUT</code> to create resources ([[!LDP]]
             <a href="https://www.w3.org/TR/ldp/#ldpr-put-create">4.2.4.6</a>). Behavior regarding containment or
             non-containment of resources created with HTTP <code>PUT</code> is not defined by [[!LDP]] or this
             specification.
@@ -695,8 +697,9 @@
             associated <a>LDPRv</a>.
           </p>
           <p class="informative">
-            Non-normative: The <code>application/link-format</code> representation of an <a>LDPCv</a> is not required to
-            include all statements in the <a>LDPCv</a> graph, only those required by <a>TimeMap</a> behaviors.
+            Non-normative note: The <code>application/link-format</code> representation of an <a>LDPCv</a> is not
+            required to include all statements in the <a>LDPCv</a> graph, only those required by <a>TimeMap</a>
+            behaviors.
           </p>
         </section>
 
@@ -764,8 +767,8 @@
 
       </section>
 
-      <section>
-        <h2 class='informative'>Vary</h2>
+      <section class='informative'>
+        <h2>Vary</h2>
         <p>
           When a <code>POST</code> to an <a>LDPCv</a>, or a <code>PUT</code> or <code>PATCH</code> to an <a>LDPRv</a>
           creates a new <a>LDPRm</a>, the response indicates this by using a <code>Vary</code> header as appropriate.
