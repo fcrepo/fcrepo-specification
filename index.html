@@ -4,7 +4,7 @@
     <title>Fedora API Specification</title>
     <meta charset='utf-8'>
     <meta name="description" content="Fedora API Specification">
-    <script src='https://www.w3.org/Tools/respec/respec-w3c-common'
+    <script src='respec-w3c-common.js'
             async class='remove'></script>
     <script class='remove'>
       var respecConfig = {
@@ -107,7 +107,7 @@
       <ul>
         <li>
           a reconciliation of [[LDP]] and the well-established version identification and navigation scheme delineated
-        in the [[RFC7089]] (Memento) specification,
+          in the Memento specification [[RFC7089]],
         </li>
         <li>
           interaction patterns for use with binary fixity information,
@@ -131,11 +131,12 @@
 
     <section id="conformance">
       <p>
-        A conforming <b>Fedora server</b> is a conforming [[!LDP]] 1.0 server except where described in this document
-        that also follows the rules defined by Fedora in <a href="#resource-management"></a>,
-        <a href="#resource-versioning"></a>, <a href="#resource-authorization"></a>, and <a href="#notifications"></a>.
+        A conforming <b>Fedora server</b> is a conforming [[!LDP]] 1.0 server that follows the additional
+        rules defined in sections <a href="#resource-management"></a>, <a href="#resource-versioning"></a>,
+        <a href="#resource-authorization"></a>, and <a href="#notifications"></a> of this specification.
       </p>
     </section>
+
     <section id="terminology">
     <h2>Terminology</h2>
     <p>
@@ -183,22 +184,25 @@
         </dd>
         <dt><dfn>URI-R</dfn>:</dt>
         <dd>
-          A type of versioned resource defined in
-          [<a href="https://tools.ietf.org/html/rfc7089#section-1.1">Memento</a>].
+          A type of versioned resource defined in Memento [[RFC7089]]
+          <a href="https://tools.ietf.org/html/rfc7089#section-1.2">section 1.2</a>.
         </dd>
         <dt><dfn>URI-M</dfn>:</dt>
         <dd>
-          A type of resource that is defined in [<a href="https://tools.ietf.org/html/rfc7089#section-1.1">Memento</a>]
+          A type of resource that is defined in Memento [[RFC7089]]
+          <a href="https://tools.ietf.org/html/rfc7089#section-1.2">section 1.2</a>
           as representing a version of a given <a>URI-R</a>.
         </dd>
         <dt><dfn>TimeGate</dfn>:</dt>
         <dd>
-          A type of resource defined in [<a href="https://tools.ietf.org/html/rfc7089#section-1.1">Memento</a>]
+          A type of resource defined in Memento [[RFC7089]]
+          <a href="https://tools.ietf.org/html/rfc7089#section-1.1">section 1.1</a>
           providing <code>Accept-Datetime</code>-varied negotiation of versions of an <a>URI-R</a>.
         </dd>
         <dt><dfn>TimeMap</dfn>:</dt>
         <dd>
-          A type of resource defined in [<a href="https://tools.ietf.org/html/rfc7089#section-1.1">Memento</a>] that
+          A type of resource defined in Memento [[RFC7089]]
+          <a href="https://tools.ietf.org/html/rfc7089#section-1.1">section 1.1</a> that
           contains a machine-readable listing of <a>URI-M</a>s associated to a given <a>URI-R</a>.
         </dd>
       </dl>
@@ -304,6 +308,7 @@
             [[!RFC3230]]), SHOULD be rejected with a 400 Bad Request response.
           </p>
           <p class='informative'>
+            Non-normative note:
             Implementations may support <code>Content-Type: message/external-body</code> extensions for request bodies
             for HTTP <code>POST</code> that would create <a>LDP-NR</a>s. This content-type requires a complete
             <code>Content-Type</code> header that includes the location of the external body, e.g <code>Content-Type:
@@ -325,29 +330,6 @@
           interaction model of the resource MUST be changed to the interaction model assigned to the new type by
           [[!LDP]].
         </p>
-        <section id="httpPUTLDPNR">
-          <h2><a>LDP-NR</a>s</h2>
-          <p>
-            Any <a>LDP-NR</a> MUST support <code>PUT</code> to replace the binary content of that resource.
-          </p>
-          <p>
-            An HTTP <code>PUT</code> request that includes a <code>Digest</code> header (as described in [[!RFC3230]])
-            for which any instance-digest in that header does not match the instance it describes, MUST be rejected with
-            a 409 Conflict response.
-          </p>
-          <p>
-            An HTTP <code>PUT</code> request that includes an unsupported <code>Digest</code> type (as described in
-            [[!RFC3230]]), SHOULD be rejected with a 400 Bad Request response.
-          </p>
-          <p class='informative'>
-            Implementations may support <code>Content-Type: message/external-body</code> extensions for request bodies
-            for HTTP <code>PUT</code> that would create <a>LDP-NR</a>s. This content-type requires a complete
-            <code>Content-Type</code> header that includes the location of the external body, e.g <code>Content-Type:
-            message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</code>, as defined in
-            [[!RFC2017]]. Requirements for this interaction are detailed in <a href="#external-content">External LDP-NR
-            Content</a>.
-          </p>
-        </section>
 
         <section id="httpPUTLDPRS">
           <h2>LDP-RSs</h2>
@@ -367,10 +349,35 @@
           </p>
         </section>
 
+        <section id="httpPUTLDPNR">
+          <h2><a>LDP-NR</a>s</h2>
+          <p>
+            Any <a>LDP-NR</a> MUST support <code>PUT</code> to replace the binary content of that resource.
+          </p>
+          <p>
+            An HTTP <code>PUT</code> request that includes a <code>Digest</code> header (as described in [[!RFC3230]])
+            for which any instance-digest in that header does not match the instance it describes, MUST be rejected with
+            a 409 Conflict response.
+          </p>
+          <p>
+            An HTTP <code>PUT</code> request that includes an unsupported <code>Digest</code> type (as described in
+            [[!RFC3230]]), SHOULD be rejected with a 400 Bad Request response.
+          </p>
+          <p class='informative'>
+            Non-normative note:
+            Implementations may support <code>Content-Type: message/external-body</code> extensions for request bodies
+            for HTTP <code>PUT</code> that would create <a>LDP-NR</a>s. This content-type requires a complete
+            <code>Content-Type</code> header that includes the location of the external body, e.g <code>Content-Type:
+            message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</code>, as defined in
+            [[!RFC2017]]. Requirements for this interaction are detailed in <a href="#external-content">External LDP-NR
+            Content</a>.
+          </p>
+        </section>
+
         <section id="httpPUTcreate" class="informative">
           <h2>Creating resources with HTTP PUT</h2>
           <p>
-            An implementation MAY accept HTTP <code>PUT</code> to create resources ([[!LDP]]
+            An implementation may accept HTTP <code>PUT</code> to create resources ([[!LDP]]
             <a href="https://www.w3.org/TR/ldp/#ldpr-put-create">4.2.4.6</a>). Behavior regarding containment or
             non-containment of resources created with HTTP <code>PUT</code> is not defined by [[!LDP]] or this
             specification.
@@ -419,8 +426,9 @@
             header defined in [[!RFC3230]].
           </p>
           <p class='informative'>
-            Non-normative note: Given the use of checksums to validate content integrity, the digest values should be
-            calculated instead of cached.
+            Non-normative note: In the presence of a <code>Want-Digest</code> header, the current <code>Digest</code>
+            value should be calculated to enable fixity verification. Otherwise, it is expected that ETag values may be
+            cached. See <a href="#persistence-fixity"></a>.
           </p>
         </section>
       </section>
@@ -533,8 +541,9 @@
           <h2>General</h2>
           <p>
             A versioned resource for this document provides a <a>TimeGate</a> interaction model as detailed in the
-            Memento specification and indicated by an HTTP header <code>Link: rel="timegate"</code> referencing itself.
-            It otherwise follows the relevant [[!LDP]] specification with the additional behaviors below.
+            Memento specification [[RFC7089]] and indicated by an HTTP header <code>Link: rel="timegate"</code>
+            referencing itself. It otherwise follows the relevant [[!LDP]] specification with the additional
+            behaviors below.
           </p>
         </section>
 
@@ -543,7 +552,8 @@
           <section>
             <h2>Request Headers for an LDPRv</h2>
             <p>
-              <code>Accept-Datetime</code>, exactly as per Memento.
+              <code>Accept-Datetime</code>, exactly as per [[!RFC7089]]
+              <a href='https://tools.ietf.org/html/rfc7089#section-2.1.1'>section 2.1.1</a>.
             </p>
           </section>
 
@@ -554,7 +564,8 @@
               header that indicates that the resource is versioned.
             </p>
             <p>
-              <code>Vary: Accept-Datetime</code>, exactly as per Memento.
+              <code>Vary: Accept-Datetime</code>, exactly as per [[!RFC7089]]
+              <a href='https://tools.ietf.org/html/rfc7089#section-2.1.2'>section 2.1.2</a>.
             </p>
           </section>
         </section>
@@ -574,7 +585,8 @@
           <section>
             <h2>Request Headers for an LDPRv</h2>
             <p>
-              <code>Accept-Datetime</code>, exactly as per Memento.
+              <code>Accept-Datetime</code>, exactly as per [[!RFC7089]]
+              <a href='https://tools.ietf.org/html/rfc7089#section-2.1.1'>section 2.1.1</a>.
             </p>
           </section>
 
@@ -585,7 +597,8 @@
               header that indicates that the resource is versioned.
             </p>
             <p>
-              <code>Vary: Accept-Datetime</code>, exactly as per Memento.
+              <code>Vary: Accept-Datetime</code>, exactly as per [[!RFC7089]]
+              <a href='https://tools.ietf.org/html/rfc7089#section-2.1.2'>section 2.1.2</a>.
             </p>
           </section>
         </section>
@@ -621,7 +634,8 @@
           <h2>HTTP GET</h2>
           <p>
             An implementation MUST support <code>GET</code>, as is the case for any <a>LDPR</a>. The headers for
-            <code>GET</code> requests and responses on this resource MUST conform to [[!RFC7089]] (Memento).
+            <code>GET</code> requests and responses on this resource MUST conform to [[!RFC7089]]
+            <a href='https://tools.ietf.org/html/rfc7089#section-2.1'>section 2.1</a>.
             Particularly it should be noted that the relevant <a>TimeGate</a> for an <a>LDPRm</a> is the original
             versioned <a>LDPRv</a>.
           </p>
@@ -674,8 +688,8 @@
           <p>
             When an <a>LDPR</a> is created with a <code>Link</code> header indicating versioning, a version container
             (<a>LDPCv</a>) is created that contains Memento-identified resources (<a>LDPRm</a>) capturing time-varying
-            representations of the associated <a>LDPR</a>. An <a>LDPCv</a> is both a <a>TimeMap</a> per [[!RFC7089]]
-            (Memento) and an LDP Container. As a <a>TimeMap</a> an <a>LDPCv</a> MUST conform to the specification for
+            representations of the associated <a>LDPR</a>. An <a>LDPCv</a> is both a <a>TimeMap</a> per Memento
+            [[!RFC7089]] and an LDP Container. As a <a>TimeMap</a> an <a>LDPCv</a> MUST conform to the specification for
             such resources in [[!RFC7089]]. An implementation MUST indicate <a>TimeMap</a> in the same way it indicates
             the Container interaction model of the resource via HTTP headers. An <a>LDPCv</a> MUST respond to <code>GET
             Accept: application/link-format</code> as indicated in [[!RFC7089]]
@@ -687,8 +701,9 @@
             associated <a>LDPRv</a>.
           </p>
           <p class="informative">
-            Non-normative: The <code>application/link-format</code> representation of an <a>LDPCv</a> is not required to
-            include all statements in the <a>LDPCv</a> graph, only those required by <a>TimeMap</a> behaviors.
+            Non-normative note: The <code>application/link-format</code> representation of an <a>LDPCv</a> is not
+            required to include all statements in the <a>LDPCv</a> graph, only those required by <a>TimeMap</a>
+            behaviors.
           </p>
         </section>
 
@@ -756,8 +771,8 @@
 
       </section>
 
-      <section>
-        <h2 class='informative'>Vary</h2>
+      <section class='informative'>
+        <h2>Vary</h2>
         <p>
           When a <code>POST</code> to an <a>LDPCv</a>, or a <code>PUT</code> or <code>PATCH</code> to an <a>LDPRv</a>
           creates a new <a>LDPRm</a>, the response indicates this by using a <code>Vary</code> header as appropriate.
@@ -800,7 +815,7 @@
               <code>POST</code> was made and features in that <a>LDPCv</a>-as-a<a>TimeMap</a>. This pattern is more
               open to manipulation and could be useful for migration from other systems into Fedora implementations.
               Responses from requests to the <a>LDPRv</a> include a <code>Link: rel="timemap"</code> to the same
-              <a>LDPCv</a> as per [[!RFC7089]] (Memento).
+              <a>LDPCv</a> as per [[!RFC7089]] <a href='https://tools.ietf.org/html/rfc7089#section-5'>section 5</a>.
             </p>
           </section>
         </section>
