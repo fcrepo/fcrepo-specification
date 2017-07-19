@@ -829,24 +829,29 @@
       <section id="solid-ldp-acls">
         <h2>ACLs are LDP RDF Sources</h2>
         <p>
-          The linked Access Control List Resource (ACL) for a controlled resource by a conforming server MUST itself be
+          The Access Control List Resource (ACL) for a controlled resource on conforming server MUST itself be
           an LDPRS. This ACL resource SHOULD be located in the same server as the controlled resource.
         </p>
       </section>
       <section id="link-rel-acl">
         <h2>ACLs are discoverable via Link Headers</h2>
         <p>
-          A conforming server MUST advertise the linked Access Control List Resource (ACL) for a controlled resource in
-          HTTP responses with a <code>Link: rel="acl"</code> header. This interaction pattern is described in [[!WEBAC]]
-          and [[!SOLIDWEBAC]].
+          A conforming server MUST advertise the appropriate Access Control List Resource (ACL) for every controlled
+          resource in HTTP responses with a <code>Link: rel="acl"</code> header. This interaction pattern is described
+          in [[!SOLIDWEBAC]].
         </p>
       </section>
       <section id="inheritance">
-        <h2>Inheritance</h2>
+        <h2>Inheritance and Default ACLs</h2>
         <p>
-          Inheritance of ACLs as defined in [[!SOLIDWEBAC]] MUST be reckoned along the [[!LDP]]
+          Inheritance of Access Control List Resources (ACLs) in Fedora implementations is defined by the
+          [[!SOLIDWEBAC]] <a href="https://github.com/solid/web-access-control-spec#acl-inheritance-algorithm">ACL
+          Inheritance Algorithm</a> and MUST be reckoned along the [[!LDP]]
           <a href="https://www.w3.org/TR/ldp/#dfn-containment">containment relationships</a> linking controlled
-          resources.
+          resources, with the following modification: In the case that the controlled resource is uncontained and
+          has no ACL, or that there is no ACL at any point in the containment hierarchy of the controlled resource,
+          then the server MUST supply a default ACL. The default ACL resource SHOULD be located in the same server as
+          the controlled resource.
         </p>
       </section>
     </section>
