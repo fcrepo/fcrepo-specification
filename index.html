@@ -97,7 +97,7 @@
     </script>
   </head>
   <body>
-    <section id='abstract' class='informative'>
+    <section id="abstract" class="informative">
       <h2>Introduction</h2>
       <p>
         This specification refines the semantics and interaction patterns of [[LDP]] in order to better serve the
@@ -242,14 +242,14 @@
             <code>http://www.w3.org/ns/ldp#PreferMinimalContainer</code>.
             ([[!LDP]] <a href="https://www.w3.org/TR/ldp/#ldpdc-containtriples">5.4.1.4 expansion</a>)
           </p>
-          <p class='informative'>
+          <blockquote class="informative">
             Non-normative note: [[!LDP]] defines containment relationships as binding an LDPC to LDPRs whose lifecycle
             it controls and is aware of, and are expressed through containment triples of the form &lt;LDPC-URI&gt;
             ldp:contains &lt;LDPR-URI&gt;. However, implementations that segregate containment and membership triples -
             for example, by storing containment relationships in a dedicated named graph - may allow the creation of
             other triples with the ldp:contains predicate, and thus triples with this predicate do not necessarily imply
             containment.
-          </p>
+          </blockquote>
         </section>
       </section>
 
@@ -307,7 +307,7 @@
             An HTTP <code>POST</code> request that includes an unsupported <code>Digest</code> type (as described in
             [[!RFC3230]]), SHOULD be rejected with a 400 Bad Request response.
           </p>
-          <p class='informative'>
+          <blockquote class="informative">
             Non-normative note:
             Implementations may support <code>Content-Type: message/external-body</code> extensions for request bodies
             for HTTP <code>POST</code> that would create <a>LDP-NR</a>s. This content-type requires a complete
@@ -315,7 +315,7 @@
             message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</code>, as defined in
             [[!RFC2017]]. Requirements for this interaction are detailed in
             <a href="#external-content">External LDP-NR Content</a>.
-          </p>
+          </blockquote>
         </section>
       </section>
 
@@ -363,7 +363,7 @@
             An HTTP <code>PUT</code> request that includes an unsupported <code>Digest</code> type (as described in
             [[!RFC3230]]), SHOULD be rejected with a 400 Bad Request response.
           </p>
-          <p class='informative'>
+          <blockquote class="informative">
             Non-normative note:
             Implementations may support <code>Content-Type: message/external-body</code> extensions for request bodies
             for HTTP <code>PUT</code> that would create <a>LDP-NR</a>s. This content-type requires a complete
@@ -371,17 +371,18 @@
             message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</code>, as defined in
             [[!RFC2017]]. Requirements for this interaction are detailed in <a href="#external-content">External LDP-NR
             Content</a>.
-          </p>
+          </blockquote>
         </section>
 
-        <section id="httpPUTcreate" class="informative">
+        <section id="httpPUTcreate">
           <h2>Creating resources with HTTP PUT</h2>
-          <p>
+          <blockquote class="informative">
+            Non-normative note:
             An implementation may accept HTTP <code>PUT</code> to create resources ([[!LDP]]
             <a href="https://www.w3.org/TR/ldp/#ldpr-put-create">4.2.4.6</a>). Behavior regarding containment or
             non-containment of resources created with HTTP <code>PUT</code> is not defined by [[!LDP]] or this
             specification.
-          </p>
+          </blockquote>
         </section>
       </section>
 
@@ -425,11 +426,11 @@
             <code>GET</code> requests to any <a>LDP-NR</a> MUST correctly respond to the <code>Want-Digest</code>
             header defined in [[!RFC3230]].
           </p>
-          <p class='informative'>
+          <blockquote class="informative">
             Non-normative note: In the presence of a <code>Want-Digest</code> header, the current <code>Digest</code>
             value should be calculated to enable fixity verification. Otherwise, it is expected that ETag values may be
             cached. See <a href="#persistence-fixity"></a>.
-          </p>
+          </blockquote>
         </section>
       </section>
 
@@ -476,7 +477,7 @@
 
       <section id='external-content'>
         <h3>External Binary Content</h3>
-        <blockquote id='message-external-body-variability' class='informative'>
+        <blockquote id="message-external-body-variability" class="informative">
           Non-normative note: Variability among client types and locations may mean that LDP-NR content is addressed in
           ways that are external to the Fedora server but not resolvable by all clients. This specification describes
           the use of <code>Content-Type: message/external-body</code> values to signal, on POST or PUT, that the Fedora
@@ -515,20 +516,22 @@
           <a href="https://www.w3.org/TR/ldp/#ldprs-put-servermanagedprops">4.2.4.3</a>, 4xx responses MUST be
           accompanied by a <code>Link</code> header with <code>http://www.w3.org/ns/ldp#constrainedBy</code> relation.
         </p>
-        <section id='external-content-caveats' class='informative'>
+        <section id='external-content-caveats'>
           <h4>Referenced RDF Content in Mandatory LDP Serializations</h4>
-          <p>
+          <blockquote class="informative">
+            Non-normative note:
             This specification takes no position on the use of <code>message/external-body</code> to create or update
-          LDP-RS with ttl or json-ld.
-          </p>
+            LDP-RS with Turtle or JSON-LD.
+          </blockquote>
         </section>
-        <section id='proxied-vs-redirected' class='informative'>
+        <section id='proxied-vs-redirected'>
           <h4>Proxied Content vs. Redirected Content</h4>
-          <p>
+          <blockquote class="informative">
+            Non-normative note:
             This specification assumes that clients interested in resolving a <code>type='url'</code> or other value
             without the Fedora server as an intermediary (effectively, redirection as opposed to proxying) will be able
             to negotiate the <code>Content-Location</code> response header value from a HEAD request.
-          </p>
+          </blockquote>
         </section>
       </section>
     </section>
@@ -700,11 +703,11 @@
             An implementation MUST NOT allow the creation of an <a>LDPCv</a> that is <a>LDP-contained</a> by its
             associated <a>LDPRv</a>.
           </p>
-          <p class="informative">
+          <blockquote class="informative">
             Non-normative note: The <code>application/link-format</code> representation of an <a>LDPCv</a> is not
             required to include all statements in the <a>LDPCv</a> graph, only those required by <a>TimeMap</a>
             behaviors.
-          </p>
+          </blockquote>
         </section>
 
         <section>
@@ -760,64 +763,59 @@
             <code>Memento-Datetime</code> request header for the created <a>LDPRm</a>. Absent this header, it MUST use
             the current time.
           </p>
-          <p class="informative">
+          <blockquote class="informative">
             Non-normative note: If an <a>LDPCv</a> does not <code>Allow: POST</code>, the constraints document indicated
             in <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code> for that <a>LDPCv</a> should describe the
             versioning mechanism (e.g. by <code>PUT</code> or <code>PATCH</code> to the <a>LDPRv</a> described by that
             <a>LDPCv</a>). Disallowing <code>POST</code> suggests that the [[!LDP]] server will manage all <a>LDPRm</a>
-            creation; see <a href ="#server-managed">here</a>.
-          </p>
+            creation; see <a href ="#server-managed">Server-Managed Version Creation</a>.
+          </blockquote>
         </section>
 
       </section>
 
-      <section class='informative'>
+      <section>
         <h2>Vary</h2>
-        <p>
+        <blockquote class="informative">
+          Non-normative note:
           When a <code>POST</code> to an <a>LDPCv</a>, or a <code>PUT</code> or <code>PATCH</code> to an <a>LDPRv</a>
           creates a new <a>LDPRm</a>, the response indicates this by using a <code>Vary</code> header as appropriate.
           When an <a>LDPCv</a> supports <code>POST</code>, and allows clients to specify a datetime for created
           <a>URI-M</a>s, Vary-Post/Vary-Put: Memento-Datetime.
-        </p>
+        </blockquote>
       </section>
 
-      <section class="informative">
+      <section>
         <h2>Implementation Patterns</h2>
-
-        <section>
-          <h2>Introduction</h2>
-          <p>
-            This is a non-normative section describing the way the normative specification might be applied to
-            implement discoverable versioning patterns. If an implementation of an <a>LDPCv</a> does not support
-            <code>POST</code> to mint versions, that must be advertised via <code>OPTIONS</code> as described above. The
-            implementation may automatically mint versions instead, but that is outside the requirements of this
-            specification. This document specifies normatively only how <a>LDPCv</a>s and <a>LDPRm</a>s can be
-            discovered, and how they should act.
-          </p>
+        <blockquote class="informative">
+          Non-normative note:
+          This section describes the way the normative specification might be applied to
+          implement discoverable versioning patterns. If an implementation of an <a>LDPCv</a> does not support
+          <code>POST</code> to mint versions, that must be advertised via <code>OPTIONS</code> as described above. The
+          implementation may automatically mint versions instead, but that is outside the requirements of this
+          specification. This document specifies normatively only how <a>LDPCv</a>s and <a>LDPRm</a>s can be
+          discovered, and how they should act.
+        </blockquote>
+        <section id="server-managed">
+          <h2>Server-Managed Version Creation</h2>
+          <blockquote class="informative">
+            Non-normative note:
+            Upon <code>PUT</code> or <code>PATCH</code> to the <a>LDPRv</a>, a new <a>LDPRm</a> is created in an
+            appropriate <a>LDPCv</a>. This <a>LDPRm</a> is the version of the original <a>LDPRv</a> that was just
+            created.
+          </blockquote>
         </section>
-
-        <section>
-          <h2><a>LDPRm</a> Creation Patterns</h2>
-          <section id="server-managed">
-            <h2>Server-Managed Version Creation</h2>
-            <p>
-              Upon <code>PUT</code> or <code>PATCH</code> to the <a>LDPRv</a>, a new <a>LDPRm</a> is created in an
-              appropriate <a>LDPCv</a>. This <a>LDPRm</a> is the version of the original <a>LDPRv</a> that was just
-              created.
-            </p>
-          </section>
-
-          <section id="client-managed">
-            <h2>Client-Managed Version Creation</h2>
-            <p>
-              An <a>LDPRm</a> for a particular <a>LDPRv</a> is created on <code>POST</code> to any <a>LDPCv</a>
-              associated with that <a>LDPRv</a>. The new <a>LDPRm</a> is contained in the <a>LDPCv</a> to which the
-              <code>POST</code> was made and features in that <a>LDPCv</a>-as-a<a>TimeMap</a>. This pattern is more
-              open to manipulation and could be useful for migration from other systems into Fedora implementations.
-              Responses from requests to the <a>LDPRv</a> include a <code>Link: rel="timemap"</code> to the same
-              <a>LDPCv</a> as per [[!RFC7089]] <a href='https://tools.ietf.org/html/rfc7089#section-5'>section 5</a>.
-            </p>
-          </section>
+        <section id="client-managed">
+          <h2>Client-Managed Version Creation</h2>
+          <blockquote class="informative">
+            Non-normative note:
+            An <a>LDPRm</a> for a particular <a>LDPRv</a> is created on <code>POST</code> to any <a>LDPCv</a>
+            associated with that <a>LDPRv</a>. The new <a>LDPRm</a> is contained in the <a>LDPCv</a> to which the
+            <code>POST</code> was made and features in that <a>LDPCv</a>-as-a<a>TimeMap</a>. This pattern is more
+            open to manipulation and could be useful for migration from other systems into Fedora implementations.
+            Responses from requests to the <a>LDPRv</a> include a <code>Link: rel="timemap"</code> to the same
+            <a>LDPCv</a> as per [[!RFC7089]] <a href='https://tools.ietf.org/html/rfc7089#section-5'>section 5</a>.
+          </blockquote>
         </section>
       </section>
     </section>
@@ -855,31 +853,34 @@
 
     <section id="notifications">
       <h2>Notifications</h2>
-      <section class="informative">
+      <section>
         <h3>Introduction</h3>
-        <p>
-          This section defines when notifications are made available by a Fedora implementation, the minimal set of data
-          contained in these notifications, and how the data are serialized. Notifications may be emitted synchronously
-          or asynchronously with the API operations that cause them to be emitted. These notifications are typically
-          used to support external integrations. The structure of these notifications draws upon the existing
-          [[activitystreams-core]] and [[ldn]] specifications. An implementation is free to choose from any transport
-          technology so long as the notifications conform to what is described in the following sections.
-        </p>
-        <p>
-          Implementers should be aware that some operations cause multiple resources to change. In these cases, there
-          will be a corresponding notification describing each of the changes. This is especially true for changes to
-          containment or membership triples. This is also true if a <code>DELETE</code> operation triggers changes in
-          any contained resources.
-        </p>
-        <p>
-          Consumers of these notifications should not expect a strict ordering of the events reported therein: the fact
-          that a notification for Event A is received before a notification for Event B should not imply that Event A
-          occurred before Event B. Implementations may choose to make further guarantees about ordering.
-        </p>
-        <p>
-          According to the [[activitystreams-core]] specification, it is possible to collect multiple events into a
-          single notification. This specification makes no restriction on the use of activity stream collections.
-        </p>
+        <blockquote class="informative">
+          <p>
+            Non-normative note:
+            This section defines when notifications are made available by a Fedora implementation, the minimal set of
+            data contained in these notifications, and how the data are serialized. Notifications may be emitted
+            synchronously or asynchronously with the API operations that cause them to be emitted. These notifications
+            are typically used to support external integrations. The structure of these notifications draws upon the
+            existing [[activitystreams-core]] and [[ldn]] specifications. An implementation is free to choose from any
+            transport technology so long as the notifications conform to what is described in the following sections.
+          </p>
+          <p>
+            Implementers should be aware that some operations cause multiple resources to change. In these cases, there
+            will be a corresponding notification describing each of the changes. This is especially true for changes to
+            containment or membership triples. This is also true if a <code>DELETE</code> operation triggers changes in
+            any contained resources.
+          </p>
+          <p>
+            Consumers of these notifications should not expect a strict ordering of the events reported therein: the
+            fact that a notification for Event A is received before a notification for Event B should not imply that
+            Event A occurred before Event B. Implementations may choose to make further guarantees about ordering.
+          </p>
+          <p>
+            According to the [[activitystreams-core]] specification, it is possible to collect multiple events into a
+            single notification. This specification makes no restriction on the use of activity stream collections.
+          </p>
+        </blockquote>
       </section>
 
       <section id="notification-events">
@@ -1002,48 +1003,53 @@
 
     <section id="binary-fixity">
       <h2>Binary Resource Fixity</h2>
-      <section id="what-is-fixity" class="informative">
+      <section id="what-is-fixity">
         <h2>What is fixity?</h2>
-        <p>
-          For the purposes of the following specification, a fixity result is an extract or summary of some
-          <a>LDP-NR</a> made according to some explicit procedure. Fixity results are taken for the purpose of comparing
-          different fixity results for the same resource over time, to ensure a continuity of that resource's identity
-          according to the particular procedure used. Examples might include:
-        </p>
-        <ul>
-          <li>
-            Checksums like MD5 or SHA1, often used for digital images.
-          </li>
-          <li>
-            <a href="https://www.w3.org/TR/xmldsig-core/">XML Signatures</a>
-          </li>
-          <li>
-            Per-segment results
-            <a href="http://dericed.com/papers/reconsidering-the-checksum-for-audiovisual-preservation/">as used for
-            time-based media</a>
-          </li>
-        </ul>
-        <p>
-          This specification describes two fixity verification mechanisms: firstly, as part of content transmission, to
-          guard against faults in transmission, and secondly, by comparison to a known or proffered digest value, to
-          monitor for faults in persistence.
-        </p>
+        <blockquote class="informative">
+          <p>
+            Non-normative note:
+            For the purposes of the following specification, a fixity result is an extract or summary of some
+            <a>LDP-NR</a> made according to some explicit procedure. Fixity results are taken for the purpose of
+            comparing different fixity results for the same resource over time, to ensure a continuity of that
+            resource's identity according to the particular procedure used. Examples might include:
+          </p>
+          <ul>
+            <li>
+              Checksums like MD5 or SHA1, often used for digital images.
+            </li>
+            <li>
+              <a href="https://www.w3.org/TR/xmldsig-core/">XML Signatures</a>
+            </li>
+            <li>
+              Per-segment results
+              <a href="http://dericed.com/papers/reconsidering-the-checksum-for-audiovisual-preservation/">as used for
+              time-based media</a>
+            </li>
+          </ul>
+          <p>
+            This specification describes two fixity verification mechanisms: firstly, as part of content transmission,
+            to guard against faults in transmission, and secondly, by comparison to a known or proffered digest value,
+            to monitor for faults in persistence.
+          </p>
+        </blockquote>
       </section>
-      <section id="transmission-fixity" class="informative">
+      <section id="transmission-fixity">
         <h2>Transmission Fixity</h2>
-        <p>
+        <blockquote class="informative">
+          Non-normative note:
           Transmission fixity may be verified by including a <code>Digest</code> header (defined in [[RFC3230]]) in
           <code>POST</code> and <code>PUT</code> requests for <a>LDP-NR</a>s.
-        </p>
+        </blockquote>
       </section>
-      <section id="persistence-fixity" class="informative">
+      <section id="persistence-fixity">
         <h2>Persistence Fixity</h2>
-        <p>
+        <blockquote class="informative">
+          Non-normative note:
           A client may retrieve the checksum of an <a>LDP-NR</a> by performing a <code>HEAD</code> or <code>GET</code>
           request on it with the <code>Want-Digest</code> header (using a <code>HEAD</code> request allows the client to
           avoid transferring the entire content when only the checksum is needed). The <code>Digest</code> header in the
           response can be used to infer persistence fixity by comparing it to previously-computed values.
-        </p>
+        </blockquote>
       </section>
     </section>
 
