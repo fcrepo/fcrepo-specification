@@ -120,9 +120,9 @@
         The goal of this specification is to define the behaviors of Fedora server implementations in order to
         facilitate interoperability with client applications. Although Fedora servers are not necessarily drop-in
         replacements for one another, a client developed against this specification should work against any Fedora
-        server with little modification. Some implementations may be unable to provide all features described in this
-        document due to conscious design decisions, but at least the method of rejection for requests against such
-        features is defined.
+        server with little modification. Client applications should not expect the behaviors of every Fedora server
+        implementation to be identical, but the interaction patterns defined in this specification should provide a
+        sufficient mechanism to navigate the differences between Fedora server implementations.
       </p>
     </section>
 
