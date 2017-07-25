@@ -461,11 +461,11 @@
         <section id="httpDELETEDepth">
           <h3>Depth Header</h3>
           <p>
-            A Fedora server MAY support the <code>Depth</code> header, as defined in [[!RFC4918]]
+            A Fedora server MUST support the <code>Depth</code> header, as defined in [[!RFC4918]]
             <a href='https://tools.ietf.org/html/rfc4918#section-10.2'> section 10.2 </a>. Implementations MAY choose
             not to support all of the header's values and MUST reject a request containing an unsupported
-            <code>Depth</code> value with a 400 (Bad Request). Implementations MUST define their own default behavior if
-            a Depth header is not present.
+            <code>Depth</code> value with a 400 (Bad Request). The default value for the <code>Depth</code> header if
+            not present in a request is left up to the implementer.
           </p>
           <p>
             If a server supports recursive <code>DELETE</code>, that recursion MUST be reckoned along the [[!LDP]]
