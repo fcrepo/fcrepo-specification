@@ -483,19 +483,20 @@
           the use of <code>Content-Type: message/external-body</code> values to signal, on POST or PUT, that the Fedora
           server should should not consider the request entity to be the LDP-NR's content, but that a
           <code>Content-Type</code> value will signal a name or address at which the content might be retrieved. The
-          <code>url</code> and <code>local-file</code> type values motivate this specification, but a Fedora server may
-          support any type parameters per the requirements for advertisement and rejection specified here.
+          <code>url</code> and <code>local-file</code> <code>access-type</code> values motivate this specification, but
+          a Fedora server may support any <code>access-type</code> parameters per the requirements for advertisement
+          and rejection specified here.
         </blockquote>
         <p id='message-external-body-accept-post'>
           Fedora servers that support LDP-NR with <code>message/external-body</code> MUST advertise that support in the
-          <code>Accept-Post</code> response header for each supported <code>type</code> parameter of supported
+          <code>Accept-Post</code> response header for each supported <code>access-type</code> parameter of supported
           <code>Content-Type</code> values.
         </p>
         <p id='message-external-body-unsupported-type'>
           Fedora servers receiving requests that would create or update an LDP-NR with a
-          <code>message/external-body</code> with an unsupported <code>type</code> parameter MUST respond with HTTP 415
-          UNSUPPORTED MEDIA TYPE. In the case that a Fedora server does not support external LDP-NR content, all
-          <code>message/external-body</code> messages must be rejected with HTTP 415.
+          <code>message/external-body</code> with an unsupported <code>access-type</code> parameter MUST respond with
+          HTTP 415 UNSUPPORTED MEDIA TYPE. In the case that a Fedora server does not support external LDP-NR content,
+          all <code>message/external-body</code> messages must be rejected with HTTP 415.
         </p>
         <p id='message-external-body-response-headers'>
           Fedora servers receiving requests that would create or update an LDP-NR with a
@@ -528,9 +529,9 @@
           <h4>Proxied Content vs. Redirected Content</h4>
           <blockquote class="informative">
             Non-normative note:
-            This specification assumes that clients interested in resolving a <code>type='url'</code> or other value
-            without the Fedora server as an intermediary (effectively, redirection as opposed to proxying) will be able
-            to negotiate the <code>Content-Location</code> response header value from a HEAD request.
+            This specification assumes that clients interested in resolving a <code>access-type='url'</code> or other
+            value without the Fedora server as an intermediary (effectively, redirection as opposed to proxying) will
+            be able to negotiate the <code>Content-Location</code> response header value from a HEAD request.
           </blockquote>
         </section>
       </section>
