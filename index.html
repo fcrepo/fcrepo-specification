@@ -113,7 +113,7 @@
           interaction patterns for use with binary fixity information,
         </li>
         <li>
-          integration with the <a href="https://www.w3.org/wiki/WebAccessControl">Web Access Control proposal,</a>
+          integration with the Web Access Control [[SOLIDWEBAC]] proposal,
         </li>
         <li>
           and a design for the publication of asynchronous events emitted from an implementation.
@@ -140,8 +140,15 @@
     <section id="terminology">
     <h2>Terminology</h2>
     <p>
-      Terminology is based on W3C's Linked Data Platform 1.0 [[LDP]] and Memento [[RFC7089]].
+      Terminology is based on W3C's Linked Data Platform 1.0 [[LDP]], Memento [[RFC7089]], and Web Access Control
+      [[SOLIDWAC]].
       <dl>
+        <dt><dfn>ACL</dfn>:</dt>
+        <dd>
+          An Access Control List Resource is a resource providing a set of authorization statements as defined in
+          [[SOLIDWAC]] <a href="https://github.com/solid/web-access-control-spec#access-control-list-resources">Access
+          Control List Resources</a>.
+        </dd>
         <dt><dfn>LDPR</dfn>:</dt>
         <dd>
           A Linked Data Platform Resource as defined in
@@ -823,22 +830,22 @@
     <section id="resource-authorization">
       <h2>Resource Authorization</h2>
       <p>
-        To configure access control restrictions, implementations MUST follow the recommendations of [[!SOLIDWEBAC]]
-        with the following additional requirements:
+        To configure access control restrictions, implementations MUST follow the recommendations of Web Access
+        Control [[!SOLIDWEBAC]] with the following additional requirements:
       </p>
       <section id="solid-ldp-acls">
         <h2>ACLs are LDP RDF Sources</h2>
         <p>
-          The Access Control List Resource (ACL) for a controlled resource on a conforming server MUST itself be
-          an LDPRS. This ACL resource SHOULD be located in the same server as the controlled resource.
+          The <a>ACL</a> for a controlled resource on a conforming server MUST itself be an LDPRS. This <a>ACL</a>
+          resource SHOULD be located in the same server as the controlled resource.
         </p>
       </section>
       <section id="link-rel-acl">
         <h2>ACLs are discoverable via Link Headers</h2>
         <p>
-          A conforming server MUST advertise the appropriate Access Control List Resource (ACL) for every controlled
-          resource in HTTP responses with a <code>Link: rel="acl"</code> header. This interaction pattern is described
-          in [[!SOLIDWEBAC]]
+          A conforming server MUST advertise the appropriate <a>ACL</a> for every controlled resource in HTTP
+          responses with a <code>Link: rel="acl"</code> header. This interaction pattern is described in
+          [[!SOLIDWEBAC]]
           <a href="https://github.com/solid/web-access-control-spec#acl-resource-location-discovery">ACL Resource
           Location Discovery</a>.
         </p>
@@ -846,14 +853,14 @@
       <section id="inheritance">
         <h2>Inheritance and Default ACLs</h2>
         <p>
-          Inheritance of Access Control List Resources (ACLs) in Fedora implementations is defined by the
+          Inheritance of <a>ACL</a>s in Fedora implementations is defined by the
           [[!SOLIDWEBAC]] <a href="https://github.com/solid/web-access-control-spec#acl-inheritance-algorithm">ACL
           Inheritance Algorithm</a> and MUST be reckoned along the [[!LDP]]
           <a href="https://www.w3.org/TR/ldp/#dfn-containment">containment relationships</a> linking controlled
           resources, with the following modification: In the case that the controlled resource is uncontained and
-          has no ACL, or that there is no ACL at any point in the containment hierarchy of the controlled resource,
-          then the server MUST supply a default ACL. The default ACL resource SHOULD be located in the same server as
-          the controlled resource.
+          has no <a>ACL</a>, or that there is no <a>ACL</a> at any point in the containment hierarchy of the controlled
+          resource, then the server MUST supply a default <a>ACL</a>. The default <a>ACL</a> resource SHOULD be located
+          in the same server as the controlled resource.
         </p>
       </section>
     </section>
