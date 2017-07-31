@@ -512,9 +512,10 @@
           of the location of the external content if the Fedora server is proxying the content.
         </p>
         <p id='external-content-expires'>
-          Per [[!RFC1521]], all <code>Content-Type: message/external-body</code> values MAY include an
-          <code>expiration</code> parameter. Fedora servers receiving requests that would create or update an LDP-NR
-          with a <code>message/external-body</code> content type SHOULD respect the <code>expiration</code> parameter,
+          Per [[!RFC2046]] <a href="https://tools.ietf.org/html/rfc2046#section-5.2.3">section 5.2.3</a>, all
+          <code>Content-Type: message/external-body</code> values MAY include an <code>expiration</code> parameter.
+          Fedora servers receiving requests that would create or update an LDP-NR with a
+          <code>message/external-body</code> content type SHOULD respect the <code>expiration</code> parameter,
           if present, by copying content. If the <code>expiration</code> parameter cannot be accommodated, the request
           MUST be rejected with a 4xx or 5xx status code. Following [[!LDP]]
           <a href="https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs">4.2.1.6</a> and
