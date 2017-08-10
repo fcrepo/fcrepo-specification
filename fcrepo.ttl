@@ -21,3 +21,8 @@
     rdfs:isDefinedBy : ;
     vs:term_status "working-draft" .
 
+:VersionedResource a rdfs:Resource ;
+    rdfs:label "versioned resource"@en ;
+    rdfs:comment "An IRI to signal that a versioned resource should be created."@en ;
+    rdfs:isDefinedBy : ;
+    vs:term_status "working-draft" .
