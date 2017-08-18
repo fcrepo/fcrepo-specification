@@ -636,8 +636,10 @@
         <section>
           <h2>General</h2>
           <p>
-            When an <a>LDPR</a> is created with a <code>Link</code> header indicating versioning, it is created as both
-            an LDP Resource and a Memento: an <a>LDPRm</a>. An <a>LDPRm</a> MUST be invariant: While it MAY be deleted,
+            When an <a>LDPR</a> is created with a <code>Link: rel="type"</code> header
+            specifying type <code>http://fedora.info/definitions/fcrepo#VersionedResource</code>
+            to indicate versioning, it is created as both an <a>LDPR</a> and a Memento: an
+            <a>LDPRm</a>. An <a>LDPRm</a> MUST be invariant: While it MAY be deleted,
             it MUST NOT be modified once created.
           </p>
         </section>
@@ -706,10 +708,12 @@
         <section>
           <h2>General</h2>
           <p>
-            When an <a>LDPR</a> is created with a <code>Link</code> header indicating versioning, a version container
+            When an <a>LDPR</a> is created with a <code>Link: rel="type"</code> header
+            specifying type <code>http://fedora.info/definitions/fcrepo#VersionedResource</code>
+            to indicate versioning, a version container
             (<a>LDPCv</a>) is created that contains Memento-identified resources (<a>LDPRm</a>) capturing time-varying
             representations of the associated <a>LDPR</a>. An <a>LDPCv</a> is both a <a>TimeMap</a> per Memento
-            [[!RFC7089]] and an LDP Container. As a <a>TimeMap</a> an <a>LDPCv</a> MUST conform to the specification for
+            [[!RFC7089]] and an <a>LDPC</a>. As a <a>TimeMap</a> an <a>LDPCv</a> MUST conform to the specification for
             such resources in [[!RFC7089]]. An implementation MUST indicate <a>TimeMap</a> in the same way it indicates
             the Container interaction model of the resource via HTTP headers. An <a>LDPCv</a> MUST respond to <code>GET
             Accept: application/link-format</code> as indicated in [[!RFC7089]]
