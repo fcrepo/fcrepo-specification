@@ -869,8 +869,10 @@
         <h2>ACLs are discoverable via Link Headers</h2>
         <p>
           A conforming server MUST advertise the appropriate <a>ACL</a> for every controlled resource in HTTP
-          responses with a <code>Link: rel="acl"</code> header. This interaction pattern is described in
-          [[!SOLIDWEBAC]]
+          responses with a <code>Link: rel="acl"</code> header.
+          Per [[!RFC5988]] <a href="https://tools.ietf.org/html/rfc5988#section-5.1">section 5.1</a>, the target IRI
+          of the <code>Link</code> header must be resolvable.
+          This interaction pattern is described in [[!SOLIDWEBAC]]
           <a href="https://github.com/solid/web-access-control-spec#acl-resource-location-discovery">ACL Resource
           Location Discovery</a>.
         </p>
