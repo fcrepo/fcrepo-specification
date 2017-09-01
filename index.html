@@ -259,8 +259,8 @@
           Any <a>LDP-RS</a> MUST support <code>PATCH</code> ([[!LDP]]
           <a href="https://www.w3.org/TR/ldp/#ldpr-HTTP_PATCH">4.2.7</a> MAY becomes MUST). [[!sparql11-update]] MUST
           be an accepted content-type for <code>PATCH</code>. Other content-types (e.g. [[ldpatch]]) MAY be available.
-          If an otherwise valid HTTP <code>PATCH</code> request is received that attempts to add statements to a
-          resource that a server disallows (not ignores per [[!LDP]]
+          If an otherwise valid HTTP <code>PATCH</code> request is received that attempts to modify resource statements
+          that a server disallows (not ignores per [[!LDP]]
           <a href="https://www.w3.org/TR/ldp/#ldpr-put-replaceall">4.2.4.1</a>), the server MUST fail the request by
           responding with a 4xx range status code (e.g. 409 Conflict). The server MUST provide a corresponding
           response body containing information about which statements could not be persisted. ([[!LDP]]
@@ -337,7 +337,7 @@
             Any <a>LDP-RS</a> MUST support <code>PUT</code> to update statements that are not server-managed triples
             (as defined in [[!LDP]] 2). [[!LDP]] <a href="https://www.w3.org/TR/ldp/#ldpr-put-replaceall">4.2.4.1</a>
             and <a href="https://www.w3.org/TR/ldp/#ldprs-put-servermanagedprops">4.2.4.3</a> remain in effect. If an
-            otherwise valid HTTP <code>PUT</code> request is received that attempts to add statements to a resource that
+            otherwise valid HTTP <code>PUT</code> request is received that attempts to modify resource statements that
             a server disallows (not ignores per [[!LDP]]
             <a href="https://www.w3.org/TR/ldp/#ldpr-put-replaceall">4.2.4.1</a>), the server MUST fail the request by
             responding with a 4xx range status code (e.g. 409 Conflict). The server MUST provide a corresponding
