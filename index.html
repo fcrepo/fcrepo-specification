@@ -867,7 +867,7 @@
       <section id="link-rel-acl">
         <h2>ACLs are discoverable via Link Headers</h2>
         <p>
-          The interaction pattern is for ACL discovery is described in [[!SOLIDWEBAC]]
+          The interaction pattern for ACL discovery is described in [[!SOLIDWEBAC]]
           <a href="https://github.com/solid/web-access-control-spec#acl-resource-location-discovery">ACL Resource
           Location Discovery</a>. A conforming server MUST advertise the individual resource <a>ACL</a> for every
           controlled resource in HTTP responses with a <code>Link: rel="acl"</code> header, whether or not the <a>ACL</a>
@@ -877,8 +877,8 @@
           <p>
             Non-normative note:
             The <code>Link: rel="acl"</code> header provides a way for clients to find the location where an individual
-            resource <a>ACL</a> might be created in the case of implementations that support individual <a>ACL</a>s and
-            <a href="#httpPUTcreate">creation with HTTP PUT</a>.
+            resource <a>ACL</a> might be created in the case of implementations that support
+            <a href="#httpPUTcreate">creation with HTTP PUT</a> for individual <a>ACL</a>s.
           </p>
         </blockquote>
       </section>
