@@ -861,19 +861,26 @@
       <section id="solid-ldp-acls">
         <h2>ACLs are LDP RDF Sources</h2>
         <p>
-          The <a>ACL</a> for a controlled resource on a conforming server MUST itself be an LDPRS. This <a>ACL</a>
-          resource SHOULD be located in the same server as the controlled resource.
+          An <a>ACL</a> for a controlled resource on a conforming server MUST itself be an <a>LDP-RS</a>.
         </p>
       </section>
       <section id="link-rel-acl">
         <h2>ACLs are discoverable via Link Headers</h2>
         <p>
-          A conforming server MUST advertise the appropriate <a>ACL</a> for every controlled resource in HTTP
-          responses with a <code>Link: rel="acl"</code> header. This interaction pattern is described in
-          [[!SOLIDWEBAC]]
+          The interaction pattern for ACL discovery is described in [[!SOLIDWEBAC]]
           <a href="https://github.com/solid/web-access-control-spec#acl-resource-location-discovery">ACL Resource
-          Location Discovery</a>.
+          Location Discovery</a>. A conforming server MUST advertise the individual resource <a>ACL</a> for every
+          controlled resource in HTTP responses with a <code>Link: rel="acl"</code> header, whether or not the
+          <a>ACL</a> exists. The <a>ACL</a> resource SHOULD be located in the same server as the controlled resource.
         </p>
+        <blockquote class="informative">
+          <p>
+            Non-normative note:
+            The <code>Link: rel="acl"</code> header provides a way for clients to find the location where an individual
+            resource <a>ACL</a> might be created in the case of implementations that support
+            <a href="#httpPUTcreate">creation with HTTP PUT</a> for individual <a>ACL</a>s.
+          </p>
+        </blockquote>
       </section>
       <section id="inheritance">
         <h2>Inheritance and Default ACLs</h2>
