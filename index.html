@@ -222,13 +222,25 @@
           contains a machine-readable listing of <a>URI-M</a>s associated to a given <a>URI-R</a>.
         </dd>
       </dl>
-  </section>
+
+      <section id="document-conventions">
+        <h2>Conventions used in this document</h2>
+        <p>
+          The following namespace prefixes are used in this document:
+        </p>
+<pre>
+@prefix ldp:     &lt;http://www.w3.org/ns/ldp#&gt; .
+@prefix acl:     &lt;https://www.w3.org/ns/auth/acl#&gt; .
+</pre>
+      </section>
+    </section>
+
     <section id="resource-management">
       <h2>Resource Management</h2>
 
       <section id="general">
         <h2>General</h2>
-	<section id="ldpnr-ixn-model">
+          <section id="ldpnr-ixn-model">
           <h2>LDP-NR creation</h2>
           <p>
             If, in a successful resource creation request, a <code>Link: rel="type"</code> request header specifies the
