@@ -599,39 +599,6 @@
           </section>
         </section>
 
-        <section id='httpput'>
-          <h2>HTTP PUT</h2>
-          <section id="httpput-general">
-            <h2>General</h2>
-            <p>
-              An <a>LDPRv</a> MAY support <code>PUT</code>. An implementation receiving a <code>PUT</code> request for
-              an <a>LDPRv</a> MUST both correctly respond as per [[!LDP]] as well as create a new <a>LDPRm</a> contained
-              in an appropriate <a>LDPCv</a>. The newly-created <a>LDPRm</a> SHOULD be the version of the <a>LDPRv</a>
-              that was created by the <code>PUT</code> request.
-            </p>
-          </section>
-
-          <section>
-            <h2>Request Headers for an LDPRv</h2>
-            <p>
-              <code>Accept-Datetime</code>, exactly as per [[!RFC7089]]
-              <a href='https://tools.ietf.org/html/rfc7089#section-2.1.1'>section 2.1.1</a>.
-            </p>
-          </section>
-
-          <section>
-            <h2>Response Headers</h2>
-            <p>
-              At least one <code>Link: rel="timemap"</code> referencing an <a>LDPCv</a>. It is the presence of this
-              header that indicates that the resource is versioned.
-            </p>
-            <p>
-              <code>Vary: Accept-Datetime</code>, exactly as per [[!RFC7089]]
-              <a href='https://tools.ietf.org/html/rfc7089#section-2.1.2'>section 2.1.2</a>.
-            </p>
-          </section>
-        </section>
-
         <section>
           <h2>HTTP HEAD</h2>
           <p>
