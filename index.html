@@ -724,10 +724,7 @@
             time-varying representations of the associated <a>LDPR</a>. An <a>LDPCv</a> is both a <a>TimeMap</a> per
             Memento [[!RFC7089]] and an <a>LDPC</a>. As a <a>TimeMap</a> an <a>LDPCv</a> MUST conform to the
             specification for such resources in [[!RFC7089]]. An implementation MUST indicate <a>TimeMap</a> in the
-            same way it indicates the Container interaction model of the resource via HTTP headers. An <a>LDPCv</a>
-            MUST respond to <code>GET Accept: application/link-format</code> as indicated in [[!RFC7089]]
-            <a href='https://tools.ietf.org/html/rfc7089#section-5'>section 5</a> and specified in [[!RFC6690]]
-            <a href='https://tools.ietf.org/html/rfc6690#section-7.3'>section 7.3</a>.
+            same way it indicates the Container interaction model of the resource via HTTP headers.
           </p>
           <p>
             An implementation MUST NOT allow the creation of an <a>LDPCv</a> that is <a>LDP-contained</a> by its
@@ -741,6 +738,40 @@
         </section>
 
         <section>
+          <h2 id='ldpcvget'>HTTP GET</h2>
+          <p>
+            An <a>LDPCv</a> MUST respond to <code>GET Accept: application/link-format</code> as
+            indicated in [[!RFC7089]]
+            <a href='https://tools.ietf.org/html/rfc7089#section-5'>section 5</a> and specified in
+            [[!RFC6690]] <a href='https://tools.ietf.org/html/rfc6690#section-7.3'>section 7.3</a>.
+          </p>
+          <p>
+            An implementation SHOULD respond with the <code>Allow</code> header as outlined in 
+            <a href='#ldpcvoptions'></a>.
+          </p>
+          <p>
+            An implementation MUST respond with a <code>Content-Type</code> header.
+          </p>
+          <p>
+            If an <a>LDPCv</a> supports <code>POST</code>, then it MUST respond with 
+            <code>Accept-Post</code>. If <code>POST</code> is supported but bodies are not
+            accepted, then the <a>LDPCv</a> MUST respond with <code>Accept-Post: */*; p=0.0</code>.
+          </p>
+          <p>
+            An implementation MUST respond with <code>Accept-Patch</code> if <code>PATCH</code>
+            requests to the <a>LDPCv</a> are allowed.
+          </p>
+        </section>
+        
+        <section>
+          <h2 id='ldpcvhead'>HTTP HEAD</h2>
+          <p>
+            The <code>HEAD</code> method is identical to <code>GET</code> except that the server MUST
+            NOT return a message-body in the response.
+          </p>
+        </section>
+
+        <section>
           <h2 id='ldpcvdelete'>HTTP DELETE</h2>
           <p>
             An implementation MAY support <code>DELETE</code>. An implementation that does support <code>DELETE</code>
@@ -750,7 +781,7 @@
         </section>
 
         <section>
-          <h2>HTTP OPTIONS</h2>
+          <h2 id='ldpcvoptions'>HTTP OPTIONS</h2>
           <p>
             An implementation MUST <code>Allow: GET, HEAD, OPTIONS</code> as per [[!LDP]]. An implementation MAY
             <code>Allow: DELETE</code> if the versioning behavior is removable by deleting the <a>LDPCv</a>. See
