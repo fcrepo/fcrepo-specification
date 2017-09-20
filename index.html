@@ -903,6 +903,26 @@
           </p>
         </blockquote>
       </section>
+      <section id="webids">
+        <h2>WebIDs</h2>
+        <blockquote class="informative">
+          <p>
+            Non-normative note:
+            The [[!SOLIDWEBAC]] <a href="https://github.com/solid/web-access-control-spec#overview">overview</a>
+            mentions parenthetically that user and group identifiers should be WebIDs.  For the purposes of performing
+            authorization, the essential requirements are:
+          </p>
+          <ul>
+            <li>
+              User and group identifiers must be IRIs.
+            </li>
+            <li>
+              Group IRIs must be dereferencable as RDF, and must link to member IRIs using the
+              <code>vcard:hasMember</code> predicate.
+            </li>
+          </ul>
+        </blockquote>
+      </section>
     </section>
 
     <section id="notifications">
