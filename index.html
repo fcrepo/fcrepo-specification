@@ -604,7 +604,8 @@
           <p>
             An implementation receiving a <code>PATCH</code> request for an <a>LDPRv</a> MUST correctly respond as per
             [[!LDP]] and MAY also create a new <a>LDPRm</a> contained in an appropriate <a>LDPCv</a>. Any newly-created
-            <a>LDPRm</a> SHOULD be the version of the <a>LDPRv</a> that was modified by the <code>PATCH</code> request.
+            <a>LDPRm</a> SHOULD be the version of the <a>LDPRv</a> following modification by the <code>PATCH</code>
+            request.
           </p>
         </section>
 
@@ -613,7 +614,7 @@
           <p>
             An implementation receiving a <code>POST</code> request to create an <a>LDPRv</a> MUST correctly respond as
             per [[!LDP]] and MAY also create a new <a>LDPRm</a> contained in an appropriate <a>LDPCv</a>. Any
-            newly-created <a>LDPRm</a> SHOULD be the version of the <a>LDPRv</a> that was created by the
+            newly-created <a>LDPRm</a> SHOULD be the version of the <a>LDPRv</a> following creation by the
             <code>POST</code> request.
           </p>
         </section>
@@ -626,7 +627,7 @@
               An <a>LDPRv</a> MAY support <code>PUT</code>. An implementation receiving a <code>PUT</code> request for
               an <a>LDPRv</a> MUST correctly respond as per [[!LDP]] and MAY also create a new <a>LDPRm</a> contained
               in an appropriate <a>LDPCv</a>. Any newly-created <a>LDPRm</a> SHOULD be the version of the <a>LDPRv</a>
-              that was created by the <code>PUT</code> request.
+              following creation or modification by the <code>PUT</code> request.
             </p>
           </section>
 
