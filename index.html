@@ -599,14 +599,33 @@
           </section>
         </section>
 
+        <section id='httppatch'>
+          <h2>HTTP PATCH</h2>
+          <p>
+            An implementation receiving a <code>PATCH</code> request for an <a>LDPRv</a> MUST correctly respond as per
+            [[!LDP]] and MAY also create a new <a>LDPRm</a> contained in an appropriate <a>LDPCv</a>. Any newly-created
+            <a>LDPRm</a> SHOULD be the version of the <a>LDPRv</a> that was modified by the <code>PATCH</code> request.
+          </p>
+        </section>
+
+        <section id='httppost'>
+          <h2>HTTP POST</h2>
+          <p>
+            An implementation receiving a <code>POST</code> request to create an <a>LDPRv</a> MUST correctly respond as
+            per [[!LDP]] and MAY also create a new <a>LDPRm</a> contained in an appropriate <a>LDPCv</a>. Any
+            newly-created <a>LDPRm</a> SHOULD be the version of the <a>LDPRv</a> that was created by the
+            <code>POST</code> request.
+          </p>
+        </section>
+
         <section id='httpput'>
           <h2>HTTP PUT</h2>
           <section id="httpput-general">
             <h2>General</h2>
             <p>
               An <a>LDPRv</a> MAY support <code>PUT</code>. An implementation receiving a <code>PUT</code> request for
-              an <a>LDPRv</a> MUST both correctly respond as per [[!LDP]] as well as create a new <a>LDPRm</a> contained
-              in an appropriate <a>LDPCv</a>. The newly-created <a>LDPRm</a> SHOULD be the version of the <a>LDPRv</a>
+              an <a>LDPRv</a> MUST correctly respond as per [[!LDP]] and MAY also create a new <a>LDPRm</a> contained
+              in an appropriate <a>LDPCv</a>. Any newly-created <a>LDPRm</a> SHOULD be the version of the <a>LDPRv</a>
               that was created by the <code>PUT</code> request.
             </p>
           </section>
