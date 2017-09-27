@@ -446,7 +446,9 @@
           <blockquote class="informative">
             Non-normative note: In the presence of a <code>Want-Digest</code> header, the current <code>Digest</code>
             value should be calculated to enable fixity verification. Otherwise, it is expected that ETag values may be
-            cached. See <a href="#persistence-fixity"></a>.
+            cached. Clients should use the <code>Cache-Control: no-cache</code> header (see [[RFC7234]]
+            <a href='https://tools.ietf.org/html/rfc7234#section-5.2.1.4'>section 5.2.1.4</a>) to instruct any
+            intermediate caches or proxies not to return a cached response. See <a href="#persistence-fixity"></a>.
           </blockquote>
         </section>
       </section>
@@ -578,59 +580,6 @@
 
         <section id='httpget'>
           <h2>HTTP GET</h2>
-          <section>
-            <h2>Request Headers for an LDPRv</h2>
-            <p>
-              <code>Accept-Datetime</code>, exactly as per [[!RFC7089]]
-              <a href='https://tools.ietf.org/html/rfc7089#section-2.1.1'>section 2.1.1</a>.
-            </p>
-          </section>
-
-          <section>
-            <h2>Response Headers</h2>
-            <p>
-              At least one <code>Link: rel="timemap"</code> referencing an <a>LDPCv</a>. It is the presence of this
-              header that indicates that the resource is versioned.
-            </p>
-            <p>
-              <code>Vary: Accept-Datetime</code>, exactly as per [[!RFC7089]]
-              <a href='https://tools.ietf.org/html/rfc7089#section-2.1.2'>section 2.1.2</a>.
-            </p>
-          </section>
-        </section>
-
-        <section id='httppatch'>
-          <h2>HTTP PATCH</h2>
-          <p>
-            An implementation receiving a <code>PATCH</code> request for an <a>LDPRv</a> MUST correctly respond as per
-            [[!LDP]] and MAY also create a new <a>LDPRm</a> contained in an appropriate <a>LDPCv</a>. Any newly-created
-            <a>LDPRm</a> SHOULD be the version of the <a>LDPRv</a> following modification by the <code>PATCH</code>
-            request.
-          </p>
-        </section>
-
-        <section id='httppost'>
-          <h2>HTTP POST</h2>
-          <p>
-            An implementation receiving a <code>POST</code> request to create an <a>LDPRv</a> MUST correctly respond as
-            per [[!LDP]] and MAY also create a new <a>LDPRm</a> contained in an appropriate <a>LDPCv</a>. Any
-            newly-created <a>LDPRm</a> SHOULD be the version of the <a>LDPRv</a> following creation by the
-            <code>POST</code> request.
-          </p>
-        </section>
-
-        <section id='httpput'>
-          <h2>HTTP PUT</h2>
-          <section id="httpput-general">
-            <h2>General</h2>
-            <p>
-              An <a>LDPRv</a> MAY support <code>PUT</code>. An implementation receiving a <code>PUT</code> request for
-              an <a>LDPRv</a> MUST correctly respond as per [[!LDP]] and MAY also create a new <a>LDPRm</a> contained
-              in an appropriate <a>LDPCv</a>. Any newly-created <a>LDPRm</a> SHOULD be the version of the <a>LDPRv</a>
-              following creation or modification by the <code>PUT</code> request.
-            </p>
-          </section>
-
           <section>
             <h2>Request Headers for an LDPRv</h2>
             <p>
@@ -863,7 +812,7 @@
             Non-normative note:
             An <a>LDPRm</a> for a particular <a>LDPRv</a> is created on <code>POST</code> to any <a>LDPCv</a>
             associated with that <a>LDPRv</a>. The new <a>LDPRm</a> is contained in the <a>LDPCv</a> to which the
-            <code>POST</code> was made and features in that <a>LDPCv</a>-as-a<a>TimeMap</a>. This pattern is more
+            <code>POST</code> was made and features in that <a>LDPCv</a>-as-a-<a>TimeMap</a>. This pattern is more
             open to manipulation and could be useful for migration from other systems into Fedora implementations.
             Responses from requests to the <a>LDPRv</a> include a <code>Link: rel="timemap"</code> to the same
             <a>LDPCv</a> as per [[!RFC7089]] <a href='https://tools.ietf.org/html/rfc7089#section-5'>section 5</a>.
@@ -921,6 +870,26 @@
             inherited. The [[SOLIDWEBAC]] v.0.4.0 documentation is being updated to use this in place of the obsolete
             predicate <code>acl:defaultForNew</code>.
           </p>
+        </blockquote>
+      </section>
+      <section id="webids">
+        <h2>WebIDs</h2>
+        <blockquote class="informative">
+          <p>
+            Non-normative note:
+            The [[!SOLIDWEBAC]] <a href="https://github.com/solid/web-access-control-spec#overview">overview</a>
+            mentions parenthetically that user and group identifiers should be WebIDs.  For the purposes of performing
+            authorization, the essential requirements are:
+          </p>
+          <ul>
+            <li>
+              User and group identifiers must be IRIs.
+            </li>
+            <li>
+              Group IRIs must be dereferencable as RDF, and must link to member IRIs using the
+              <code>vcard:hasMember</code> predicate.
+            </li>
+          </ul>
         </blockquote>
       </section>
     </section>
