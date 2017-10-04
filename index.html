@@ -240,7 +240,7 @@
 
       <section id="general">
         <h2>General</h2>
-          <section id="ldpnr-ixn-model">
+        <section id="ldpnr-ixn-model">
           <h2>LDP-NR creation</h2>
           <p>
             If, in a successful resource creation request, a <code>Link: rel="type"</code> request header specifies the
@@ -578,9 +578,9 @@
       <p>
         Implementations MUST provide resource versioning as per [[RFC7089]] with the following additional requirements:
       </p>
-      <section>
+      <section id="LDPRv">
         <h2>Versioned Resources (<a>LDPRv</a>)</h2>
-        <section>
+        <section id="LDPRv-general">
           <h2>General</h2>
           <p>
             A versioned resource for this document provides a <a>TimeGate</a> interaction model as detailed in the
@@ -590,9 +590,9 @@
           </p>
         </section>
 
-        <section id='httpget'>
+        <section id="LDPRv-get">
           <h2>HTTP GET</h2>
-          <section>
+          <section id="LDPRv-get-request">
             <h2>Request Headers for an LDPRv</h2>
             <p>
               <code>Accept-Datetime</code>, exactly as per [[!RFC7089]]
@@ -600,7 +600,7 @@
             </p>
           </section>
 
-          <section>
+          <section id="LDPRv-get-response">
             <h2>Response Headers</h2>
             <p>
               At least one <code>Link: rel="timemap"</code> referencing an <a>LDPCv</a>. It is the presence of this
@@ -613,7 +613,7 @@
           </section>
         </section>
 
-        <section id='httpput'>
+        <section id="LDPRv-put">
           <h2>HTTP PUT</h2>
           <p>
             An <a>LDPRv</a> MAY support <code>PUT</code> in order to restore a previous <a>LDPRm</a> as
@@ -624,17 +624,17 @@
           </p>
         </section>
 
-        <section>
+        <section id="LDPRv-head">
           <h2>HTTP HEAD</h2>
           <p>
-            See: <a href='#httpget'></a>
+            See: <a href='#LDPRv-get'></a>
           </p>
         </section>
       </section>
 
-      <section>
+      <section id="LDPRm">
         <h2>Version Resources (<a>LDPRm</a>)</h2>
-        <section>
+        <section id="LDPRm-general">
           <h2>General</h2>
           <p>
             When an <a>LDPR</a> is created with a <code>Link: rel="type"</code> header
@@ -645,7 +645,7 @@
           </p>
         </section>
 
-        <section>
+        <section id="LDPRm-delete">
           <h2>HTTP DELETE</h2>
           <p>
             An implementation MAY support <code>DELETE</code> for <a>LDPRm</a>s. If <code>DELETE</code> is supported,
@@ -653,7 +653,7 @@
           </p>
         </section>
 
-        <section>
+        <section id="LDPRm-get">
           <h2>HTTP GET</h2>
           <p>
             An implementation MUST support <code>GET</code>, as is the case for any <a>LDPR</a>. The headers for
@@ -664,14 +664,14 @@
           </p>
         </section>
 
-        <section>
+        <section id="LDPRm-head">
           <h2>HTTP HEAD</h2>
           <p>
             An implementation MUST support <code>HEAD</code>.
           </p>
         </section>
 
-        <section>
+        <section id="LDPRm-options">
           <h2>HTTP OPTIONS</h2>
           <p>
             An implementation MUST support <code>OPTIONS</code>. A response to an <code>OPTIONS</code> request MUST
@@ -681,21 +681,21 @@
           </p>
         </section>
 
-        <section>
+        <section id="LDPRm-patch">
           <h2>HTTP PATCH</h2>
           <p>
              An implementation MUST NOT support <code>PATCH</code> for <a>LDPRm</a>s.
           </p>
         </section>
 
-        <section>
+        <section id="LDPRm-post">
           <h2>HTTP POST</h2>
           <p>
             An implementation MUST NOT support <code>POST</code> for <a>LDPRm</a>s.
           </p>
         </section>
 
-        <section>
+        <section id="LDPRm-put">
           <h2>HTTP PUT</h2>
           <p>
              An implementation MUST NOT support <code>PUT</code> for <a>LDPRm</a>s.
@@ -704,9 +704,9 @@
 
       </section>
 
-      <section>
+      <section id="LDPCv">
         <h2>Version Containers (<a>LDPCv</a>)</h2>
-        <section>
+        <section id="LDPCv-general">
           <h2>General</h2>
           <p>
             When an <a>LDPR</a> is created with a <code>Link: rel="type"</code> header
@@ -732,8 +732,8 @@
           </blockquote>
         </section>
 
-        <section>
-          <h2 id='ldpcvdelete'>HTTP DELETE</h2>
+        <section id="ldpcvdelete">
+          <h2>HTTP DELETE</h2>
           <p>
             An implementation MAY support <code>DELETE</code>. An implementation that does support <code>DELETE</code>
             SHOULD do so by both removing the <a>LDPCv</a> and removing the versioning interaction model from the
@@ -741,7 +741,7 @@
           </p>
         </section>
 
-        <section>
+        <section id="ldpcvoptions">
           <h2>HTTP OPTIONS</h2>
           <p>
             An implementation MUST <code>Allow: GET, HEAD, OPTIONS</code> as per [[!LDP]]. An implementation MAY
@@ -758,16 +758,16 @@
           </p>
         </section>
 
-        <section>
-          <h2 id='ldpcvpatch'>HTTP PATCH</h2>
+        <section id="ldpcvpatch">
+          <h2>HTTP PATCH</h2>
           <p>
             An implementation MAY <code>Allow: PATCH</code>, but if so, it MUST NOT permit clients to modify containment
             triples.
           </p>
         </section>
 
-        <section>
-          <h2 id='ldpcvpost'>HTTP POST</h2>
+        <section id="ldpcvpost">
+          <h2>HTTP POST</h2>
           <p>
             If an <a>LDPCv</a> supports <code>POST</code>, <code>POST</code> SHOULD be understood to create a new
             <a>LDPRm</a> contained by the <a>LDPCv</a>, reflecting the state of the <a>LDPRv</a> at the time of the
@@ -796,7 +796,7 @@
 
       </section>
 
-      <section>
+      <section id="resource-versioning-vary">
         <h2>Vary</h2>
         <blockquote class="informative">
           Non-normative note:
@@ -807,7 +807,7 @@
         </blockquote>
       </section>
 
-      <section>
+      <section id="resource-versioning-patterns">
         <h2>Implementation Patterns</h2>
         <blockquote class="informative">
           Non-normative note:
@@ -919,7 +919,7 @@
 
     <section id="notifications">
       <h2>Notifications</h2>
-      <section>
+      <section id="notifications-intro">
         <h3>Introduction</h3>
         <blockquote class="informative">
           <p>
