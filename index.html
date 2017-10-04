@@ -178,7 +178,7 @@
         </dd>
         <dt><dfn>LDPRv</dfn>:</dt>
         <dd>
-          An <a>LDPR</a> that is simultaneously a Memento <a>URI-R</a>.
+          An <a>LDPR</a> that is simultaneously a Memento <a>URI-R</a> and a Memento <a>TimeGate</a>.
         </dd>
         <dt><dfn>LDPRm</dfn>:</dt>
         <dd>
@@ -222,7 +222,19 @@
           contains a machine-readable listing of <a>URI-M</a>s associated to a given <a>URI-R</a>.
         </dd>
       </dl>
+
+      <section id="document-conventions">
+        <h2>Conventions used in this document</h2>
+        <p>
+          The following namespace prefixes are used in this document:
+        </p>
+<pre>
+@prefix ldp:     &lt;http://www.w3.org/ns/ldp#&gt; .
+@prefix acl:     &lt;https://www.w3.org/ns/auth/acl#&gt; .
+</pre>
+      </section>
     </section>
+
     <section id="resource-management">
       <h2>Resource Management</h2>
 
@@ -603,35 +615,13 @@
 
         <section id="LDPRv-put">
           <h2>HTTP PUT</h2>
-          <section id="LDPRv-put-general">
-            <h2>General</h2>
-            <p>
-              An <a>LDPRv</a> MAY support <code>PUT</code>. An implementation receiving a <code>PUT</code> request for
-              an <a>LDPRv</a> MUST both correctly respond as per [[!LDP]] as well as create a new <a>LDPRm</a> contained
-              in an appropriate <a>LDPCv</a>. The newly-created <a>LDPRm</a> SHOULD be the version of the <a>LDPRv</a>
-              that was created by the <code>PUT</code> request.
-            </p>
-          </section>
-
-          <section id="LDPRv-put-request">
-            <h2>Request Headers for an LDPRv</h2>
-            <p>
-              <code>Accept-Datetime</code>, exactly as per [[!RFC7089]]
-              <a href='https://tools.ietf.org/html/rfc7089#section-2.1.1'>section 2.1.1</a>.
-            </p>
-          </section>
-
-          <section id="LDPRv-put-response">
-            <h2>Response Headers</h2>
-            <p>
-              At least one <code>Link: rel="timemap"</code> referencing an <a>LDPCv</a>. It is the presence of this
-              header that indicates that the resource is versioned.
-            </p>
-            <p>
-              <code>Vary: Accept-Datetime</code>, exactly as per [[!RFC7089]]
-              <a href='https://tools.ietf.org/html/rfc7089#section-2.1.2'>section 2.1.2</a>.
-            </p>
-          </section>
+          <p>
+            An <a>LDPRv</a> MAY support <code>PUT</code> in order to restore a previous <a>LDPRm</a> as
+            the current <a>LDPRv</a>.  The <code>Memento-Datetime</code> MUST be transmitted by the user
+            agent to indicate which <a>LDPRm</a> to restore.  The value of this header must conform
+            to [[!RFC7089]]
+            <a href='https://tools.ietf.org/html/rfc7089#section-2.1.1'>section 2.1.1</a>.
+          </p>
         </section>
 
         <section id="LDPRv-head">
