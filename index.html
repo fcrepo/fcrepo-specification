@@ -757,8 +757,7 @@
             <a href='#ldpcvdelete'></a> for requirements on <code>DELETE</code> if supported.
           </p>
           <p>
-            An implementation MAY <code>Allow: PATCH</code> if the <a>LDPCv</a> has mutable properties. See
-            <a href='#ldpcvpatch'></a> for requirements on <code>PATCH</code> if supported.
+            An implementation MUST NOT <code>Allow: PATCH</code>.
           </p>
           <p>
             An implementation MAY <code>Allow: POST</code> if versions can be explicitly minted by a client. See
@@ -769,8 +768,7 @@
         <section id="ldpcvpatch">
           <h2>HTTP PATCH</h2>
           <p>
-            An implementation MAY <code>Allow: PATCH</code>, but if so, it MUST NOT permit clients to modify containment
-            triples.
+            An implementation MUST NOT <code>Allow: PATCH</code>.
           </p>
         </section>
 
