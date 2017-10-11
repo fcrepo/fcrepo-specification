@@ -769,22 +769,17 @@
         <section>
           <h2 id='ldpcvpost'>HTTP POST</h2>
           <p>
-            If an <a>LDPCv</a> supports <code>POST</code>, a <code>POST</code> without a request body nor a
+            If an <a>LDPCv</a> supports <code>POST</code>, a <code>POST</code> that does not contain a
             <code>Memento-Datetime</code> header SHOULD be understood to create a new <a>LDPRm</a> contained by the
             <a>LDPCv</a>, reflecting the state of the <a>LDPRv</a> at the time of the <code>POST</code>.
+            Implementations MUST fail such requests that also contain a non-empty body by responding
+            with a 400 Bad Request.
           </p>
           <p>
-            If an <a>LDPCv</a> supports <code>POST</code>, a <code>POST</code> without a request body but with a
-            <code>Memento-Datetime</code> header SHOULD be understood to create a new <a>LDPRm</a> contained by the
-            <a>LDPCv</a>, reflecting the state of an empty <a>LDPRv</a> at the time of the
-            <code>Memento-Datetime</code> request header.
-          </p>
-          <p>
-            If an <a>LDPCv</a> supports <code>POST</code>, a <code>POST</code> with a request body and a
+            If an <a>LDPCv</a> supports <code>POST</code>, a <code>POST</code> with both a request body and a
             <code>Memento-Datetime</code> header SHOULD be understood to create a new <a>LDPRm</a> contained by the
             <a>LDPCv</a>, reflecting the state of the request body at the time of the <code>Memento-Datetime</code>
-            request header. Absent this header, an implementation SHOULD fail the <code>POST</code> with a request body
-            by responding with a 4xx range status code.
+            request header.
           </p>
           <p>
             If an implementation does not support <code>POST</code> with a request body, the <code>Accept-Post</code>
