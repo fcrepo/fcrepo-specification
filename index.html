@@ -178,7 +178,7 @@
         </dd>
         <dt><dfn>LDPRv</dfn>:</dt>
         <dd>
-          An <a>LDPR</a> that is simultaneously a Memento <a>URI-R</a>.
+          An <a>LDPR</a> that is simultaneously a Memento <a>URI-R</a> and a Memento <a>TimeGate</a>.
         </dd>
         <dt><dfn>LDPRm</dfn>:</dt>
         <dd>
@@ -222,13 +222,25 @@
           contains a machine-readable listing of <a>URI-M</a>s associated to a given <a>URI-R</a>.
         </dd>
       </dl>
-  </section>
+
+      <section id="document-conventions">
+        <h2>Conventions used in this document</h2>
+        <p>
+          The following namespace prefixes are used in this document:
+        </p>
+<pre>
+@prefix ldp:     &lt;http://www.w3.org/ns/ldp#&gt; .
+@prefix acl:     &lt;https://www.w3.org/ns/auth/acl#&gt; .
+</pre>
+      </section>
+    </section>
+
     <section id="resource-management">
       <h2>Resource Management</h2>
 
       <section id="general">
         <h2>General</h2>
-	<section id="ldpnr-ixn-model">
+        <section id="ldpnr-ixn-model">
           <h2>LDP-NR creation</h2>
           <p>
             If, in a successful resource creation request, a <code>Link: rel="type"</code> request header specifies the
@@ -446,7 +458,9 @@
           <blockquote class="informative">
             Non-normative note: In the presence of a <code>Want-Digest</code> header, the current <code>Digest</code>
             value should be calculated to enable fixity verification. Otherwise, it is expected that ETag values may be
-            cached. See <a href="#persistence-fixity"></a>.
+            cached. Clients should use the <code>Cache-Control: no-cache</code> header (see [[RFC7234]]
+            <a href='https://tools.ietf.org/html/rfc7234#section-5.2.1.4'>section 5.2.1.4</a>) to instruct any
+            intermediate caches or proxies not to return a cached response. See <a href="#persistence-fixity"></a>.
           </blockquote>
         </section>
       </section>
@@ -564,9 +578,9 @@
       <p>
         Implementations MUST provide resource versioning as per [[RFC7089]] with the following additional requirements:
       </p>
-      <section>
+      <section id="LDPRv">
         <h2>Versioned Resources (<a>LDPRv</a>)</h2>
-        <section>
+        <section id="LDPRv-general">
           <h2>General</h2>
           <p>
             A versioned resource for this document provides a <a>TimeGate</a> interaction model as detailed in the
@@ -576,9 +590,9 @@
           </p>
         </section>
 
-        <section id='httpget'>
+        <section id="LDPRv-get">
           <h2>HTTP GET</h2>
-          <section>
+          <section id="LDPRv-get-request">
             <h2>Request Headers for an LDPRv</h2>
             <p>
               <code>Accept-Datetime</code>, exactly as per [[!RFC7089]]
@@ -586,7 +600,7 @@
             </p>
           </section>
 
-          <section>
+          <section id="LDPRv-get-response">
             <h2>Response Headers</h2>
             <p>
               At least one <code>Link: rel="timemap"</code> referencing an <a>LDPCv</a>. It is the presence of this
@@ -599,50 +613,28 @@
           </section>
         </section>
 
-        <section id='httpput'>
+        <section id="LDPRv-put">
           <h2>HTTP PUT</h2>
-          <section id="httpput-general">
-            <h2>General</h2>
-            <p>
-              An <a>LDPRv</a> MAY support <code>PUT</code>. An implementation receiving a <code>PUT</code> request for
-              an <a>LDPRv</a> MUST both correctly respond as per [[!LDP]] as well as create a new <a>LDPRm</a> contained
-              in an appropriate <a>LDPCv</a>. The newly-created <a>LDPRm</a> SHOULD be the version of the <a>LDPRv</a>
-              that was created by the <code>PUT</code> request.
-            </p>
-          </section>
-
-          <section>
-            <h2>Request Headers for an LDPRv</h2>
-            <p>
-              <code>Accept-Datetime</code>, exactly as per [[!RFC7089]]
-              <a href='https://tools.ietf.org/html/rfc7089#section-2.1.1'>section 2.1.1</a>.
-            </p>
-          </section>
-
-          <section>
-            <h2>Response Headers</h2>
-            <p>
-              At least one <code>Link: rel="timemap"</code> referencing an <a>LDPCv</a>. It is the presence of this
-              header that indicates that the resource is versioned.
-            </p>
-            <p>
-              <code>Vary: Accept-Datetime</code>, exactly as per [[!RFC7089]]
-              <a href='https://tools.ietf.org/html/rfc7089#section-2.1.2'>section 2.1.2</a>.
-            </p>
-          </section>
+          <p>
+            An <a>LDPRv</a> MAY support <code>PUT</code> in order to restore a previous <a>LDPRm</a> as
+            the current <a>LDPRv</a>.  The <code>Memento-Datetime</code> MUST be transmitted by the user
+            agent to indicate which <a>LDPRm</a> to restore.  The value of this header must conform
+            to [[!RFC7089]]
+            <a href='https://tools.ietf.org/html/rfc7089#section-2.1.1'>section 2.1.1</a>.
+          </p>
         </section>
 
-        <section>
+        <section id="LDPRv-head">
           <h2>HTTP HEAD</h2>
           <p>
-            See: <a href='#httpget'></a>
+            See: <a href='#LDPRv-get'></a>
           </p>
         </section>
       </section>
 
-      <section>
+      <section id="LDPRm">
         <h2>Version Resources (<a>LDPRm</a>)</h2>
-        <section>
+        <section id="LDPRm-general">
           <h2>General</h2>
           <p>
             When an <a>LDPR</a> is created with a <code>Link: rel="type"</code> header
@@ -653,7 +645,7 @@
           </p>
         </section>
 
-        <section>
+        <section id="LDPRm-delete">
           <h2>HTTP DELETE</h2>
           <p>
             An implementation MAY support <code>DELETE</code> for <a>LDPRm</a>s. If <code>DELETE</code> is supported,
@@ -661,7 +653,7 @@
           </p>
         </section>
 
-        <section>
+        <section id="LDPRm-get">
           <h2>HTTP GET</h2>
           <p>
             An implementation MUST support <code>GET</code>, as is the case for any <a>LDPR</a>. The headers for
@@ -672,14 +664,14 @@
           </p>
         </section>
 
-        <section>
+        <section id="LDPRm-head">
           <h2>HTTP HEAD</h2>
           <p>
             An implementation MUST support <code>HEAD</code>.
           </p>
         </section>
 
-        <section>
+        <section id="LDPRm-options">
           <h2>HTTP OPTIONS</h2>
           <p>
             An implementation MUST support <code>OPTIONS</code>. A response to an <code>OPTIONS</code> request MUST
@@ -689,21 +681,21 @@
           </p>
         </section>
 
-        <section>
+        <section id="LDPRm-patch">
           <h2>HTTP PATCH</h2>
           <p>
              An implementation MUST NOT support <code>PATCH</code> for <a>LDPRm</a>s.
           </p>
         </section>
 
-        <section>
+        <section id="LDPRm-post">
           <h2>HTTP POST</h2>
           <p>
             An implementation MUST NOT support <code>POST</code> for <a>LDPRm</a>s.
           </p>
         </section>
 
-        <section>
+        <section id="LDPRm-put">
           <h2>HTTP PUT</h2>
           <p>
              An implementation MUST NOT support <code>PUT</code> for <a>LDPRm</a>s.
@@ -712,9 +704,9 @@
 
       </section>
 
-      <section>
+      <section id="LDPCv">
         <h2>Version Containers (<a>LDPCv</a>)</h2>
-        <section>
+        <section id="LDPCv-general">
           <h2>General</h2>
           <p>
             When an <a>LDPR</a> is created with a <code>Link: rel="type"</code> header
@@ -737,8 +729,8 @@
           </blockquote>
         </section>
 
-        <section>
-          <h2 id='ldpcvget'>HTTP GET</h2>
+        <section id='ldpcvget'>
+          <h2>HTTP GET</h2>
           <p>
             An <a>LDPCv</a> MUST respond to <code>GET Accept: application/link-format</code> as
             indicated in [[!RFC7089]]
@@ -768,8 +760,8 @@
           </p>
         </section>
 
-        <section>
-          <h2 id='ldpcvdelete'>HTTP DELETE</h2>
+        <section id="ldpcvdelete">
+          <h2>HTTP DELETE</h2>
           <p>
             An implementation MAY support <code>DELETE</code>. An implementation that does support <code>DELETE</code>
             SHOULD do so by both removing the <a>LDPCv</a> and removing the versioning interaction model from the
@@ -777,8 +769,8 @@
           </p>
         </section>
 
-        <section>
-          <h2 id='ldpcvoptions'>HTTP OPTIONS</h2>
+        <section id="ldpcvoptions">
+          <h2>HTTP OPTIONS</h2>
           <p>
             An implementation MUST <code>Allow: GET, HEAD, OPTIONS</code> as per [[!LDP]]. An implementation MAY
             <code>Allow: DELETE</code> if the versioning behavior is removable by deleting the <a>LDPCv</a>. See
@@ -794,16 +786,16 @@
           </p>
         </section>
 
-        <section>
-          <h2 id='ldpcvpatch'>HTTP PATCH</h2>
+        <section id="ldpcvpatch">
+          <h2>HTTP PATCH</h2>
           <p>
             An implementation MAY <code>Allow: PATCH</code>, but if so, it MUST NOT permit clients to modify containment
             triples.
           </p>
         </section>
 
-        <section>
-          <h2 id='ldpcvpost'>HTTP POST</h2>
+        <section id="ldpcvpost">
+          <h2>HTTP POST</h2>
           <p>
             If an <a>LDPCv</a> supports <code>POST</code>, <code>POST</code> SHOULD be understood to create a new
             <a>LDPRm</a> contained by the <a>LDPCv</a>, reflecting the state of the <a>LDPRv</a> at the time of the
@@ -832,7 +824,7 @@
 
       </section>
 
-      <section>
+      <section id="resource-versioning-vary">
         <h2>Vary</h2>
         <blockquote class="informative">
           Non-normative note:
@@ -843,7 +835,7 @@
         </blockquote>
       </section>
 
-      <section>
+      <section id="resource-versioning-patterns">
         <h2>Implementation Patterns</h2>
         <blockquote class="informative">
           Non-normative note:
@@ -871,7 +863,7 @@
             Non-normative note:
             An <a>LDPRm</a> for a particular <a>LDPRv</a> is created on <code>POST</code> to any <a>LDPCv</a>
             associated with that <a>LDPRv</a>. The new <a>LDPRm</a> is contained in the <a>LDPCv</a> to which the
-            <code>POST</code> was made and features in that <a>LDPCv</a>-as-a<a>TimeMap</a>. This pattern is more
+            <code>POST</code> was made and features in that <a>LDPCv</a>-as-a-<a>TimeMap</a>. This pattern is more
             open to manipulation and could be useful for migration from other systems into Fedora implementations.
             Responses from requests to the <a>LDPRv</a> include a <code>Link: rel="timemap"</code> to the same
             <a>LDPCv</a> as per [[!RFC7089]] <a href='https://tools.ietf.org/html/rfc7089#section-5'>section 5</a>.
@@ -931,11 +923,31 @@
           </p>
         </blockquote>
       </section>
+      <section id="webids">
+        <h2>WebIDs</h2>
+        <blockquote class="informative">
+          <p>
+            Non-normative note:
+            The [[!SOLIDWEBAC]] <a href="https://github.com/solid/web-access-control-spec#overview">overview</a>
+            mentions parenthetically that user and group identifiers should be WebIDs.  For the purposes of performing
+            authorization, the essential requirements are:
+          </p>
+          <ul>
+            <li>
+              User and group identifiers must be IRIs.
+            </li>
+            <li>
+              Group IRIs must be dereferencable as RDF, and must link to member IRIs using the
+              <code>vcard:hasMember</code> predicate.
+            </li>
+          </ul>
+        </blockquote>
+      </section>
     </section>
 
     <section id="notifications">
       <h2>Notifications</h2>
-      <section>
+      <section id="notifications-intro">
         <h3>Introduction</h3>
         <blockquote class="informative">
           <p>
