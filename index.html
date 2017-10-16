@@ -497,7 +497,14 @@
             resources.
           </p>
           <p>
-            An implementation that cannot recurse MUST NOT advertise <code>DELETE</code> in response to OPTIONS
+            An implementation MUST NOT return a 200 or 204 response unless the entire operation successfully completed.
+          </p>
+          <p>
+            An implementation MUST NOT emit a message that implies the successful DELETE of a resource until the
+            resource has been successfully removed.
+          </p>
+          <p>
+            An implementation that cannot recurse SHOULD NOT advertise <code>DELETE</code> in response to OPTIONS
             requests for containers with contained resources.
           </p>
           <blockquote id="httpDELETEatomicity" class="informative">
