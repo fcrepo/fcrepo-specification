@@ -864,6 +864,20 @@
           An <a>ACL</a> for a controlled resource on a conforming server MUST itself be an <a>LDP-RS</a>.
         </p>
       </section>
+      <section id="cross-domain-acls">
+        <h2>Cross-Domain ACLs</h2>
+        <blockquote class="informative">
+          Non-normative note:
+          Implementation of support for <a>ACL</a>s requires retrieval of one or more <a>ACL</a> resources.
+          Security implications should be considered if remote <a>ACL</a>s are supported.
+        </blockquote>
+        <p>
+          Implementations MAY restrict support for <a>ACL</a>s to local resources.  If an implementation chooses to
+          reject requests concerning remote <a>ACL</a>s, it MUST respond with a 4xx range status code and
+          MUST advertise the restriction with a <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"
+          </code> response header.
+        </p>
+      </section>
       <section id="link-rel-acl">
         <h2>ACLs are discoverable via Link Headers</h2>
         <p>
@@ -902,6 +916,23 @@
             predicate <code>acl:defaultForNew</code>.
           </p>
         </blockquote>
+      </section>
+      <section id="cross-domain-groups">
+        <h2>Cross-Domain Group Listings</h2>
+        <blockquote class="informative">
+          Non-normative note:
+          Implementation of support for [[!SOLIDWEBAC]] 
+          <a href="https://github.com/solid/web-access-control-spec#groups-of-agents">groups of agents</a> requires
+          retrieval of one or more Group Listing documents. Security implications should be considered if remote Group
+          Listing documents are supported.
+        </blockquote>
+        <p>
+          Implementations MAY restrict support for [[!SOLIDWEBAC]]
+          <a href="https://github.com/solid/web-access-control-spec#groups-of-agents">groups of agents</a> to local
+          Group Listing documents.  If an implementation chooses to reject requests concerning remote Group Listings,
+          it MUST respond with a 4xx range status code and MUST advertise the restriction
+          with a <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code> response header.
+        </p>
       </section>
       <section id="webids">
         <h2>WebIDs</h2>
