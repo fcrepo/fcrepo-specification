@@ -899,6 +899,47 @@
           </p>
         </blockquote>
       </section>
+      <section id="append-mode">
+        <h2>Append Mode</h2>
+        <p>
+          The [[!SOLIDWEBAC]] <a href="https://github.com/solid/web-access-control-spec#modes-of-access">Modes of
+          Access</a> section mentions the <code>acl:mode</code> value <code>acl:Append</code>.  In the context of a
+          Fedora implementation, <code>acl:Append</code> should be understood as operations that only append, such as
+          <code>POST</code>ing to a container, or performing a <code>PATCH</code> that only adds triples.
+        </p>
+        <section id="appendLDPRS">
+          <h3>LDP-RS</h3>
+          <p>
+            When a client is allowed to perform <code>acl:Append</code> operations on an <a>LDP-RS</a>:
+          </p>
+          <ul>
+            <li>A <code>DELETE</code> request MUST be denied</li>
+            <li>A <code>PATCH</code> request that deletes triples MUST be denied</li>
+            <li>A <code>PATCH</code> request that only adds triples SHOULD be allowed</li>
+            <li>A <code>PUT</code> request on an existing resource MUST be denied</li>
+            <li>A <code>PUT</code> request to create a new resource MUST be allowed if the implementation supports
+              creating resources using <code>PUT</code> (see: <a href='#httpPUTcreate'></a>)</li>
+          </ul>
+        </section>
+        <section id="appendLDPC">
+          <h3>LDPC</h3>
+          <p>
+            In addition to requirements in <a href='#appendLDPRS'></a>, when a client is allowed to perform
+            <code>acl:Append</code> operations on an <a>LDPC</a>, a <code>POST</code> request MUST be allowed.
+          </p>
+        </section>
+        <section id="appendLDPNR">
+          <h3>LDP-NR</h3>
+          <p>
+            When a client is allowed to perform <code>acl:Append</code> operations on an <a>LDP-NR</a>:
+          </p>
+          <ul>
+            <li>All <code>DELETE</code>, <code>POST</code>, and <code>PUT</code> requests MUST be denied</li>
+            <li>A <code>PATCH</code> request that deletes or modifies existing content MUST be denied</li>
+            <li>A <code>PATCH</code> request that only adds content SHOULD be allowed</li>
+          </ul>
+        </section>
+      </section>
       <section id="inheritance">
         <h2>Inheritance and Default ACLs</h2>
         <p>
