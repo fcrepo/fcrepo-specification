@@ -308,6 +308,10 @@
           request MUST respond with a 2xx status code; the specific code in the 2xx range MAY vary according to the
           response body or request state.
         </p>
+        <section id="httpPATCH-containment-triples">
+          <h3>Containment Triples</h3>
+          The server SHOULD NOT allow HTTP PATCH to update an <a>LDPC</a>’s containment triples; if the server receives such a request, it SHOULD respond with a 409 (Conflict) status code.
+        </section>
         <section id="httpPATCH-ixn-models">
           <h3>Interaction models</h3>
           <p>
@@ -757,18 +761,12 @@
             <a href='#ldpcvdelete'></a> for requirements on <code>DELETE</code> if supported.
           </p>
           <p>
-            An implementation MUST NOT <code>Allow: PATCH</code>.
+            An implementation MAY <code>Allow: PATCH</code> if the <a>LDPCv</a> has mutable properties. See
+            <a href='#ldpcvpatch'></a> for requirements on <code>PATCH</code> if supported.
           </p>
           <p>
             An implementation MAY <code>Allow: POST</code> if versions can be explicitly minted by a client. See
             <a href='#ldpcvpost'></a> for requirements on <code>POST</code> if supported.
-          </p>
-        </section>
-
-        <section id="ldpcvpatch">
-          <h2>HTTP PATCH</h2>
-          <p>
-            An implementation MUST NOT <code>Allow: PATCH</code>.
           </p>
         </section>
 
