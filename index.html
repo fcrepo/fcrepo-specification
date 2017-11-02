@@ -609,9 +609,8 @@
           <h2>General</h2>
           <p>
             A versioned resource (<a>LDPRv</a>) provides a <a>TimeGate</a> interaction model as detailed in the
-            Memento specification [[RFC7089]] and indicated by an HTTP header <code>Link: rel="timegate"</code>
-            referencing itself. It otherwise follows the relevant [[!LDP]] specification with the additional
-            behaviors below.
+            Memento specification [[RFC7089]]. It otherwise follows the [[!LDP]] specification, the
+            <a href="#resource-management"></a> requirements, and the additional behaviors below.
           </p>
         </section>
 
@@ -620,7 +619,7 @@
           <section id="LDPRv-get-request">
             <h2>Request Headers for an LDPRv</h2>
             <p>
-              <code>Accept-Datetime</code>, exactly as per [[!RFC7089]]
+              The <code>Accept-Datetime</code> header is used to request a past state, exactly as per [[!RFC7089]]
               <a href='https://tools.ietf.org/html/rfc7089#section-2.1.1'>section 2.1.1</a>.
             </p>
           </section>
@@ -628,11 +627,13 @@
           <section id="LDPRv-get-response">
             <h2>Response Headers</h2>
             <p>
-              At least one <code>Link: rel="timemap"</code> referencing an <a>LDPCv</a>. It is the presence of this
-              header that indicates that the resource is versioned.
+              The response to a GET request on an <a>LDPRv</a> MUST include a <code>Link: rel="original timegate"</code>
+              header referencing itself, and at least one <code>Link: rel="timemap"</code> header referencing an
+              associated <a>LDPCv</a>. It is the presence of these headers that indicates that the resource is versioned.
             </p>
             <p>
-              <code>Vary: Accept-Datetime</code>, exactly as per [[!RFC7089]]
+              The response to a GET request on an <a>LDPRv</a> MUST include a <code>Vary: Accept-Datetime</code>
+              header, exactly as per [[!RFC7089]]
               <a href='https://tools.ietf.org/html/rfc7089#section-2.1.2'>section 2.1.2</a>.
             </p>
           </section>
@@ -652,7 +653,7 @@
         <section id="LDPRv-head">
           <h2>HTTP HEAD</h2>
           <p>
-            See: <a href='#LDPRv-get'></a>
+            See <a href="#httpHEAD"></a> and <a href="#LDPRv-get"></a>.
           </p>
         </section>
       </section>
@@ -692,7 +693,7 @@
         <section id="LDPRm-head">
           <h2>HTTP HEAD</h2>
           <p>
-            An implementation MUST support <code>HEAD</code>.
+            See <a href="#httpHEAD"></a> and <a href="#LDPRm-get"></a>.
           </p>
         </section>
 
