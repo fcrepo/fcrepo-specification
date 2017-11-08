@@ -1007,6 +1007,18 @@
           </ul>
         </blockquote>
       </section>
+      <section id="link-acl-on-create">
+        <h2>ACL linking on resource creation</h2>
+        <p>
+          A client HTTP <code>POST</code> or <code>PUT</code> request to create a new <a>LDPR</a> MAY include a
+          <code>Link: rel="acl"</code> header referencing an existing <a>LDP-RS</a> to use as the <a>ACL</a>
+          for the new <a>LDPR</a>. The server MUST reject the request and respond with a 4xx or 5xx range status
+          code (e.g. 409 Conflict) if it isn't able to create the <a>LDPR</a> with the specified <a>LDP-RS</a> as
+          the <a>ACL</a>. In that response, the restrictions causing the request to fail MUST be described in a
+          resource indicated by a <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code> response header,
+          following the pattern of [[!LDP]] <a href='https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs'>4.2.1.6</a>.
+        <p>
+      </section>
     </section>
 
     <section id="notifications">
