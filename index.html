@@ -590,9 +590,8 @@
             <code>Content-Type: message/external-body</code> values MAY include an <code>expiration</code> parameter.
             Fedora servers receiving requests that would create or update an LDP-NR with a
             <code>message/external-body</code> content type SHOULD respect the <code>expiration</code> parameter,
-            if present, by copying content. If the <code>expiration</code> parameter cannot be accommodated or the
-            server is unable to copy the external content, the request MUST be rejected with a 4xx or 5xx status code.
-            Following [[!LDP]]
+            if present, by copying content. If the server is unable to copy the external content, the request MUST be
+            rejected with a 4xx or 5xx status code. Following [[!LDP]]
             <a href="https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs">4.2.1.6</a> and
             <a href="https://www.w3.org/TR/ldp/#ldprs-put-servermanagedprops">4.2.4.3</a>, 4xx responses MUST be
             accompanied by a <code>Link</code> header with <code>http://www.w3.org/ns/ldp#constrainedBy</code> relation.
