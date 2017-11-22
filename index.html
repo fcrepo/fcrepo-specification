@@ -651,11 +651,7 @@
         <section id="LDPRv-put">
           <h2>HTTP PUT</h2>
           <p>
-            An <a>LDPRv</a> MAY support <code>PUT</code> in order to restore a previous <a>LDPRm</a> as
-            the current <a>LDPRv</a>.  The <code>Memento-Datetime</code> MUST be transmitted by the user
-            agent to indicate which <a>LDPRm</a> to restore.  The value of this header must conform
-            to [[!RFC7089]]
-            <a href='https://tools.ietf.org/html/rfc7089#section-2.1.1'>section 2.1.1</a>.
+            An implementation MUST support <code>PUT</code>, as is the case for any LDPR.
           </p>
         </section>
 
@@ -869,6 +865,18 @@
             open to manipulation and could be useful for migration from other systems into Fedora implementations.
             Responses from requests to the <a>LDPRv</a> include a <code>Link: rel="timemap"</code> to the same
             <a>LDPCv</a> as per [[!RFC7089]] <a href='https://tools.ietf.org/html/rfc7089#section-5'>section 5</a>.
+          </blockquote>
+        </section>
+        <section id="memento-by-reference">
+         <h2>Replacing Contents from Mementos</h2>
+          <blockquote class="informative">
+            Non-normative note:
+            Using the ingest-by-reference mechanisms, one can replace the contents of an <a>LDPRv</a> with that of
+            a <a>LDPRm</a> by providing it's URL as the URL parameter in a <code>Content-Type: 
+            message/external-body</code> header.  For example, given an <a>LDPRm</a> with URL <code>
+            http://my.repository.org/some/memento</code>, the full header would be <br/>
+            <code>Content-Type: message/external-body; access-type=URL; expiration=1;<br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;URL=&lt;http://my.repository.org/some/memento&gt;</code>
           </blockquote>
         </section>
       </section>
