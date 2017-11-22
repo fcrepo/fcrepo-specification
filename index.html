@@ -492,7 +492,15 @@
         <section id="httpDELETERecursion">
           <h3>Recursive Delete</h3>
           <p>
-            If a server supports <code>DELETE</code>, its recursion MUST be reckoned along the [[!LDP]]
+            An implementation that cannot recurse SHOULD NOT advertise <code>DELETE</code> in response to OPTIONS
+            requests for containers with contained resources.
+          </p>
+          <blockquote id="http-delete-recursion-info" class="informative">
+            Non-normative note: Clients should assume from an advertised DELETE that they do not need to look for
+            contained/child resources to clean up.
+          </blockquote>
+          <p>
+            If a server supports <code>DELETE</code>, any recursion MUST be reckoned along the [[!LDP]]
             <a href="https://www.w3.org/TR/ldp/#dfn-containment">containment relationships</a> linking contained
             resources.
           </p>
@@ -502,10 +510,6 @@
           <p>
             An implementation MUST NOT emit a message that implies the successful DELETE of a resource until the
             resource has been successfully removed.
-          </p>
-          <p>
-            An implementation that cannot recurse SHOULD NOT advertise <code>DELETE</code> in response to OPTIONS
-            requests for containers with contained resources.
           </p>
           <blockquote id="httpDELETEatomicity" class="informative">
             Non-normative note: Atomicity is not guaranteed for HTTP <code>DELETE</code> requests that affect multiple
