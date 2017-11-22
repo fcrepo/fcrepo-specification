@@ -627,15 +627,16 @@
           <section id="LDPRv-get-response">
             <h2>Response Headers</h2>
             <p>
-              The response to a GET request on an <a>LDPRv</a> MUST include a <code>Link: rel="original timegate"</code>
-              header referencing itself, and at least one <code>Link: rel="timemap"</code> header referencing an
-              associated <a>LDPCv</a>. It is the presence of these headers that indicates that the resource is
-              versioned.
-            </p>
-            <p>
-              The response to a GET request on an <a>LDPRv</a> MUST include a <code>Vary: Accept-Datetime</code>
-              header, exactly as per [[!RFC7089]]
-              <a href='https://tools.ietf.org/html/rfc7089#section-2.1.2'>section 2.1.2</a>.
+              The response to a GET request on an <a>LDPRv</a> MUST include the following <code>Link</code> headers:
+              <ul>
+                <li>A <code>Link: rel="original timegate"</code> header referencing itself</li>
+                <li>A <code>Link: &lt;http://mementoweb.org/ns#TimeMap&gt;; rel="type"</code> header</li>
+                <li>A <code>Link: &lt;http://mementoweb.org/ns#OriginalResource&gt;; rel="type"</code> header</li>
+                <li>At least one <code>Link: rel="timemap"</code> header referencing an associated <a>LDPCv</a></li>
+                <li>A <code>Vary: Accept-Datetime</code> header, exactly as per [[!RFC7089]]
+                    <a href='https://tools.ietf.org/html/rfc7089#section-2.1.2'>section 2.1.2</a>.</li>
+              </ul>
+              It is the presence of these headers that indicates that the resource is versioned.
             </p>
           </section>
         </section>
@@ -687,7 +688,8 @@
             <code>GET</code> requests and responses on this resource MUST conform to [[!RFC7089]]
             <a href='https://tools.ietf.org/html/rfc7089#section-2.1'>section 2.1</a>.
             Particularly it should be noted that the relevant <a>TimeGate</a> for an <a>LDPRm</a> is the original
-            versioned <a>LDPRv</a>.
+            versioned <a>LDPRv</a>. In addition, any response to a <code>GET</code> request MUST include a
+            <code>Link: &lt;http://mementoweb.org/ns#Memento&gt;; rel="type"</code> header.
           </p>
         </section>
 
@@ -757,6 +759,15 @@
             required to include all statements in the <a>LDPCv</a> graph, only those required by <a>TimeMap</a>
             behaviors.
           </blockquote>
+        </section>
+
+        <section id="ldpcvget">
+          <h2>HTTP GET</h2>
+          <p>
+            An implementation MUST support <code>GET</code>, as is the case for any <a>LDPR</a>. Any response to a
+            <code>GET</code> request MUST include a <code>Link: &lt;http://mementoweb.org/ns#TimeMap&gt;; rel="type"
+            </code> header.
+          </p>
         </section>
 
         <section id="ldpcvdelete">
