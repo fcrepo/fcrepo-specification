@@ -651,7 +651,7 @@
         <section id="LDPRv-put">
           <h2>HTTP PUT</h2>
           <p>
-            An implementation MUST support <code>PUT</code>, as is the case for any LDPR.
+          An implementation MUST support <code>PUT</code>, as is the case for any <a>LDPR</a>.
           </p>
         </section>
 
@@ -872,11 +872,11 @@
           <blockquote class="informative">
             Non-normative note:
             Using the ingest-by-reference mechanisms, one can replace the contents of an <a>LDPRv</a> with that of
-            a <a>LDPRm</a> by providing it's URL as the URL parameter in a <code>Content-Type: 
+            an <a>LDPRm</a> by providing it's URL as the URL parameter in a <code>Content-Type: 
             message/external-body</code> header.  For example, given an <a>LDPRm</a> with URL <code>
-            http://my.repository.org/some/memento</code>, the full header would be <br/>
+            http://example.org/some/memento</code>, the full header would be <br/>
             <code>Content-Type: message/external-body; access-type=URL; expiration=1;<br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;URL=&lt;http://my.repository.org/some/memento&gt;</code>
+            &nbsp;&nbsp;&nbsp;&nbsp;URL="http://example.org/some/memento"</code>
           </blockquote>
         </section>
       </section>
