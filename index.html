@@ -539,9 +539,9 @@
           the use of <code>Content-Type: message/external-body</code> values to signal, on POST or PUT, that the Fedora
           server should not consider the request entity to be the LDP-NR's content, but that a
           <code>Content-Type</code> value will signal a name or address at which the content might be retrieved. The
-          <code>url</code> and <code>local-file</code> <code>access-type</code> values motivate this specification, but
-          a Fedora server may support any <code>access-type</code> parameters per the requirements for advertisement
-          and rejection specified here.
+          '<code>url</code>' and '<code>local-file</code>' values of the <code>access-type</code> parameter motivate
+          this specification, but a Fedora server may support any <code>access-type</code> parameters per the
+          requirements for advertisement and rejection specified here.
         </blockquote>
         <p id='message-external-body-accept-post'>
           Fedora servers SHOULD support the creation of LDP-NRs with <code>Content-Type</code> of
@@ -566,22 +566,6 @@
           LDP-NR GET and HEAD responses SHOULD include a <code>Content-Location</code> header with a URI representation
           of the location of the external content if the Fedora server is proxying the content.
         </p>
-        <blockquote class="informative">
-          Non-normative note:
-          Fedora servers may choose to support the <code>Content-Type</code> of <code>message/external-body</code> by
-          proxying or copying the referenced content.
-        </blockquote>
-        <p id='external-content-expires'>
-          Per [[!RFC2046]] <a href="https://tools.ietf.org/html/rfc2046#section-5.2.3">section 5.2.3</a>, all
-          <code>Content-Type: message/external-body</code> values MAY include an <code>expiration</code> parameter.
-          Fedora servers receiving requests that would create or update an LDP-NR with a
-          <code>message/external-body</code> content type SHOULD respect the <code>expiration</code> parameter,
-          if present, by copying content. If the <code>expiration</code> parameter cannot be accommodated, the request
-          MUST be rejected with a 4xx or 5xx status code. Following [[!LDP]]
-          <a href="https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs">4.2.1.6</a> and
-          <a href="https://www.w3.org/TR/ldp/#ldprs-put-servermanagedprops">4.2.4.3</a>, 4xx responses MUST be
-          accompanied by a <code>Link</code> header with <code>http://www.w3.org/ns/ldp#constrainedBy</code> relation.
-        </p>
         <p id='external-content-want-digest'>
           <code>GET</code> and <code>HEAD</code> requests to any external binary content <a>LDP-NR</a> MUST correctly
           respond to the <code>Want-Digest</code> header defined in [[!RFC3230]].
@@ -594,14 +578,24 @@
             LDP-RS with Turtle or JSON-LD.
           </blockquote>
         </section>
-        <section id='proxied-vs-redirected'>
-          <h4>Proxied Content vs. Redirected Content</h4>
+        <section id='proxied-vs-copied'>
+          <h4>Proxied Content vs. Copied Content</h4>
           <blockquote class="informative">
             Non-normative note:
-            This specification assumes that clients interested in resolving a <code>access-type='url'</code> or other
-            value without the Fedora server as an intermediary (effectively, redirection as opposed to proxying) will
-            be able to negotiate the <code>Content-Location</code> response header value from a HEAD request.
+            Fedora servers may choose to support the <code>Content-Type</code> of <code>message/external-body</code> by
+            proxying or copying the referenced content.
           </blockquote>
+          <p id='external-content-expires'>
+            Per [[!RFC2046]] <a href="https://tools.ietf.org/html/rfc2046#section-5.2.3">section 5.2.3</a>, all
+            <code>Content-Type: message/external-body</code> values MAY include an <code>expiration</code> parameter.
+            Fedora servers receiving requests that would create or update an LDP-NR with a
+            <code>message/external-body</code> content type SHOULD respect the <code>expiration</code> parameter,
+            if present, by copying content. If the <code>expiration</code> parameter cannot be accommodated, the request
+            MUST be rejected with a 4xx or 5xx status code. Following [[!LDP]]
+            <a href="https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs">4.2.1.6</a> and
+            <a href="https://www.w3.org/TR/ldp/#ldprs-put-servermanagedprops">4.2.4.3</a>, 4xx responses MUST be
+            accompanied by a <code>Link</code> header with <code>http://www.w3.org/ns/ldp#constrainedBy</code> relation.
+          </p>
         </section>
       </section>
     </section>
