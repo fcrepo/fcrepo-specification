@@ -237,27 +237,9 @@
 
     <section id="resource-management">
       <h2>Resource Management</h2>
-      <blockquote class="informative">
-        Non-normative note: Neither [LDP] nor this specification constrains the underlying storage model for RDF
-        data. Each <a>LDP-RS</a> may be entirely independent RDF content, may be a portion of a shared RDF store,
-        or follow some other arrangement. Implementation choices that result in failure to complete client requests
-        are expressed in a constraints document ([[LDP]]
-        <a href="https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs">4.2.1.6</a>) as noted in the appropriate sections
-        of [LDP] and below.
-      </blockquote>
 
       <section id="general">
         <h2>General</h2>
-        <section id="ldpnr-ixn-model">
-          <h2>LDP-NR creation</h2>
-          <p>
-            If, in a successful resource creation request, a <code>Link: rel="type"</code> request header specifies the
-            <a>LDP-NR</a> interaction model (<code>http://www.w3.org/ns/ldp#NonRDFSource</code>, regardless of
-            <code>Content-Type:</code> value), then the server SHOULD handle subsequent requests to the newly created
-            resource as if it is an <a>LDP-NR</a>. ([[!LDP]]
-            <a href="https://www.w3.org/TR/ldp/#ldpc-post-createrdf">5.2.3.4 extension</a>)
-          </p>
-        </section>
         <section id="LDPC">
           <h2>LDP Containers</h2>
           <p>
@@ -270,8 +252,8 @@
             implementation cannot make this distinction, it MUST NOT permit <code>ldp:contains</code> as the [<a
             href="https://www.w3.org/TR/ldp/#dfn-membership-predicate">membership predicate</a>] for LDP Direct and
             Indirect Containers or as a client-managed property, and requests that would do so MUST fail with 409
-            Conflict and an accompanying constraints document. Implementations that can distinguish containment triples
-            MAY permit <code>ldp:contains</code> as a membership predicate or client-managed property; such
+            (Conflict) and an accompanying constraints document. Implementations that can distinguish containment
+            triples MAY permit <code>ldp:contains</code> as a membership predicate or client-managed property; such
             implementations SHOULD support <code>Prefer:</code> header values allowing clients to distinguish this data
             in the representation of an LDP-R as defined in [[!LDP]]:
             <code>http://www.w3.org/ns/ldp#PreferContainment</code>,
@@ -286,6 +268,27 @@
             segregate containment and membership triples - for example, by storing containment relationships in a
             dedicated named graph - may allow the creation of other triples with the <code>ldp:contains</code>
             predicate, and thus triples with this predicate do not necessarily imply containment.
+          </blockquote>
+        </section>
+        <section id="ldpnr-ixn-model">
+          <h2>LDP-NR creation</h2>
+          <p>
+            If, in a successful resource creation request, a <code>Link: rel="type"</code> request header specifies the
+            <a>LDP-NR</a> interaction model (<code>http://www.w3.org/ns/ldp#NonRDFSource</code>, regardless of
+            <code>Content-Type:</code> value), then the server SHOULD handle subsequent requests to the newly created
+            resource as if it is an <a>LDP-NR</a>. ([[!LDP]]
+            <a href="https://www.w3.org/TR/ldp/#ldpc-post-createrdf">5.2.3.4 extension</a>)
+          </p>
+        </section>
+        <section id="data-model">
+          <h2>Data Model</h2>
+          <blockquote class="informative">
+            Non-normative note: Neither [LDP] nor this specification constrains the underlying storage model for RDF
+            data. Each <a>LDP-RS</a> may be entirely independent RDF content, may be a portion of a shared RDF store,
+            or follow some other arrangement. Implementation choices that result in failure to complete client requests
+            are expressed in a constraints document ([[LDP]]
+            <a href="https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs">4.2.1.6</a>) as noted in the appropriate sections
+            of [LDP] and below.
           </blockquote>
         </section>
       </section>
@@ -307,18 +310,22 @@
         <p>
           Any <a>LDP-RS</a> MUST support <code>PATCH</code> ([[!LDP]]
           <a href="https://www.w3.org/TR/ldp/#ldpr-HTTP_PATCH">4.2.7</a> MAY becomes MUST). [[!sparql11-update]] MUST
-          be an accepted content-type for <code>PATCH</code>. Other content-types (e.g. [[ldpatch]]) MAY be available.
+          be an accepted content-type for <code>PATCH</code>. Other content-types (e.g. [[ldpatch]]) MAY be supported.
+        </p>
+        <p>
           If an otherwise valid HTTP <code>PATCH</code> request is received that attempts to modify resource statements
           that a server disallows (not ignores per [[!LDP]]
           <a href="https://www.w3.org/TR/ldp/#ldpr-put-replaceall">4.2.4.1</a>), the server MUST fail the request by
-          responding with a 4xx range status code (e.g. 409 Conflict). The server MUST provide a corresponding
+          responding with a 4xx range status code, such as 409 (Conflict). The server MUST provide a corresponding
           response body containing information about which statements could not be persisted. ([[!LDP]]
           <a href="https://www.w3.org/TR/ldp/#ldprs-put-failed">4.2.4.4</a> SHOULD becomes MUST). In that response, the
           restrictions causing such a request to fail MUST be described in a resource indicated by a <code>Link:
           rel="http://www.w3.org/ns/ldp#constrainedBy"</code> response header per [[!LDP]]
-          <a href='https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs'>4.2.1.6</a>. A successful <code>PATCH</code>
-          request MUST respond with a 2xx status code; the specific code in the 2xx range MAY vary according to the
-          response body or request state.
+          <a href='https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs'>4.2.1.6</a>.
+        </p>
+        <p>
+          A successful <code>PATCH</code> request MUST respond with a 2xx status code; the specific code in the 2xx
+          range MAY vary according to the response body or request state.
         </p>
         <section id="httpPATCH-containment-triples">
           <h3>Containment Triples</h3>
@@ -330,7 +337,7 @@
           <p>
             The server MUST disallow a <code>PATCH</code> request that would change the LDP interaction model of a
             resource to a type that is not a subtype of the current resource type. That request MUST be rejected with a
-            409 Conflict response.
+            409 (Conflict) response.
           </p>
         </section>
       </section>
@@ -339,12 +346,14 @@
         <h2>HTTP POST</h2>
         <p>
           Any <a>LDPC</a> (except <a href="#ldpcvpost">Version Containers (LDPCv)</a>) MUST support <code>POST</code>
-	  ([[!LDP]] <a href="https://www.w3.org/TR/ldp/#ldpr-HTTP_POST">4.2.3</a> /
+          ([[!LDP]] <a href="https://www.w3.org/TR/ldp/#ldpr-HTTP_POST">4.2.3</a> /
           <a href="https://www.w3.org/TR/ldp/#ldpc-HTTP_POST">5.2.3</a>). The default interaction model that will be
-          assigned when there is no explicit Link header in the request MUST be recorded in the constraints document
-          referenced in the <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code> header ([[!LDP]]
-          <a href='https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs'>4.2.1.6</a> clarification). Any <a>LDPC</a> MUST
-          support creation of <a>LDP-NR</a>s on <code>POST</code> ([[!LDP]]
+          assigned when there is no explicit <code>Link</code> header in the request MUST be recorded in the constraints
+          document referenced in the <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code> header ([[!LDP]]
+          <a href='https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs'>4.2.1.6</a> clarification).
+        </p>
+        <p>
+          Any <a>LDPC</a> MUST support creation of <a>LDP-NR</a>s on <code>POST</code> ([[!LDP]]
           <a href="https://www.w3.org/TR/ldp/#h-ldpc-post-createbins">5.2.3.3</a> MAY becomes MUST). On creation of an
           <a>LDP-NR</a>, an implementation MUST create an associated <a>LDP-RS</a> describing that <a>LDP-NR</a>
           ([[!LDP]] <a href="https://www.w3.org/TR/ldp/#h-ldpc-post-createbinlinkmetahdr">5.2.3.12</a> MAY becomes
@@ -355,18 +364,18 @@
           <p>
             An HTTP <code>POST</code> request that would create an <a>LDP-NR</a> and includes a <code>Digest</code>
             header (as described in [[!RFC3230]]) for which the instance-digest in that header does not match that of
-            the new <a>LDP-NR</a> MUST be rejected with a 409 Conflict response.
+            the new <a>LDP-NR</a> MUST be rejected with a 409 (Conflict) response.
           </p>
           <p>
             An HTTP <code>POST</code> request that includes an unsupported <code>Digest</code> type (as described in
-            [[!RFC3230]]), SHOULD be rejected with a 400 Bad Request response.
+            [[!RFC3230]]), SHOULD be rejected with a 400 (Bad Request) response.
           </p>
           <blockquote class="informative">
             Non-normative note:
             Implementations may support <code>Content-Type: message/external-body</code> extensions for request bodies
             for HTTP <code>POST</code> that would create <a>LDP-NR</a>s. This content-type requires a complete
             <code>Content-Type</code> header that includes the location of the external body, e.g <code>Content-Type:
-            message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</code>, as defined in
+            message/external-body; access-type=URL; URL="http://www.example.com/file"</code>, as defined in
             [[!RFC2017]]. Requirements for this interaction are detailed in
             <a href="#external-content">External LDP-NR Content</a>.
           </blockquote>
@@ -376,13 +385,12 @@
       <section id="httpPUT">
         <h2>HTTP PUT</h2>
         <p>
-          When accepting a <code>PUT</code> request against an extant resource, an HTTP <code>Link: rel="type"</code>
-          header MAY be included. If that type is a value in the LDP namespace and is not either a current type of the
-          resource or a subtype of a current type of the resource, the request MUST be rejected with a 409 Conflict
-          response. If the type in the Link header is a subtype of a current type of the resource, and has an
-          interaction model assigned to it by [[!LDP]], then the resource MUST be assigned the new type and the
+          When accepting a <code>PUT</code> request against an existing resource, an HTTP <code>Link: rel="type"</code>
+          header MAY be included. If the type in the Link header is a subtype of a current type of the resource, and
+          has an interaction model assigned to it by [[!LDP]], then the resource MUST be assigned the new type and the
           interaction model of the resource MUST be changed to the interaction model assigned to the new type by
-          [[!LDP]].
+          [[!LDP]]. If that type is a value in the LDP namespace and is not either a current type of the resource or a
+          subtype of a current type of the resource, the request MUST be rejected with a 409 (Conflict) response.
         </p>
 
         <section id="httpPUTLDPRS">
@@ -394,7 +402,7 @@
             otherwise valid HTTP <code>PUT</code> request is received that attempts to modify resource statements that
             a server disallows (not ignores per [[!LDP]]
             <a href="https://www.w3.org/TR/ldp/#ldpr-put-replaceall">4.2.4.1</a>), the server MUST fail the request by
-            responding with a 4xx range status code (e.g. 409 Conflict). The server MUST provide a corresponding
+            responding with a 4xx range status code, such as 409 (Conflict). The server MUST provide a corresponding
             response body containing information about which statements could not be persisted. ([[!LDP]]
             <a href="https://www.w3.org/TR/ldp/#ldprs-put-failed">4.2.4.4</a> SHOULD becomes MUST). In that response,
             the restrictions causing such a request to fail MUST be described in a resource indicated by a <code>Link:
@@ -411,18 +419,18 @@
           <p>
             An HTTP <code>PUT</code> request that includes a <code>Digest</code> header (as described in [[!RFC3230]])
             for which any instance-digest in that header does not match the instance it describes, MUST be rejected with
-            a 409 Conflict response.
+            a 409 (Conflict) response.
           </p>
           <p>
             An HTTP <code>PUT</code> request that includes an unsupported <code>Digest</code> type (as described in
-            [[!RFC3230]]), SHOULD be rejected with a 400 Bad Request response.
+            [[!RFC3230]]), SHOULD be rejected with a 400 (Bad Request) response.
           </p>
           <blockquote class="informative">
             Non-normative note:
             Implementations may support <code>Content-Type: message/external-body</code> extensions for request bodies
             for HTTP <code>PUT</code> that would create <a>LDP-NR</a>s. This content-type requires a complete
             <code>Content-Type</code> header that includes the location of the external body, e.g <code>Content-Type:
-            message/external-body; access-type=URL; URL=\"http://www.example.com/file\"</code>, as defined in
+            message/external-body; access-type=URL; URL="http://www.example.com/file"</code>, as defined in
             [[!RFC2017]]. Requirements for this interaction are detailed in <a href="#external-content">External LDP-NR
             Content</a>.
           </blockquote>
@@ -442,11 +450,6 @@
 
       <section id="httpGET">
         <h2>HTTP GET</h2>
-        <p>
-          When the request is to the <a>LDP-RS</a> created to describe an <a>LDP-NR</a>, the response MUST include a
-          <code>Link: rel="describes"</code> header referencing the <a>LDP-NR</a> in question, as defined in
-          [[!RFC6892]].
-        </p>
         <section id="additionalPreferValues">
           <h2>Additional values for the <code>Prefer</code> header</h2>
           <p>
@@ -487,6 +490,14 @@
             <a href='https://tools.ietf.org/html/rfc7234#section-5.2.1.4'>section 5.2.1.4</a>) to instruct any
             intermediate caches or proxies not to return a cached response. See <a href="#persistence-fixity"></a>.
           </blockquote>
+        </section>
+        <section id="binary-descriptions">
+          <h2>LDP-NR Descriptions</h2>
+          <p>
+            When a GET request is made to the <a>LDP-RS</a> created to describe an <a>LDP-NR</a>, the response MUST
+            include a <code>Link: rel="describes"</code> header referencing the <a>LDP-NR</a> in question, as defined in
+            [[!RFC6892]].
+          </p>
         </section>
       </section>
 
@@ -530,7 +541,8 @@
             resources.
           </p>
           <p>
-            An implementation MUST NOT return a 200 or 204 response unless the entire operation successfully completed.
+            An implementation MUST NOT return a 200 (OK) or 204 (No Content) response unless the entire operation
+            successfully completed.
           </p>
           <p>
             An implementation MUST NOT emit a message that implies the successful DELETE of a resource until the
@@ -566,8 +578,8 @@
         <p id='message-external-body-unsupported-type'>
           Fedora servers receiving requests that would create or update an LDP-NR with a
           <code>message/external-body</code> with an unsupported <code>access-type</code> parameter MUST respond with
-          HTTP 415 UNSUPPORTED MEDIA TYPE. In the case that a Fedora server does not support external LDP-NR content,
-          all <code>message/external-body</code> messages must be rejected with HTTP 415.
+          415 (Unsupported Media Type). In the case that a Fedora server does not support external LDP-NR content,
+          all <code>message/external-body</code> messages must be rejected with 415 (Unsupported Media Type).
         </p>
         <p id='message-external-body-response-headers'>
           Fedora servers receiving requests that would create or update an LDP-NR with a
@@ -904,7 +916,7 @@
           Security implications should be considered if remote <a>ACL</a>s are supported.
         </blockquote>
         <p>
-          Implementations MAY restrict support for <a>ACL</a>s to local resources.  If an implementation chooses to
+          Implementations MAY restrict support for <a>ACL</a>s to local resources. If an implementation chooses to
           reject requests concerning remote <a>ACL</a>s, it MUST respond with a 4xx range status code and
           MUST advertise the restriction with a <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"
           </code> response header.
@@ -932,7 +944,7 @@
         <h2>Append Mode</h2>
         <p>
           The [[!SOLIDWEBAC]] <a href="https://github.com/solid/web-access-control-spec#modes-of-access">Modes of
-          Access</a> section mentions the <code>acl:mode</code> value <code>acl:Append</code>.  In the context of a
+          Access</a> section mentions the <code>acl:mode</code> value <code>acl:Append</code>. In the context of a
           Fedora implementation, <code>acl:Append</code> should be understood as operations that only append, such as
           <code>POST</code>ing to a container, or performing a <code>PATCH</code> that only adds triples.
         </p>
@@ -1011,7 +1023,7 @@
         <p>
           Implementations MAY restrict support for [[!SOLIDWEBAC]]
           <a href="https://github.com/solid/web-access-control-spec#groups-of-agents">groups of agents</a> to local
-          Group Listing documents.  If an implementation chooses to reject requests concerning remote Group Listings,
+          Group Listing documents. If an implementation chooses to reject requests concerning remote Group Listings,
           it MUST respond with a 4xx range status code and MUST advertise the restriction
           with a <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code> response header.
         </p>
@@ -1022,7 +1034,7 @@
           <p>
             Non-normative note:
             The [[!SOLIDWEBAC]] <a href="https://github.com/solid/web-access-control-spec#overview">overview</a>
-            mentions parenthetically that user and group identifiers should be WebIDs.  For the purposes of performing
+            mentions parenthetically that user and group identifiers should be WebIDs. For the purposes of performing
             authorization, the essential requirements are:
           </p>
           <ul>
@@ -1042,7 +1054,7 @@
           A client HTTP <code>POST</code> or <code>PUT</code> request to create a new <a>LDPR</a> MAY include a
           <code>Link: rel="acl"</code> header referencing an existing <a>LDP-RS</a> to use as the <a>ACL</a>
           for the new <a>LDPR</a>. The server MUST reject the request and respond with a 4xx or 5xx range status
-          code (e.g. 409 Conflict) if it isn't able to create the <a>LDPR</a> with the specified <a>LDP-RS</a> as
+          code, such as 409 (Conflict) if it isn't able to create the <a>LDPR</a> with the specified <a>LDP-RS</a> as
           the <a>ACL</a>. In that response, the restrictions causing the request to fail MUST be described in a
           resource indicated by a <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code> response header,
           following the pattern of [[!LDP]] <a href='https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs'>4.2.1.6</a>.
