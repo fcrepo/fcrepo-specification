@@ -798,22 +798,20 @@
           <p>
             If an <a>LDPCv</a> supports <code>POST</code>, a <code>POST</code> that does not contain a
             <code>Memento-Datetime</code> header SHOULD be understood to create a new <a>LDPRm</a> contained by the
-            <a>LDPCv</a>, reflecting the state of the <a>LDPRv</a> at the time of the <code>POST</code>.
+            <a>LDPCv</a>, reflecting the state of the <a>LDPRv</a> at the time of the <code>POST</code>. Any request
+            body MUST be ignored.
           </p>
           <p>
-            If an <a>LDPCv</a> supports <code>POST</code>, a <code>POST</code> with a
-            <code>Memento-Datetime</code> header SHOULD be understood to create a new <a>LDPRm</a> contained by the
-            <a>LDPCv</a>, reflecting the state of the request body at the time of the <code>Memento-Datetime</code>
-            request header.
+            If an <a>LDPCv</a> supports <code>POST</code>, a <code>POST</code> with a <code>Memento-Datetime</code>
+            header SHOULD be understood to create a new <a>LDPRm</a> contained by the <a>LDPCv</a>, with the state
+            given in the request body and the datetime given in the <code>Memento-Datetime</code> request header.
           </p>
           <p>
-            If an implementation does not support <code>POST</code> with a request body, the <code>Accept-Post</code>
-            header of any response from the <a>LDPCv</a> SHOULD indicate that no request body is accepted via the form
-            <code>Accept-Post: */*; q=0.0</code>, and that implementation MUST respond to any body-containing
-            <code>POST</code> to that <a>LDPCv</a> with a 415 response and a link to an appropriate constraints
-            document (see <a href='https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs'>LDP 4.2.1.6</a>). As per [[!LDP]],
-            any resource created via <code>POST</code>, in this case an <a>LDPRm</a>) SHOULD be advertised in the
-            response's <code>Location</code> header.
+            If an implementation does not support either of <code>POST</code> cases above, it MUST respond to with
+            4xx range status code and a link to an appropriate constraints document (see
+            <a href='https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs'>LDP 4.2.1.6</a>). As per [[!LDP]], any resource
+            created via <code>POST</code>, in this case an <a>LDPRm</a>, SHOULD be advertised in the
+            <code>Location</code> response header.
           </p>
           <blockquote class="informative">
             Non-normative note: If an <a>LDPCv</a> does not <code>Allow: POST</code>, the constraints document indicated
