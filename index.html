@@ -326,8 +326,8 @@
       <section id="httpPOST">
         <h2>HTTP POST</h2>
         <p>
-          Any <a>LDPC</a> MUST support <code>POST</code> ([[!LDP]]
-          <a href="https://www.w3.org/TR/ldp/#ldpr-HTTP_POST">4.2.3</a> /
+          Any <a>LDPC</a> (except <a href="#ldpcvpost">Version Containers (LDPCv)</a>) MUST support <code>POST</code>
+	  ([[!LDP]] <a href="https://www.w3.org/TR/ldp/#ldpr-HTTP_POST">4.2.3</a> /
           <a href="https://www.w3.org/TR/ldp/#ldpc-HTTP_POST">5.2.3</a>). The default interaction model that will be
           assigned when there is no explicit Link header in the request MUST be recorded in the constraints document
           referenced in the <code>Link: rel="http://www.w3.org/ns/ldp#constrainedBy"</code> header ([[!LDP]]
