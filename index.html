@@ -807,8 +807,8 @@
             given in the request body and the datetime given in the <code>Memento-Datetime</code> request header.
           </p>
           <p>
-            If an implementation does not support either of <code>POST</code> cases above, it MUST respond to with
-            4xx range status code and a link to an appropriate constraints document (see
+            If an implementation does not support one or both of <code>POST</code> cases above, it MUST respond to 
+            such requests with a 4xx range status code and a link to an appropriate constraints document (see
             <a href='https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs'>LDP 4.2.1.6</a>). As per [[!LDP]], any resource
             created via <code>POST</code>, in this case an <a>LDPRm</a>, SHOULD be advertised in the
             <code>Location</code> response header.
