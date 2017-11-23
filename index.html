@@ -627,11 +627,11 @@
           <section id="LDPRv-get-response">
             <h2>Response Headers</h2>
             <p>
-            The response to a GET request on an <a>LDPRv</a> MUST include the following <code>Link</code> headers:
+            The response to a GET request on an <a>LDPRv</a> MUST include the following headers:
             </p>
             <ul>
               <li>A <code>Link: rel="original timegate"</code> header referencing itself</li>
-              <li>A <code>Link: &lt;http://mementoweb.org/ns#TimeMap&gt;; rel="type"</code> header</li>
+              <li>A <code>Link: &lt;http://mementoweb.org/ns#TimeGate&gt;; rel="type"</code> header</li>
               <li>A <code>Link: &lt;http://mementoweb.org/ns#OriginalResource&gt;; rel="type"</code> header</li>
               <li>At least one <code>Link: rel="timemap"</code> header referencing an associated <a>LDPCv</a></li>
               <li>A <code>Vary: Accept-Datetime</code> header, exactly as per [[!RFC7089]]
