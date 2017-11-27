@@ -240,7 +240,7 @@
 
       <section id="general">
         <h2>General</h2>
-        <section id="LDPC">
+        <section id="ldpc">
           <h2>LDP Containers</h2>
           <p>
             Implementations MUST support the creation and management of [[!LDP]] Containers.
@@ -293,6 +293,73 @@
         </section>
       </section>
 
+      <section id="http-get">
+        <h2>HTTP GET</h2>
+        <section id="additional-prefer-values">
+          <h2>Additional values for the <code>Prefer</code> header</h2>
+          <p>
+            In addition to the requirements of [[!LDP]], an implementation MAY support the value
+            <code>http://www.w3.org/ns/oa#PreferContainedDescriptions</code> and SHOULD support the value
+            <code>http://fedora.info/definitions/fcrepo#PreferInboundReferences</code> for the <code>Prefer</code>
+            header when making <code>GET</code> requests on <a>LDPC</a> resources:
+          </p>
+          <ul>
+            <li>
+              <code>http://www.w3.org/ns/oa#PreferContainedDescriptions</code>: Requires a server to include
+              representations of any contained resources in the response, as defined in [[!annotation-vocab]].
+            </li>
+            <li>
+              <code>http://fedora.info/definitions/fcrepo#PreferInboundReferences</code>: Requires a server to include
+              triples from any <a>LDP-RS</a> housed in that server that feature the requested resource as RDF-object.
+            </li>
+          </ul>
+        </section>
+        <section id="http-get-ldprs">
+          <h2><a>LDP-RS</a>s</h2>
+          <p>
+            Responses to <code>GET</code> requests that apply a <code>Prefer</code> request header to any <a>LDP-RS</a>
+            MUST include the <code>Preference-Applied</code> response header as defined in [[!RFC7240]]
+            <a href='https://tools.ietf.org/html/rfc7240#section-3'>section 3</a>.
+          </p>
+        </section>
+        <section id="http-get-ldpnr">
+          <h2><a>LDP-NR</a>s</h2>
+          <p>
+            <code>GET</code> requests to any <a>LDP-NR</a> MUST correctly respond to the <code>Want-Digest</code>
+            header defined in [[!RFC3230]].
+          </p>
+          <blockquote class="informative">
+            Non-normative note: In the presence of a <code>Want-Digest</code> header, the current <code>Digest</code>
+            value should be calculated to enable fixity verification. Otherwise, it is expected that ETag values may be
+            cached. Clients should use the <code>Cache-Control: no-cache</code> header (see [[RFC7234]]
+            <a href='https://tools.ietf.org/html/rfc7234#section-5.2.1.4'>section 5.2.1.4</a>) to instruct any
+            intermediate caches or proxies not to return a cached response. See <a href="#persistence-fixity"></a>.
+          </blockquote>
+        </section>
+        <section id="binary-descriptions">
+          <h2>LDP-NR Descriptions</h2>
+          <p>
+            When a GET request is made to the <a>LDP-RS</a> created to describe an <a>LDP-NR</a>, the response MUST
+            include a <code>Link: rel="describes"</code> header referencing the <a>LDP-NR</a> in question, as defined in
+            [[!RFC6892]].
+          </p>
+        </section>
+      </section>
+
+      <section id="http-head">
+        <h2>HTTP HEAD</h2>
+        <p>
+          The <code>HEAD</code> method is identical to <code>GET</code> except that the server MUST NOT return a
+          message-body in the response, as specified in [[!RFC7231]]
+          <a href='https://tools.ietf.org/html/rfc7231#section-4.3.2'>section 4.3.2</a>. The server MUST send the same
+          <code>Digest</code> header in the response as it would have sent if the request had been a <code>GET</code>
+          (or omit it if it would have been omitted for a <code>GET</code>). In other cases, the server SHOULD send the
+          same headers in response to a <code>HEAD</code> request as it would have sent if the request had been a
+          <code>GET</code>, except that the payload headers (defined in [[!RFC7231]]
+          <a href='https://tools.ietf.org/html/rfc7231#section-3.3'>section 3.3</a>) MAY be omitted.
+        </p>
+      </section>
+
       <section id="http-options">
         <h2>HTTP OPTIONS</h2>
         <p>
@@ -305,49 +372,10 @@
         </blockquote>
       </section>
 
-      <section id="httpPATCH">
-        <h2>HTTP PATCH</h2>
-        <p>
-          Any <a>LDP-RS</a> MUST support <code>PATCH</code> ([[!LDP]]
-          <a href="https://www.w3.org/TR/ldp/#ldpr-HTTP_PATCH">4.2.7</a> MAY becomes MUST). [[!sparql11-update]] MUST
-          be an accepted content-type for <code>PATCH</code>. Other content-types (e.g. [[ldpatch]]) MAY be supported.
-        </p>
-        <p>
-          If an otherwise valid HTTP <code>PATCH</code> request is received that attempts to modify resource statements
-          that a server disallows (not ignores per [[!LDP]]
-          <a href="https://www.w3.org/TR/ldp/#ldpr-put-replaceall">4.2.4.1</a>), the server MUST fail the request by
-          responding with a 4xx range status code, such as 409 (Conflict). The server MUST provide a corresponding
-          response body containing information about which statements could not be persisted. ([[!LDP]]
-          <a href="https://www.w3.org/TR/ldp/#ldprs-put-failed">4.2.4.4</a> SHOULD becomes MUST). In that response, the
-          restrictions causing such a request to fail MUST be described in a resource indicated by a <code>Link:
-          rel="http://www.w3.org/ns/ldp#constrainedBy"</code> response header per [[!LDP]]
-          <a href='https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs'>4.2.1.6</a>.
-        </p>
-        <p>
-          A successful <code>PATCH</code> request MUST respond with a 2xx status code; the specific code in the 2xx
-          range MAY vary according to the response body or request state.
-        </p>
-        <section id="httpPATCH-containment-triples">
-          <h3>Containment Triples</h3>
-          <p>
-            Implementations SHOULD NOT allow HTTP PATCH to update an <a>LDPC</a>’s containment triples; if the server
-            receives such a request, it SHOULD respond with a 409 (Conflict) status code.
-          </p>
-        </section>
-        <section id="httpPATCH-ixn-models">
-          <h3>Interaction models</h3>
-          <p>
-            Implementations MUST disallow a <code>PATCH</code> request that would change the LDP interaction model of a
-            resource to a type that is not a subtype of the current resource type. That request MUST be rejected with a
-            409 (Conflict) response.
-          </p>
-        </section>
-      </section>
-
-      <section id="httpPOST">
+      <section id="http-post">
         <h2>HTTP POST</h2>
         <p>
-          Any <a>LDPC</a> (except <a href="#ldpcvpost">Version Containers (LDPCv)</a>) MUST support <code>POST</code>
+          Any <a>LDPC</a> (except <a href="#ldpcv-post">Version Containers (LDPCv)</a>) MUST support <code>POST</code>
           ([[!LDP]] <a href="https://www.w3.org/TR/ldp/#ldpr-HTTP_POST">4.2.3</a> /
           <a href="https://www.w3.org/TR/ldp/#ldpc-HTTP_POST">5.2.3</a>). The default interaction model that will be
           assigned when there is no explicit <code>Link</code> header in the request MUST be recorded in the constraints
@@ -361,7 +389,7 @@
           ([[!LDP]] <a href="https://www.w3.org/TR/ldp/#h-ldpc-post-createbinlinkmetahdr">5.2.3.12</a> MAY becomes
           MUST).
         </p>
-        <section id="httpPOSTLDPNR">
+        <section id="http-post-ldpnr">
           <h2>LDP-NRs</h2>
           <p>
             An HTTP <code>POST</code> request that would create an <a>LDP-NR</a> and includes a <code>Digest</code>
@@ -384,7 +412,7 @@
         </section>
       </section>
 
-      <section id="httpPUT">
+      <section id="http-put">
         <h2>HTTP PUT</h2>
         <p>
           When accepting a <code>PUT</code> request against an existing resource, an HTTP <code>Link: rel="type"</code>
@@ -395,7 +423,7 @@
           subtype of a current type of the resource, the request MUST be rejected with a 409 (Conflict) response.
         </p>
 
-        <section id="httpPUTLDPRS">
+        <section id="http-put-ldprs">
           <h2>LDP-RSs</h2>
           <p>
             Any <a>LDP-RS</a> MUST support <code>PUT</code> to update statements that are not server-managed triples
@@ -413,7 +441,7 @@
           </p>
         </section>
 
-        <section id="httpPUTLDPNR">
+        <section id="http-put-ldpnr">
           <h2><a>LDP-NR</a>s</h2>
           <p>
             Any <a>LDP-NR</a> MUST support <code>PUT</code> to replace the binary content of that resource.
@@ -438,7 +466,7 @@
           </blockquote>
         </section>
 
-        <section id="httpPUTcreate">
+        <section id="http-put-create">
           <h2>Creating resources with HTTP PUT</h2>
           <blockquote class="informative">
             Non-normative note:
@@ -450,74 +478,44 @@
         </section>
       </section>
 
-      <section id="httpGET">
-        <h2>HTTP GET</h2>
-        <section id="additionalPreferValues">
-          <h2>Additional values for the <code>Prefer</code> header</h2>
-          <p>
-            In addition to the requirements of [[!LDP]], an implementation MAY support the value
-            <code>http://www.w3.org/ns/oa#PreferContainedDescriptions</code> and SHOULD support the value
-            <code>http://fedora.info/definitions/fcrepo#PreferInboundReferences</code> for the <code>Prefer</code>
-            header when making <code>GET</code> requests on <a>LDPC</a> resources:
-          </p>
-          <ul>
-            <li>
-              <code>http://www.w3.org/ns/oa#PreferContainedDescriptions</code>: Requires a server to include
-              representations of any contained resources in the response, as defined in [[!annotation-vocab]].
-            </li>
-            <li>
-              <code>http://fedora.info/definitions/fcrepo#PreferInboundReferences</code>: Requires a server to include
-              triples from any <a>LDP-RS</a> housed in that server that feature the requested resource as RDF-object.
-            </li>
-          </ul>
-        </section>
-        <section id="httpGETLDPRS">
-          <h2><a>LDP-RS</a>s</h2>
-          <p>
-            Responses to <code>GET</code> requests that apply a <code>Prefer</code> request header to any <a>LDP-RS</a>
-            MUST include the <code>Preference-Applied</code> response header as defined in [[!RFC7240]]
-            <a href='https://tools.ietf.org/html/rfc7240#section-3'>section 3</a>.
-          </p>
-        </section>
-        <section id="httpGETLDPNR">
-          <h2><a>LDP-NR</a>s</h2>
-          <p>
-            <code>GET</code> requests to any <a>LDP-NR</a> MUST correctly respond to the <code>Want-Digest</code>
-            header defined in [[!RFC3230]].
-          </p>
-          <blockquote class="informative">
-            Non-normative note: In the presence of a <code>Want-Digest</code> header, the current <code>Digest</code>
-            value should be calculated to enable fixity verification. Otherwise, it is expected that ETag values may be
-            cached. Clients should use the <code>Cache-Control: no-cache</code> header (see [[RFC7234]]
-            <a href='https://tools.ietf.org/html/rfc7234#section-5.2.1.4'>section 5.2.1.4</a>) to instruct any
-            intermediate caches or proxies not to return a cached response. See <a href="#persistence-fixity"></a>.
-          </blockquote>
-        </section>
-        <section id="binary-descriptions">
-          <h2>LDP-NR Descriptions</h2>
-          <p>
-            When a GET request is made to the <a>LDP-RS</a> created to describe an <a>LDP-NR</a>, the response MUST
-            include a <code>Link: rel="describes"</code> header referencing the <a>LDP-NR</a> in question, as defined in
-            [[!RFC6892]].
-          </p>
-        </section>
-      </section>
-
-      <section id="httpHEAD">
-        <h2>HTTP HEAD</h2>
+      <section id="http-patch">
+        <h2>HTTP PATCH</h2>
         <p>
-          The <code>HEAD</code> method is identical to <code>GET</code> except that the server MUST NOT return a
-          message-body in the response, as specified in [[!RFC7231]]
-          <a href='https://tools.ietf.org/html/rfc7231#section-4.3.2'>section 4.3.2</a>. The server MUST send the same
-          <code>Digest</code> header in the response as it would have sent if the request had been a <code>GET</code>
-          (or omit it if it would have been omitted for a <code>GET</code>). In other cases, the server SHOULD send the
-          same headers in response to a <code>HEAD</code> request as it would have sent if the request had been a
-          <code>GET</code>, except that the payload headers (defined in [[!RFC7231]]
-          <a href='https://tools.ietf.org/html/rfc7231#section-3.3'>section 3.3</a>) MAY be omitted.
+          Any <a>LDP-RS</a> MUST support <code>PATCH</code> ([[!LDP]]
+          <a href="https://www.w3.org/TR/ldp/#ldpr-HTTP_PATCH">4.2.7</a> MAY becomes MUST). [[!sparql11-update]] MUST
+          be an accepted content-type for <code>PATCH</code>. Other content-types (e.g. [[ldpatch]]) MAY be supported.
         </p>
+        <p>
+          If an otherwise valid HTTP <code>PATCH</code> request is received that attempts to modify resource statements
+          that a server disallows (not ignores per [[!LDP]]
+          <a href="https://www.w3.org/TR/ldp/#ldpr-put-replaceall">4.2.4.1</a>), the server MUST fail the request by
+          responding with a 4xx range status code, such as 409 (Conflict). The server MUST provide a corresponding
+          response body containing information about which statements could not be persisted. ([[!LDP]]
+          <a href="https://www.w3.org/TR/ldp/#ldprs-put-failed">4.2.4.4</a> SHOULD becomes MUST). In that response, the
+          restrictions causing such a request to fail MUST be described in a resource indicated by a <code>Link:
+          rel="http://www.w3.org/ns/ldp#constrainedBy"</code> response header per [[!LDP]]
+          <a href='https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs'>4.2.1.6</a>.
+        </p>
+        <p>
+          A successful <code>PATCH</code> request MUST respond with a 2xx status code; the specific code in the 2xx
+          range MAY vary according to the response body or request state.
+        </p>
+        <section id="http-patch-containment-triples">
+          <h3>Containment Triples</h3>
+          The server SHOULD NOT allow HTTP PATCH to update an <a>LDPC</a>’s containment triples; if the server
+          receives such a request, it SHOULD respond with a 409 (Conflict) status code.
+        </section>
+        <section id="http-patch-ixn-models">
+          <h3>Interaction models</h3>
+          <p>
+            The server MUST disallow a <code>PATCH</code> request that would change the LDP interaction model of a
+            resource to a type that is not a subtype of the current resource type. That request MUST be rejected with a
+            409 (Conflict) response.
+          </p>
+        </section>
       </section>
 
-      <section id="httpDELETE">
+      <section id="http-delete">
         <h2>HTTP DELETE</h2>
         <p>
           The <code>DELETE</code> method is optional per [[!LDP]]
@@ -527,7 +525,7 @@
           <a href='https://www.w3.org/TR/ldp/#ldpc-HTTP_DELETE'>section 5.2.5</a>, it must also follow the additional
           behavior outlined below.
         </p>
-        <section id="httpDELETERecursion">
+        <section id="http-delete-recursion">
           <h3>Recursive Delete</h3>
           <p>
             An implementation that cannot recurse SHOULD NOT advertise <code>DELETE</code> in response to OPTIONS
@@ -550,14 +548,14 @@
             An implementation MUST NOT emit a message that implies the successful DELETE of a resource until the
             resource has been successfully removed.
           </p>
-          <blockquote id="httpDELETEatomicity" class="informative">
+          <blockquote id="http-delete-atomicity" class="informative">
             Non-normative note: Atomicity is not guaranteed for HTTP <code>DELETE</code> requests that affect multiple
             resources.
           </blockquote>
         </section>
       </section>
 
-      <section id='external-content'>
+      <section id="external-content">
         <h3>External Binary Content</h3>
         <blockquote id="message-external-body-variability" class="informative">
           Non-normative note: Variability among client types and locations may mean that LDP-NR content is addressed in
@@ -640,7 +638,7 @@
         are described in <a href="#resource-versioning-patterns"></a>.
       </p>
 
-      <section id="LDPRv">
+      <section id="ldprv">
         <h2>Versioned Resources (<a>LDPRv</a>)</h2>
         <p>
           A versioned resource (<a>LDPRv</a>) provides a <a>TimeGate</a> interaction model as detailed in the
@@ -648,7 +646,7 @@
           <a href="#resource-management"></a> requirements, and the additional behaviors below.
         </p>
 
-        <section id="LDPRv-get">
+        <section id="ldprv-get">
           <h2>HTTP GET</h2>
           <p>
             The <code>Accept-Datetime</code> header is used to request a past state, exactly as per [[!RFC7089]]
@@ -671,7 +669,7 @@
           </p>
         </section>
 
-        <section id="LDPRv-put">
+        <section id="ldprv-put">
           <h2>HTTP PUT</h2>
           <p>
           An implementation MUST support <code>PUT</code>, as is the case for any <a>LDPR</a>.
@@ -679,21 +677,13 @@
         </section>
       </section>
 
-      <section id="LDPRm">
+      <section id="ldprm">
         <h2>Version Resources (<a>LDPRm</a>)</h2>
         <p>
           An <a>LDPRm</a> MAY be deleted; however, it MUST NOT be modified once created.
         </p>
 
-        <section id="LDPRm-delete">
-          <h2>HTTP DELETE</h2>
-          <p>
-            An implementation MAY support <code>DELETE</code> for <a>LDPRm</a>s. If <code>DELETE</code> is supported,
-            the server is responsible for all behaviors implied by the LDP-containment of the <a>LDPRm</a>.
-          </p>
-        </section>
-
-        <section id="LDPRm-get">
+        <section id="ldprm-get">
           <h2>HTTP GET</h2>
           <p>
             An implementation MUST support <code>GET</code>, as is the case for any <a>LDPR</a>. The headers for
@@ -705,40 +695,47 @@
           </p>
         </section>
 
-        <section id="LDPRm-options">
+        <section id="ldprm-options">
           <h2>HTTP OPTIONS</h2>
           <p>
             An implementation MUST support <code>OPTIONS</code>. A response to an <code>OPTIONS</code> request MUST
             include <code>Allow: GET, HEAD, OPTIONS</code> as per [[!LDP]]. An implementation MAY include <code>Allow:
             DELETE</code> if clients can remove a version from the version history, as noted
-            <a href="#h-http-delete">above</a>.
+            <a href="#http-delete">above</a>.
           </p>
         </section>
 
-        <section id="LDPRm-patch">
-          <h2>HTTP PATCH</h2>
-          <p>
-             An implementation MUST NOT support <code>PATCH</code> for <a>LDPRm</a>s.
-          </p>
-        </section>
-
-        <section id="LDPRm-post">
+        <section id="ldprm-post">
           <h2>HTTP POST</h2>
           <p>
             An implementation MUST NOT support <code>POST</code> for <a>LDPRm</a>s.
           </p>
         </section>
 
-        <section id="LDPRm-put">
+        <section id="ldprm-put">
           <h2>HTTP PUT</h2>
           <p>
              An implementation MUST NOT support <code>PUT</code> for <a>LDPRm</a>s.
           </p>
         </section>
 
+        <section id="ldprm-patch">
+          <h2>HTTP PATCH</h2>
+          <p>
+             An implementation MUST NOT support <code>PATCH</code> for <a>LDPRm</a>s.
+          </p>
+        </section>
+
+        <section id="ldprm-delete">
+          <h2>HTTP DELETE</h2>
+          <p>
+            An implementation MAY support <code>DELETE</code> for <a>LDPRm</a>s. If <code>DELETE</code> is supported,
+            the server is responsible for all behaviors implied by the LDP-containment of the <a>LDPRm</a>.
+          </p>
+        </section>
       </section>
 
-      <section id="LDPCv">
+      <section id="ldpcv">
         <h2>Version Containers (<a>LDPCv</a>)</h2>
         <p>
           An <a>LDPCv</a> is both a <a>TimeMap</a> per
@@ -756,7 +753,7 @@
           behaviors.
         </blockquote>
 
-        <section id="ldpcvget">
+        <section id="ldpcv-get">
           <h2>HTTP GET</h2>
           <p>
             An implementation MUST support <code>GET</code>, as is the case for any <a>LDPR</a>. Any response to a
@@ -769,45 +766,36 @@
           </p>
           <p>
             An implementation MUST include the <code>Allow</code> header as outlined in
-            <a href='#ldpcvoptions'></a>.
+            <a href='#ldpcv-options'></a>.
           </p>
           <p>If an <a>LDPCv</a> supports <code>POST</code>, then it MUST include the <code>Accept-Post</code> header
-            described in <a href="#ldpcvpost"></a>.
+            described in <a href="#ldpcv-post"></a>.
           </p>
           <p>
             If an <a>LDPCv</a> supports <code>PATCH</code>, then it MUST include the <code>Accept-Patch</code> header.
           </p>
         </section>
 
-        <section id="ldpcvdelete">
-          <h2>HTTP DELETE</h2>
-          <p>
-            An implementation MAY support <code>DELETE</code>. An implementation that does support <code>DELETE</code>
-            SHOULD do so by both removing the <a>LDPCv</a> and removing the versioning interaction model from the
-            original <a>LDPRv</a>.
-          </p>
-        </section>
-
-        <section id="ldpcvoptions">
+        <section id="ldpcv-options">
           <h2>HTTP OPTIONS</h2>
           <p>
             An implementation MUST <code>Allow: GET, HEAD, OPTIONS</code> as per [[!LDP]].
           </p>
           <p>
             An implementation MAY <code>Allow: DELETE</code> if the versioning behavior is removable by deleting
-            the <a>LDPCv</a>. See <a href='#ldpcvdelete'></a> for requirements on <code>DELETE</code> if supported.
+            the <a>LDPCv</a>. See <a href='#ldpcv-delete'></a> for requirements on <code>DELETE</code> if supported.
           </p>
           <p>
             An implementation MAY <code>Allow: PATCH</code> if the <a>LDPCv</a> has mutable properties. See
-            <a href='#httpPATCH-containment-triples'></a> for requirements on <code>PATCH</code> if supported.
+            <a href='#http-patch-containment-triples'></a> for requirements on <code>PATCH</code> if supported.
           </p>
           <p>
             An implementation MAY <code>Allow: POST</code> if versions can be explicitly minted by a client. See
-            <a href='#ldpcvpost'></a> for requirements on <code>POST</code> if supported.
+            <a href='#ldpcv-post'></a> for requirements on <code>POST</code> if supported.
           </p>
         </section>
 
-        <section id="ldpcvpost">
+        <section id="ldpcv-post">
           <h2>HTTP POST</h2>
           <p>
             If an <a>LDPCv</a> supports <code>POST</code>, a <code>POST</code> that does not contain a
@@ -834,6 +822,15 @@
             <a>LDPCv</a>). Disallowing <code>POST</code> suggests that the [[!LDP]] server will manage all <a>LDPRm</a>
             creation; see <a href ="#server-managed">Server-Managed Version Creation</a>.
           </blockquote>
+        </section>
+
+        <section id="ldpcv-delete">
+          <h2>HTTP DELETE</h2>
+          <p>
+            An implementation MAY support <code>DELETE</code>. An implementation that does support <code>DELETE</code>
+            SHOULD do so by both removing the <a>LDPCv</a> and removing the versioning interaction model from the
+            original <a>LDPRv</a>.
+          </p>
         </section>
       </section>
 
@@ -937,7 +934,7 @@
             Non-normative note:
             The <code>Link: rel="acl"</code> header provides a way for clients to find the location where an individual
             resource <a>ACL</a> might be created in the case of implementations that support
-            <a href="#httpPUTcreate">creation with HTTP PUT</a> for individual <a>ACL</a>s.
+            <a href="#http-put-create">creation with HTTP PUT</a> for individual <a>ACL</a>s.
           </p>
         </blockquote>
       </section>
@@ -949,7 +946,7 @@
           Fedora implementation, <code>acl:Append</code> should be understood as operations that only append, such as
           <code>POST</code>ing to a container, or performing a <code>PATCH</code> that only adds triples.
         </p>
-        <section id="appendLDPRS">
+        <section id="append-ldprs">
           <h3>LDP-RS</h3>
           <p>
             When a client is allowed to perform <code>acl:Append</code> operations on an <a>LDP-RS</a>:
@@ -960,17 +957,17 @@
             <li>A <code>PATCH</code> request that only adds triples SHOULD be allowed</li>
             <li>A <code>PUT</code> request on an existing resource MUST be denied</li>
             <li>A <code>PUT</code> request to create a new resource MUST be allowed if the implementation supports
-              creating resources using <code>PUT</code> (see: <a href='#httpPUTcreate'></a>)</li>
+              creating resources using <code>PUT</code> (see: <a href='#http-put-create'></a>)</li>
           </ul>
         </section>
-        <section id="appendLDPC">
+        <section id="append-ldpc">
           <h3>LDPC</h3>
           <p>
-            In addition to requirements in <a href='#appendLDPRS'></a>, when a client is allowed to perform
+            In addition to requirements in <a href='#append-ldprs'></a>, when a client is allowed to perform
             <code>acl:Append</code> operations on an <a>LDPC</a>, a <code>POST</code> request MUST be allowed.
           </p>
         </section>
-        <section id="appendLDPNR">
+        <section id="append-ldpnr">
           <h3>LDP-NR</h3>
           <p>
             When a client is allowed to perform <code>acl:Append</code> operations on an <a>LDP-NR</a>:
@@ -982,7 +979,7 @@
           </ul>
         </section>
       </section>
-      <section id="accessToClass">
+      <section id="access-to-class">
         <h2>Access To Class</h2>
         <p>
           Notwithstanding [[!SOLIDWEBAC]]'s lack of support for it, the <code>acl:accessToClass</code> predicate MUST
