@@ -321,6 +321,13 @@
             MUST include the <code>Preference-Applied</code> response header as defined in [[!RFC7240]]
             <a href='https://tools.ietf.org/html/rfc7240#section-3'>section 3</a>.
           </p>
+          <p>
+            When a <code>GET</code> request is made to an <a>LDP-RS</a> that describes an associated <a>LDP-NR</a>
+            (<a href="#http-post"></a> and [[!LDP]]
+            <a href="https://www.w3.org/TR/ldp/#h-ldpc-post-createbinlinkmetahdr">5.2.3.12</a>),
+            the response MUST include a <code>Link: rel="describes"</code> header referencing the <a>LDP-NR</a> in
+            question, as defined in [[!RFC6892]].
+          </p>
         </section>
         <section id="http-get-ldpnr">
           <h2><a>LDP-NR</a>s</h2>
@@ -335,14 +342,6 @@
             <a href='https://tools.ietf.org/html/rfc7234#section-5.2.1.4'>section 5.2.1.4</a>) to instruct any
             intermediate caches or proxies not to return a cached response. See <a href="#persistence-fixity"></a>.
           </blockquote>
-        </section>
-        <section id="binary-descriptions">
-          <h2>LDP-NR Descriptions</h2>
-          <p>
-            When a GET request is made to the <a>LDP-RS</a> created to describe an <a>LDP-NR</a>, the response MUST
-            include a <code>Link: rel="describes"</code> header referencing the <a>LDP-NR</a> in question, as defined in
-            [[!RFC6892]].
-          </p>
         </section>
       </section>
 
