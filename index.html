@@ -665,11 +665,7 @@
       <section id="LDPRm">
         <h2>Version Resources (<a>LDPRm</a>)</h2>
         <p>
-          When an <a>LDPR</a> is created with a <code>Link: rel="type"</code> header
-          specifying type <code>http://mementoweb.org/ns#OriginalResource</code>
-          to indicate versioning, it is created as both an <a>LDPRv</a> and a Memento: an
-          <a>LDPRm</a>. An <a>LDPRm</a> MAY be deleted; however,
-          it MUST NOT be modified once created.
+          An <a>LDPRm</a> MAY be deleted; however, it MUST NOT be modified once created.
         </p>
 
         <section id="LDPRm-delete">
@@ -727,17 +723,10 @@
       <section id="LDPCv">
         <h2>Version Containers (<a>LDPCv</a>)</h2>
         <p>
-          When an <a>LDPR</a> is created with a <code>Link: rel="type"</code> header
-          specifying type <code>http://mementoweb.org/ns#OriginalResource</code>
-          to indicate versioning, a version container
-          (<a>LDPCv</a>) MUST be created that contains Memento-identified resources (<a>LDPRm</a>) capturing
-          time-varying representations of the associated <a>LDPR</a>. An <a>LDPCv</a> is both a <a>TimeMap</a> per
+          An <a>LDPCv</a> is both a <a>TimeMap</a> per
           Memento [[!RFC7089]] and an <a>LDPC</a>. As a <a>TimeMap</a> an <a>LDPCv</a> MUST conform to the
           specification for such resources in [[!RFC7089]]. An implementation MUST indicate <a>TimeMap</a> in the
-          same way it indicates the Container interaction model of the resource via HTTP headers. An <a>LDPCv</a>
-          MUST respond to <code>GET Accept: application/link-format</code> as indicated in [[!RFC7089]]
-          <a href='https://tools.ietf.org/html/rfc7089#section-5'>section 5</a> and specified in [[!RFC6690]]
-          <a href='https://tools.ietf.org/html/rfc6690#section-7.3'>section 7.3</a>.
+          same way it indicates the Container interaction model of the resource via HTTP headers.
         </p>
         <p>
           An implementation MUST NOT allow the creation of an <a>LDPCv</a> that is <a>LDP-contained</a> by its
