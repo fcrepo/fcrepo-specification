@@ -664,13 +664,6 @@
             <a href='https://tools.ietf.org/html/rfc7089#section-2.1.1'>section 2.1.1</a>.
           </p>
         </section>
-
-        <section id="LDPRv-head">
-          <h2>HTTP HEAD</h2>
-          <p>
-            See <a href="#httpHEAD"></a> and <a href="#LDPRv-get"></a>.
-          </p>
-        </section>
       </section>
 
       <section id="LDPRm">
@@ -702,13 +695,6 @@
             <a href='https://tools.ietf.org/html/rfc7089#section-2.1'>section 2.1</a>.
             Particularly it should be noted that the relevant <a>TimeGate</a> for an <a>LDPRm</a> is the original
             versioned <a>LDPRv</a>.
-          </p>
-        </section>
-
-        <section id="LDPRm-head">
-          <h2>HTTP HEAD</h2>
-          <p>
-            See <a href="#httpHEAD"></a> and <a href="#LDPRm-get"></a>.
           </p>
         </section>
 
@@ -757,10 +743,7 @@
             time-varying representations of the associated <a>LDPR</a>. An <a>LDPCv</a> is both a <a>TimeMap</a> per
             Memento [[!RFC7089]] and an <a>LDPC</a>. As a <a>TimeMap</a> an <a>LDPCv</a> MUST conform to the
             specification for such resources in [[!RFC7089]]. An implementation MUST indicate <a>TimeMap</a> in the
-            same way it indicates the Container interaction model of the resource via HTTP headers. An <a>LDPCv</a>
-            MUST respond to <code>GET Accept: application/link-format</code> as indicated in [[!RFC7089]]
-            <a href='https://tools.ietf.org/html/rfc7089#section-5'>section 5</a> and specified in [[!RFC6690]]
-            <a href='https://tools.ietf.org/html/rfc6690#section-7.3'>section 7.3</a>.
+            same way it indicates the Container interaction model of the resource via HTTP headers.
           </p>
           <p>
             An implementation MUST NOT allow the creation of an <a>LDPCv</a> that is <a>LDP-contained</a> by its
@@ -771,6 +754,25 @@
             required to include all statements in the <a>LDPCv</a> graph, only those required by <a>TimeMap</a>
             behaviors.
           </blockquote>
+        </section>
+
+        <section id='ldpcvget'>
+          <h2>HTTP GET</h2>
+          <p>
+            An <a>LDPCv</a> MUST respond to <code>GET Accept: application/link-format</code> as indicated in
+            [[!RFC7089]] <a href='https://tools.ietf.org/html/rfc7089#section-5'>section 5</a> and specified in
+            [[!RFC6690]] <a href='https://tools.ietf.org/html/rfc6690#section-7.3'>section 7.3</a>.
+          </p>
+          <p>
+            An implementation MUST include the <code>Allow</code> header as outlined in
+            <a href='#ldpcvoptions'></a>.
+          </p>
+          <p>If an <a>LDPCv</a> supports <code>POST</code>, then it MUST include the <code>Accept-Post</code> header
+            described in <a href="#ldpcvpost"></a>.
+          </p>
+          <p>
+            If an <a>LDPCv</a> supports <code>PATCH</code>, then it MUST include the <code>Accept-Patch</code> header.
+          </p>
         </section>
 
         <section id="ldpcvdelete">
@@ -785,9 +787,11 @@
         <section id="ldpcvoptions">
           <h2>HTTP OPTIONS</h2>
           <p>
-            An implementation MUST <code>Allow: GET, HEAD, OPTIONS</code> as per [[!LDP]]. An implementation MAY
-            <code>Allow: DELETE</code> if the versioning behavior is removable by deleting the <a>LDPCv</a>. See
-            <a href='#ldpcvdelete'></a> for requirements on <code>DELETE</code> if supported.
+            An implementation MUST <code>Allow: GET, HEAD, OPTIONS</code> as per [[!LDP]].
+          </p>
+          <p>
+            An implementation MAY <code>Allow: DELETE</code> if the versioning behavior is removable by deleting
+            the <a>LDPCv</a>. See <a href='#ldpcvdelete'></a> for requirements on <code>DELETE</code> if supported.
           </p>
           <p>
             An implementation MAY <code>Allow: PATCH</code> if the <a>LDPCv</a> has mutable properties. See
@@ -829,7 +833,6 @@
             creation; see <a href ="#server-managed">Server-Managed Version Creation</a>.
           </blockquote>
         </section>
-
       </section>
 
       <section id="resource-versioning-vary">
