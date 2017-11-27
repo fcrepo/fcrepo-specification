@@ -20,9 +20,3 @@
     rdfs:comment "An IRI to signal the client prefers to receive the set of triples representing other repository resources which link to a given resource."@en ;
     rdfs:isDefinedBy : ;
     vs:term_status "working-draft" .
-
-:VersionedResource a rdfs:Class ;
-    rdfs:label "versioned resource"@en ;
-    rdfs:comment "An IRI to signal that a versioned resource should be created."@en ;
-    rdfs:isDefinedBy : ;
-    vs:term_status "working-draft" .
