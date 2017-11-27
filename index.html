@@ -659,6 +659,10 @@
             MUST be a 302 (Found) redirect to the appropriate <a>LDPRm</a>.
           </p>
           <p>
+            If no <a>LDPRm</a> is appropriate to the <code>Accept-Datetime</code>
+            value, an implementation SHOULD return a 406 (Unacceptable).
+          </p>
+          <p>
           The response to a GET request on an <a>LDPRv</a> MUST include the following headers:
           </p>
           <ul>
