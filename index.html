@@ -615,8 +615,17 @@
     <section id="resource-versioning">
       <h2>Resource Versioning</h2>
       <p>
-        Implementations MUST provide resource versioning as per [[RFC7089]] with the following additional requirements:
+        Implementations MUST provide resource versioning as per [[RFC7089]] with the additional requirements
+        described in this section.
       </p>
+      <p>
+        When an <a>LDPR</a> is created with a <code>Link: rel="type"</code> header specifying type
+        <code>http://mementoweb.org/ns#OriginalResource</code> to indicate versioning, it MUST be created as
+        an <a>LDPRv</a> and a version container (<a>LDPCv</a>) MUST be created to contain Memento resources
+        (<a>LDPRm</a>) capturing time-varying representations of the <a>LDPRv</a>. Patterns for version creation
+        are described in <a href="#resource-versioning-patterns"></a>.
+      </p>
+
       <section id="LDPRv">
         <h2>Versioned Resources (<a>LDPRv</a>)</h2>
         <section id="LDPRv-general">
@@ -661,11 +670,7 @@
         <section id="LDPRm-general">
           <h2>General</h2>
           <p>
-            When an <a>LDPR</a> is created with a <code>Link: rel="type"</code> header
-            specifying type <code>http://mementoweb.org/ns#OriginalResource</code>
-            to indicate versioning, it is created as both an <a>LDPRv</a> and a Memento: an
-            <a>LDPRm</a>. An <a>LDPRm</a> MAY be deleted; however,
-            it MUST NOT be modified once created.
+            An <a>LDPRm</a> MAY be deleted; however, it MUST NOT be modified once created.
           </p>
         </section>
 
@@ -726,11 +731,7 @@
         <section id="LDPCv-general">
           <h2>General</h2>
           <p>
-            When an <a>LDPR</a> is created with a <code>Link: rel="type"</code> header
-            specifying type <code>http://mementoweb.org/ns#OriginalResource</code>
-            to indicate versioning, a version container
-            (<a>LDPCv</a>) MUST be created that contains Memento-identified resources (<a>LDPRm</a>) capturing
-            time-varying representations of the associated <a>LDPR</a>. An <a>LDPCv</a> is both a <a>TimeMap</a> per
+            An <a>LDPCv</a> is both a <a>TimeMap</a> per
             Memento [[!RFC7089]] and an <a>LDPC</a>. As a <a>TimeMap</a> an <a>LDPCv</a> MUST conform to the
             specification for such resources in [[!RFC7089]]. An implementation MUST indicate <a>TimeMap</a> in the
             same way it indicates the Container interaction model of the resource via HTTP headers.
