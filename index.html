@@ -121,10 +121,10 @@
           integration with the Web Access Control proposal [[SOLIDWEBAC]],
         </li>
         <li>
-          a design for the publication of asynchronous events emitted from an implementation,
+          a design for the publication of asynchronous events emitted from an implementation, and
         </li>
         <li>
-          and interaction patterns for use with binary fixity information.
+          interaction patterns for use with binary fixity information.
         </li>
       </ul>
       <p>
@@ -255,7 +255,7 @@
             (Conflict) and an accompanying constraints document. Implementations that can distinguish containment
             triples MAY permit <code>ldp:contains</code> as a membership predicate or client-managed property; such
             implementations SHOULD support <code>Prefer:</code> header values allowing clients to distinguish this data
-            in the representation of an LDP-R as defined in [[!LDP]]:
+            in the representation of an <a>LDPR</a> as defined in [[!LDP]]:
             <code>http://www.w3.org/ns/ldp#PreferContainment</code>,
             <code>http://www.w3.org/ns/ldp#PreferMembership</code>, and
             <code>http://www.w3.org/ns/ldp#PreferMinimalContainer</code>.
@@ -265,8 +265,8 @@
             Non-normative note: [[!LDP]] defines containment relationships as binding an <a>LDPC</a> to <a>LDPR</a>s
             whose lifecycle it controls and is aware of, and are expressed through containment triples of the form
             <code>&lt;LDPC-URI&gt; ldp:contains &lt;LDPR-URI&gt;</code>. However, implementations that
-            segregate containment and membership triples - for example, by storing containment relationships in a
-            dedicated named graph - may allow the creation of other triples with the <code>ldp:contains</code>
+            segregate containment and membership triples &#x2014; for example, by storing containment relationships in a
+            dedicated named graph &#x2014; may allow the creation of other triples with the <code>ldp:contains</code>
             predicate, and thus triples with this predicate do not necessarily imply containment.
           </blockquote>
         </section>
@@ -329,13 +329,15 @@
         </p>
         <section id="httpPATCH-containment-triples">
           <h3>Containment Triples</h3>
-          The server SHOULD NOT allow HTTP PATCH to update an <a>LDPC</a>’s containment triples; if the server
-          receives such a request, it SHOULD respond with a 409 (Conflict) status code.
+          <p>
+            Implementations SHOULD NOT allow HTTP PATCH to update an <a>LDPC</a>’s containment triples; if the server
+            receives such a request, it SHOULD respond with a 409 (Conflict) status code.
+          </p>
         </section>
         <section id="httpPATCH-ixn-models">
           <h3>Interaction models</h3>
           <p>
-            The server MUST disallow a <code>PATCH</code> request that would change the LDP interaction model of a
+            Implementations MUST disallow a <code>PATCH</code> request that would change the LDP interaction model of a
             resource to a type that is not a subtype of the current resource type. That request MUST be rejected with a
             409 (Conflict) response.
           </p>
