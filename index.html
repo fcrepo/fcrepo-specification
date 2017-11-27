@@ -558,40 +558,45 @@
       <section id="external-content">
         <h3>External Binary Content</h3>
         <blockquote id="message-external-body-variability" class="informative">
-          Non-normative note: Variability among client types and locations may mean that LDP-NR content is addressed in
-          ways that are external to the Fedora server but not resolvable by all clients. This specification describes
-          the use of <code>Content-Type: message/external-body</code> values to signal, on POST or PUT, that the Fedora
-          server should not consider the request entity to be the LDP-NR's content, but that a
-          <code>Content-Type</code> value will signal a name or address at which the content might be retrieved. The
-          '<code>url</code>' and '<code>local-file</code>' values of the <code>access-type</code> parameter motivate
-          this specification, but a Fedora server may support any <code>access-type</code> parameters per the
-          requirements for advertisement and rejection specified here.
+          Non-normative note: Variability among client types and locations may mean that <a>LDP-NR</a> content is
+          addressed in ways that are external to the Fedora server but not resolvable by all clients. This specification
+          describes the use of <code>Content-Type: message/external-body</code> values to signal, on <code>POST</code>
+          or <code>PUT</code>, that the Fedora server should not consider the request entity to be the <a>LDP-NR</a>'s
+          content, but that a <code>Content-Type</code> value will signal a name or address at which the content might
+          be retrieved. The <code>URL</code> ([[RFC2017]]
+          <a href="https://tools.ietf.org/html/rfc2017#section-3">section 3</a>) and <code>local-file</code>
+          ([[RFC2046]] <a href="https://tools.ietf.org/html/rfc2046#section-5.2.3.4">section 5.2.3.4</a>) values of the
+          <code>access-type</code> parameter motivate this specification, but a Fedora server may support any
+          <code>access-type</code> parameters per the requirements for advertisement and rejection specified here.
         </blockquote>
         <p id='message-external-body-accept-post'>
-          Fedora servers SHOULD support the creation of LDP-NRs with <code>Content-Type</code> of
-          <code>message/external-body</code> and <code>access-type</code> parameter of <code>url</code>.
+          Fedora servers SHOULD support the creation of <a>LDP-NR</a>s with
+          <code>Content-Type: message/external-body</code> and <code>access-type</code> parameter value
+          <code>URL</code>.
         </p>
         <p id='message-external-body-supported-type'>
           Fedora servers MUST advertise support in the <code>Accept-Post</code> response header for each supported
-          <code>access-type</code> parameter of <code>Content-Type: message/external-body</code>.
+          <code>access-type</code> parameter value of <code>Content-Type: message/external-body</code>.
         </p>
         <p id='message-external-body-unsupported-type'>
-          Fedora servers receiving requests that would create or update an LDP-NR with a
-          <code>message/external-body</code> with an unsupported <code>access-type</code> parameter MUST respond with
-          415 (Unsupported Media Type). In the case that a Fedora server does not support external LDP-NR content,
+          Fedora servers receiving requests that would create or update an <a>LDP-NR</a> with
+          <code>Content-Type: message/external-body</code> and an unsupported <code>access-type</code> parameter value
+          MUST respond with 415 (Unsupported Media Type). In the case that a Fedora server does not support external
+          <a>LDP-NR</a> content,
           all <code>message/external-body</code> messages must be rejected with 415 (Unsupported Media Type).
         </p>
         <p id='message-external-body-response-headers'>
-          Fedora servers receiving requests that would create or update an LDP-NR with a
-          <code>message/external-body</code> MUST NOT accept the request if it cannot guarantee all of the response
-          headers required by the LDP-NR interaction model in this specification.
+          Fedora servers receiving requests that would create or update an <a>LDP-NR</a> with
+          <code>Content-Type: message/external-body</code> MUST NOT accept the request if it cannot guarantee all of
+          the response headers required by the <a>LDP-NR</a> interaction model in this specification.
         </p>
         <p id='external-content-content-location'>
-          LDP-NR GET and HEAD responses SHOULD include a <code>Content-Location</code> header with a URI representation
-          of the location of the external content if the Fedora server is proxying the content.
+          <code>GET</code> and <code>HEAD</code> responses for any external <a>LDP-NR</a> SHOULD include a
+          <code>Content-Location</code> header with a URI representation of the location of the external content if
+          the Fedora server is proxying the content.
         </p>
         <p id='external-content-want-digest'>
-          <code>GET</code> and <code>HEAD</code> requests to any external binary content <a>LDP-NR</a> MUST correctly
+          <code>GET</code> and <code>HEAD</code> requests to any external <a>LDP-NR</a> MUST correctly
           respond to the <code>Want-Digest</code> header defined in [[!RFC3230]].
         </p>
         <section id='external-content-caveats'>
@@ -599,7 +604,7 @@
           <blockquote class="informative">
             Non-normative note:
             This specification takes no position on the use of <code>message/external-body</code> to create or update
-            LDP-RS with Turtle or JSON-LD.
+            <a>LDP-RS</a> with Turtle or JSON-LD.
           </blockquote>
         </section>
         <section id='proxied-vs-copied'>
@@ -612,7 +617,7 @@
           <p id='external-content-expires'>
             Per [[!RFC2046]] <a href="https://tools.ietf.org/html/rfc2046#section-5.2.3">section 5.2.3</a>, all
             <code>Content-Type: message/external-body</code> values MAY include an <code>expiration</code> parameter.
-            Fedora servers receiving requests that would create or update an LDP-NR with a
+            Fedora servers receiving requests that would create or update an <a>LDP-NR</a> with a
             <code>message/external-body</code> content type SHOULD respect the <code>expiration</code> parameter,
             if present, by copying content. If the server is unable to copy the external content, the request MUST be
             rejected with a 4xx or 5xx status code. Following [[!LDP]]
