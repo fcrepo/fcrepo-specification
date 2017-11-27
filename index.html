@@ -643,7 +643,8 @@
             <h2>Request Headers for an LDPRv</h2>
             <p>
               The <code>Accept-Datetime</code> header is used to request a past state, exactly as per [[!RFC7089]]
-              <a href='https://tools.ietf.org/html/rfc7089#section-2.1.1'>section 2.1.1</a>.
+              <a href='https://tools.ietf.org/html/rfc7089#section-2.1.1'>section 2.1.1</a>. A successful response
+              MUST be a 302 (Found) redirect to the appropriate <a>LDPRm</a>.
             </p>
           </section>
 
@@ -664,26 +665,6 @@
             It is the presence of these headers that indicates that the resource is versioned.
             </p>
           </section>
-        </section>
-
-        <section id="LDPRv-put">
-          <h2>HTTP PUT</h2>
-          <p>
-            The <code>Accept-Datetime</code> header is used to request a past state, exactly as per [[!RFC7089]]
-            <a href='https://tools.ietf.org/html/rfc7089#section-2.1.1'>section 2.1.1</a>. A successful response
-            MUST be a 302 (Found) redirect to the appropriate <a>LDPRm</a>.
-          </p>
-          <p>
-            The response to a GET request on an <a>LDPRv</a> MUST include a <code>Link: rel="original timegate"</code>
-            header referencing itself, and at least one <code>Link: rel="timemap"</code> header referencing an
-            associated <a>LDPCv</a>. It is the presence of these headers that indicates that the resource is
-            versioned.
-          </p>
-          <p>
-            The response to a GET request on an <a>LDPRv</a> MUST include a <code>Vary: Accept-Datetime</code>
-            header, exactly as per [[!RFC7089]]
-            <a href='https://tools.ietf.org/html/rfc7089#section-2.1.2'>section 2.1.2</a>.
-          </p>
         </section>
 
         <section id="LDPRv-put">
