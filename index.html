@@ -628,14 +628,11 @@
 
       <section id="LDPRv">
         <h2>Versioned Resources (<a>LDPRv</a>)</h2>
-        <section id="LDPRv-general">
-          <h2>General</h2>
-          <p>
-            A versioned resource (<a>LDPRv</a>) provides a <a>TimeGate</a> interaction model as detailed in the
-            Memento specification [[RFC7089]]. It otherwise follows the [[!LDP]] specification, the
-            <a href="#resource-management"></a> requirements, and the additional behaviors below.
-          </p>
-        </section>
+        <p>
+          A versioned resource (<a>LDPRv</a>) provides a <a>TimeGate</a> interaction model as detailed in the
+          Memento specification [[RFC7089]]. It otherwise follows the [[!LDP]] specification, the
+          <a href="#resource-management"></a> requirements, and the additional behaviors below.
+        </p>
 
         <section id="LDPRv-get">
           <h2>HTTP GET</h2>
@@ -670,12 +667,9 @@
 
       <section id="LDPRm">
         <h2>Version Resources (<a>LDPRm</a>)</h2>
-        <section id="LDPRm-general">
-          <h2>General</h2>
-          <p>
-            An <a>LDPRm</a> MAY be deleted; however, it MUST NOT be modified once created.
-          </p>
-        </section>
+        <p>
+          An <a>LDPRm</a> MAY be deleted; however, it MUST NOT be modified once created.
+        </p>
 
         <section id="LDPRm-delete">
           <h2>HTTP DELETE</h2>
@@ -732,24 +726,21 @@
 
       <section id="LDPCv">
         <h2>Version Containers (<a>LDPCv</a>)</h2>
-        <section id="LDPCv-general">
-          <h2>General</h2>
-          <p>
-            An <a>LDPCv</a> is both a <a>TimeMap</a> per
-            Memento [[!RFC7089]] and an <a>LDPC</a>. As a <a>TimeMap</a> an <a>LDPCv</a> MUST conform to the
-            specification for such resources in [[!RFC7089]]. An implementation MUST indicate <a>TimeMap</a> in the
-            same way it indicates the Container interaction model of the resource via HTTP headers.
-          </p>
-          <p>
-            An implementation MUST NOT allow the creation of an <a>LDPCv</a> that is <a>LDP-contained</a> by its
-            associated <a>LDPRv</a>.
-          </p>
-          <blockquote class="informative">
-            Non-normative note: The <code>application/link-format</code> representation of an <a>LDPCv</a> is not
-            required to include all statements in the <a>LDPCv</a> graph, only those required by <a>TimeMap</a>
-            behaviors.
-          </blockquote>
-        </section>
+        <p>
+          An <a>LDPCv</a> is both a <a>TimeMap</a> per
+          Memento [[!RFC7089]] and an <a>LDPC</a>. As a <a>TimeMap</a> an <a>LDPCv</a> MUST conform to the
+          specification for such resources in [[!RFC7089]]. An implementation MUST indicate <a>TimeMap</a> in the
+          same way it indicates the Container interaction model of the resource via HTTP headers.
+        </p>
+        <p>
+          An implementation MUST NOT allow the creation of an <a>LDPCv</a> that is <a>LDP-contained</a> by its
+          associated <a>LDPRv</a>.
+        </p>
+        <blockquote class="informative">
+          Non-normative note: The <code>application/link-format</code> representation of an <a>LDPCv</a> is not
+          required to include all statements in the <a>LDPCv</a> graph, only those required by <a>TimeMap</a>
+          behaviors.
+        </blockquote>
 
         <section id="ldpcvget">
           <h2>HTTP GET</h2>
