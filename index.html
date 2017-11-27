@@ -563,9 +563,11 @@
           describes the use of <code>Content-Type: message/external-body</code> values to signal, on <code>POST</code>
           or <code>PUT</code>, that the Fedora server should not consider the request entity to be the <a>LDP-NR</a>'s
           content, but that a <code>Content-Type</code> value will signal a name or address at which the content might
-          be retrieved. The <code>URL</code> and <code>local-file</code> values of the <code>access-type</code>
-          parameter motivate this specification, but a Fedora server may support any <code>access-type</code> parameters
-          per the requirements for advertisement and rejection specified here.
+          be retrieved. The <code>URL</code> ([[RFC2017]]
+          <a href="https://tools.ietf.org/html/rfc2017#section-3">section 3</a>) and <code>local-file</code>
+          ([[RFC2046]] <a href="https://tools.ietf.org/html/rfc2046#section-5.2.3.4">section 5.2.3.4</a>) values of the
+          <code>access-type</code> parameter motivate this specification, but a Fedora server may support any
+          <code>access-type</code> parameters per the requirements for advertisement and rejection specified here.
         </blockquote>
         <p id='message-external-body-accept-post'>
           Fedora servers SHOULD support the creation of <a>LDP-NR</a>s with
