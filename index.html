@@ -313,6 +313,15 @@
               triples from any <a>LDP-RS</a> housed in that server that feature the requested resource as RDF-object.
             </li>
           </ul>
+          <p>
+            An implementation MAY support the value
+            <code>http://fedora.info/definitions/fcrepo#PreferCompactLists</code>
+            when making <code>GET</code> requests on <a>LDPR</a> resources.
+            <code>http://fedora.info/definitions/fcrepo#PreferCompactLists</code>
+            requests that a server use a compact syntax to represent
+            rdfs:List of triple values where supported by the serialization
+            (e.g., the compact list representations in Turtle or JSON-LD).
+          </p>
         </section>
         <section id="http-get-ldprs">
           <h2><a>LDP-RS</a>s</h2>
