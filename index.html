@@ -968,6 +968,15 @@
           </ul>
         </section>
       </section>
+      <section id="accessToClass">
+        <h2>Access To Class</h2>
+        <p>
+          Notwithstanding [[!SOLIDWEBAC]]'s lack of support for it, the <code>acl:accessToClass</code> predicate MUST
+          be supported. When an <a>ACL</a> includes an <code>acl:accessToClass</code> statement, it gives access to all
+          resources with the specified type, whether that type is client-managed or server-managed. An implementation
+          MAY use inference to infer types not present in a resource's triples or <code>Link: rel="type"</code> headers.
+        </p>
+      </section>
       <section id="inheritance">
         <h2>Inheritance and Default ACLs</h2>
         <p>
