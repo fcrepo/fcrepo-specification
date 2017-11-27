@@ -32,4 +32,5 @@ We welcome questions, comments, and pull requests.  Feel free to open an issue o
 ## Editorial Guidelines
 
 * Sections for HTTP verbs should kept in this order: GET, HEAD, OPTIONS, POST, PUT, PATCH, DELETE
+* HTTP verbs should be in `<code>` blocks
 * Section IDs/anchors should be formatted as hyphen-separated-lower-case

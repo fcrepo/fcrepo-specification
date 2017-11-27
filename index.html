@@ -499,8 +499,8 @@
         </p>
         <section id="http-patch-containment-triples">
           <h3>Containment Triples</h3>
-          The server SHOULD NOT allow HTTP PATCH to update an <a>LDPC</a>’s containment triples; if the server
-          receives such a request, it SHOULD respond with a 409 (Conflict) status code.
+          The server SHOULD NOT allow HTTP <code>PATCH</code> to update an <a>LDPC</a>’s containment triples; if the
+          server receives such a request, it SHOULD respond with a 409 (Conflict) status code.
         </section>
         <section id="http-patch-ixn-models">
           <h3>Interaction models</h3>
@@ -525,12 +525,12 @@
         <section id="http-delete-recursion">
           <h3>Recursive Delete</h3>
           <p>
-            An implementation that cannot recurse SHOULD NOT advertise <code>DELETE</code> in response to OPTIONS
-            requests for containers with contained resources.
+            An implementation that cannot recurse SHOULD NOT advertise <code>DELETE</code> in response to
+            <code>OPTIONS</code> requests for containers with contained resources.
           </p>
           <blockquote id="http-delete-recursion-info" class="informative">
-            Non-normative note: Clients should assume from an advertised DELETE that they do not need to look for
-            contained/child resources to clean up.
+            Non-normative note: Clients should assume from an advertised <code>DELETE</code> that they do not need to
+            look for contained/child resources to clean up.
           </blockquote>
           <p>
             If a server supports <code>DELETE</code>, any recursion MUST be reckoned along the [[!LDP]]
@@ -542,8 +542,8 @@
             successfully completed.
           </p>
           <p>
-            An implementation MUST NOT emit a message that implies the successful DELETE of a resource until the
-            resource has been successfully removed.
+            An implementation MUST NOT emit a message that implies the successful <code>DELETE</code> of a resource
+            until the resource has been successfully removed.
           </p>
           <blockquote id="http-delete-atomicity" class="informative">
             Non-normative note: Atomicity is not guaranteed for HTTP <code>DELETE</code> requests that affect multiple
@@ -660,7 +660,7 @@
             value, an implementation SHOULD return a 406 (Unacceptable).
           </p>
           <p>
-          The response to a GET request on an <a>LDPRv</a> MUST include the following headers:
+          The response to a <code>GET</code> request on an <a>LDPRv</a> MUST include the following headers:
           </p>
           <ul>
             <li>A <code>Link: rel="original timegate"</code> header referencing itself</li>
@@ -940,7 +940,7 @@
             Non-normative note:
             The <code>Link: rel="acl"</code> header provides a way for clients to find the location where an individual
             resource <a>ACL</a> might be created in the case of implementations that support
-            <a href="#http-put-create">creation with HTTP PUT</a> for individual <a>ACL</a>s.
+            <a href="#http-put-create">creation with HTTP <code>PUT</code></a> for individual <a>ACL</a>s.
           </p>
         </blockquote>
       </section>
