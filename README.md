@@ -27,3 +27,9 @@ We welcome questions, comments, and pull requests.  Feel free to open an issue o
   information on the purpose and rationale of the Fedora API Specification.
 * For more information on the Fedora community and the current implementation, see the [Fedora Repository
   wiki](https://wiki.duraspace.org/display/FF/Fedora+Repository+Home).
+
+
+## Editorial Guidelines
+
+* Sections for HTTP verbs should kept in this order: GET, HEAD, OPTIONS, POST, PUT, PATCH, DELETE
+* Section IDs/anchors should be formatted as hyphen-separated-lower-case
