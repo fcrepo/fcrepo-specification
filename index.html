@@ -747,7 +747,7 @@
           An <a>LDPCv</a> is both a <a>TimeMap</a> per
           Memento [[!RFC7089]] and an <a>LDPC</a>. As a <a>TimeMap</a> an <a>LDPCv</a> MUST conform to the
           specification for such resources in [[!RFC7089]]. An implementation MUST indicate <a>TimeMap</a> in the
-          same way it indicates the Container interaction model of the resource via HTTP headers.
+          same way it indicates the container interaction model of the resource via HTTP headers.
         </p>
         <p>
           An implementation MUST NOT allow the creation of an <a>LDPCv</a> that is <a>LDP-contained</a> by its
@@ -857,8 +857,9 @@
           Non-normative note:
           This section describes the way the normative specification might be applied to implement discoverable
           versioning patterns. If an implementation of an <a>LDPCv</a> does not support <code>POST</code> to mint
-          versions, that must be advertised via <code>OPTIONS</code> as described above. This allows a client to
-          perform an <code>OPTIONS</code> request on a <a>LDPCv</a> to determine if it can explicitly mint versions.
+          versions, that must be advertised via <code>OPTIONS</code> as described in <a href="#ldpcv-options"></a>.
+          This allows a client to perform an <code>OPTIONS</code> request on an <a>LDPCv</a> to determine if it can
+          explicitly mint versions.
           If the <a>LDPCv</a> does not support <code>POST</code>, the client should assume some other mechanism is used
           to mint versions, for example, the implementation may automatically mint versions instead, but that is
           outside the requirements of this specification. This document specifies normatively only how <a>LDPCv</a>s
@@ -868,7 +869,7 @@
           <h2>Server-Managed Version Creation</h2>
           <blockquote class="informative">
             Non-normative note:
-            Upon <code>PUT</code> or <code>PATCH</code> to the <a>LDPRv</a>, a new <a>LDPRm</a> is created in an
+            Upon <code>PUT</code> or <code>PATCH</code> to an <a>LDPRv</a>, a new <a>LDPRm</a> is created in an
             appropriate <a>LDPCv</a>. This <a>LDPRm</a> is the version of the original <a>LDPRv</a> that was just
             created.
           </blockquote>
@@ -879,8 +880,8 @@
             Non-normative note:
             An <a>LDPRm</a> for a particular <a>LDPRv</a> is created on <code>POST</code> to any <a>LDPCv</a>
             associated with that <a>LDPRv</a>. The new <a>LDPRm</a> is contained in the <a>LDPCv</a> to which the
-            <code>POST</code> was made and features in that <a>LDPCv</a>-as-a-<a>TimeMap</a>. This pattern is more
-            open to manipulation and could be useful for migration from other systems into Fedora implementations.
+            <code>POST</code> was made and features in that <a>LDPCv</a>-as-a-<a>TimeMap</a>. This pattern is very
+            flexible and might be useful for migration from other systems into Fedora implementations.
             Responses from requests to the <a>LDPRv</a> include a <code>Link: rel="timemap"</code> to the same
             <a>LDPCv</a> as per [[!RFC7089]] <a href='https://tools.ietf.org/html/rfc7089#section-5'>section 5</a>.
           </blockquote>
@@ -889,8 +890,8 @@
          <h2>Replacing Contents from Mementos</h2>
           <blockquote class="informative">
             Non-normative note:
-            Using the ingest-by-reference mechanisms, one can replace the contents of an <a>LDPRv</a> with that of
-            an <a>LDPRm</a> by providing it's URL as the URL parameter in a <code>Content-Type: 
+            Using the ingest-by-reference mechanism, one can replace the contents of an <a>LDPRv</a> with that of
+            an <a>LDPRm</a> by providing it's URL as the <code>URL</code> parameter in a <code>Content-Type:
             message/external-body</code> header.  For example, given an <a>LDPRm</a> with URL <code>
             http://example.org/some/memento</code>, the full header would be <br/>
             <code>Content-Type: message/external-body; access-type=URL; expiration=1;<br/>
