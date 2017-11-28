@@ -3,7 +3,7 @@
 The goal of this specification is to define the behaviors of [Fedora](http://fedorarepository.org/) server
 implementations to facilitate interoperability with client applications.
 
-* [Latest Published Version](http://fedora.info/spec/)
+* [Latest Published Version](https://fedora.info/spec/)
 * [Editor's Draft](https://fcrepo.github.io/fcrepo-specification/)
 
 
