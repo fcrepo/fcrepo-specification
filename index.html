@@ -1032,10 +1032,10 @@
           Format</a>. Implementations MUST inspect the ACL RDF for authorizations. Authorizations are identified by
           type definition triples of the form <code>authorization_N rdf:type acl:Authorization</code>, where
           <code>authorization_N</code> is the URI of an authorization. Implementations MUST use only statements
-          associated with an authorization in the ACL RDF to determine access, they MUST NOT dereference the
-          URI of the authorization. The authorizations MUST be examined to see whether they grant the requested
-          access to the controlled resource. If none of the authorizations grant the requested access then the
-          request MUST be denied.
+          associated with an authorization in the ACL RDF to determine access, except in the case of
+          <code>acl:agentGroup</code> statements where the group listing document is dereferenced. The
+          authorizations MUST be examined to see whether they grant the requested access to the controlled
+          resource. If none of the authorizations grant the requested access then the request MUST be denied.
         </p>
         <blockquote class="informative">
           <p>
