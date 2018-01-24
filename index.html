@@ -820,6 +820,9 @@
         <section id="ldpcv-post">
           <h2>HTTP POST</h2>
           <p>
+            Although an <a>LDPCv</a> is both a <a>TimeMap</a> and an <a>LDPC</a>, it MAY disallow POST requests.
+          </p>
+          <p>
             If an <a>LDPCv</a> supports <code>POST</code>, a <code>POST</code> that does not contain a
             <code>Memento-Datetime</code> header SHOULD be understood to create a new <a>LDPRm</a> contained by the
             <a>LDPCv</a>, reflecting the state of the <a>LDPRv</a> at the time of the <code>POST</code>. Any request
