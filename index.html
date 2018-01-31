@@ -239,8 +239,7 @@
         <p>
           The following namespace prefixes are used in this document:
         </p>
-<pre>
-@prefix ldp:     &lt;http://www.w3.org/ns/ldp#&gt; .
+<pre>@prefix ldp:     &lt;http://www.w3.org/ns/ldp#&gt; .
 @prefix acl:     &lt;https://www.w3.org/ns/auth/acl#&gt; .
 </pre>
       </section>
@@ -1036,6 +1035,43 @@
           </p>
         </blockquote>
       </section>
+      <section id="acl-representation">
+        <h2>ACL Representation and Interpretation</h2>
+        <p>
+          ACL resources are represented as described in [[!SOLIDWEBAC]]
+          <a href="https://github.com/solid/web-access-control-spec#representation-format">Representation
+          Format</a>. Implementations MUST inspect the ACL RDF for authorizations. Authorizations are identified by
+          type definition triples of the form <code>authorization_N rdf:type acl:Authorization</code>, where
+          <code>authorization_N</code> is the URI of an authorization. Implementations MUST use only statements
+          associated with an authorization in the ACL RDF to determine access, except in the case of
+          <code>acl:agentGroup</code> statements where the group listing document is dereferenced. The
+          authorizations MUST be examined to see whether they grant the requested access to the controlled
+          resource. If none of the authorizations grant the requested access then the request MUST be denied.
+        </p>
+        <blockquote class="informative">
+          <p>
+            Non-normative note:
+            Implementations may set default access controls for all resources by including an ACL for the root
+            container with an authorization that applies to access by any agent (<code>acl:agentClass
+            foaf:Agent</code>), applies to any resource (<code>acl:accessToClass ldp:Resource</code>), and is defined
+            to be inherited (<code>acl:default</code>). The example below grants read access (<code>acl:mode
+            acl:Read</code>) but any combination of modes may be specified.
+          </p>
+        </blockquote>
+        <div class="example">
+<pre># ACL for https://example.org/root/ in Turtle
+@prefix acl: &lt;http://www.w3.org/ns/auth/acl#&gt; .
+@prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
+@prefix ldp: &lt;http://www.w3.org/ns/ldp#&gt; .
+
+&lt;#authorization_1&gt; a acl:Authorization ;
+    acl:agentClass foaf:Agent ;
+    acl:accessToClass ldp:Resource ;
+    acl:default &lt;https://example.org/root/&gt; ;
+    acl:mode acl:Read .
+</pre>
+        </div>
+      </section>
       <section id="cross-domain-groups">
         <h2>Cross-Domain Group Listings</h2>
         <blockquote class="informative">
@@ -1171,8 +1207,7 @@
         <section id="minimal-notification-example">
           <h4>A minimal notification</h4>
           <div class="example">
-            <pre class="json">
-{
+<pre class="json">{
   "@context": "https://www.w3.org/ns/activitystreams",
   "id": "urn:uuid:3c834a8f-5638-4412-aa4b-35ea80416a18",
   "type": "Create",
@@ -1186,15 +1221,14 @@
     ]
   }
 }
-            </pre>
+</pre>
           </div>
         </section>
 
         <section id="basic-notification-example">
           <h4>A basic notification with some additional detail</h4>
           <div class="example">
-            <pre class="json">
-{
+<pre class="json">{
   "@context": [
     "https://www.w3.org/ns/activitystreams",
     {
@@ -1232,7 +1266,7 @@
     "isPartOf": "http://example.org/fcrepo/rest/"
   }
 }
-            </pre>
+</pre>
           </div>
         </section>
       </section>
