@@ -392,15 +392,15 @@
           the <code>Link</code> response header ([[!LDP]]
           <a href='https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs'>4.2.1.6</a> clarification).
         </p>
-        <p>
-          Any <a>LDPC</a> MUST support creation of <a>LDP-NR</a>s on <code>POST</code> ([[!LDP]]
-          <a href="https://www.w3.org/TR/ldp/#h-ldpc-post-createbins">5.2.3.3</a> MAY becomes MUST). On creation of an
-          <a>LDP-NR</a>, an implementation MUST create an associated <a>LDP-RS</a> describing that <a>LDP-NR</a>
-          ([[!LDP]] <a href="https://www.w3.org/TR/ldp/#h-ldpc-post-createbinlinkmetahdr">5.2.3.12</a> MAY becomes
-          MUST).
-        </p>
         <section id="http-post-ldpnr">
-          <h2>LDP-NRs</h2>
+          <h2>Creating LDP-NRs with HTTP POST</h2>
+          <p>
+            Any <a>LDPC</a> MUST support creation of <a>LDP-NR</a>s on <code>POST</code> ([[!LDP]]
+            <a href="https://www.w3.org/TR/ldp/#h-ldpc-post-createbins">5.2.3.3</a> MAY becomes MUST). On creation of an
+            <a>LDP-NR</a>, an implementation MUST create an associated <a>LDP-RS</a> describing that <a>LDP-NR</a>
+            ([[!LDP]] <a href="https://www.w3.org/TR/ldp/#h-ldpc-post-createbinlinkmetahdr">5.2.3.12</a> MAY becomes
+            MUST).
+          </p>
           <p>
             An HTTP <code>POST</code> request that would create an <a>LDP-NR</a> and includes a <code>Digest</code>
             header (as described in [[!RFC3230]]) for which the instance-digest in that header does not match that of
@@ -484,6 +484,11 @@
             non-containment of resources created with HTTP <code>PUT</code> is not defined by [[!LDP]] or this
             specification.
           </blockquote>
+          <p>
+            On creation of an <a>LDP-NR</a> with HTTP <code>PUT</code>, an implementation MUST create an associated
+            <a>LDP-RS</a> describing that <a>LDP-NR</a> in the same way that it would when
+            <a href="#http-post-ldpnr"></a>.
+          </p>
         </section>
       </section>
 
