@@ -425,12 +425,12 @@
         <h2>HTTP PUT</h2>
         <p>
           When accepting a <code>PUT</code> request against an existing resource, an HTTP <code>Link: rel="type"</code>
-          header MAY be included. If the type in the Link header is a subtype of a current type of the resource, is in
-          the [[!LDP]] namespace, and has an interaction model assigned to it by [[!LDP]], then the resource MUST be
-          assigned the new type and the interaction model of the resource MUST be changed to the interaction model
-          assigned to the new type by [[!LDP]]. If that type is a value in the [[!LDP]] namespace and is neither a
-          current type of the resource nor a subtype of a current type of the resource, the request MUST be rejected
-          with a 409 (Conflict) response.
+          header MAY be included. If the type in the <code>Link</code> header is a subtype of a current type of the
+          resource, is in the [[!LDP]] namespace, and has an interaction model assigned to it by [[!LDP]], then the
+          resource MUST be assigned the new type and the interaction model of the resource MUST be changed to the
+          interaction model assigned to the new type by [[!LDP]]. If the type is a value in the [[!LDP]] namespace
+          and is neither a current type of the resource nor a subtype of a current type of the resource, the request
+          MUST be rejected with a 409 (Conflict) response.
         </p>
 
         <section id="http-put-ldprs">
