@@ -426,7 +426,8 @@
         <p>
           Impementations MAY allow the interaction model of an existing resource to be changed by specification of a
           new LDP type in an HTTP <code>Link: rel="type"</code> header. If supported, requests SHOULD be rejected
-          with a 409 (Conflict) response unless the new LDP type specified is a subtype the resource's current type.
+          with a 409 (Conflict) response unless the new LDP type specified is a subtype of the resource's current
+          type.
         </p>
 
         <section id="http-put-ldprs">
