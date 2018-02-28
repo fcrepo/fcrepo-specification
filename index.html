@@ -791,14 +791,9 @@
             [[!RFC6690]] <a href='https://tools.ietf.org/html/rfc6690#section-7.3'>section 7.3</a>.
           </p>
           <p>
-            An implementation MUST include the <code>Allow</code> header as outlined in
+            An implementation MUST include the <code>Allow</code> header and, if appropriate, the
+            <code>Accept-Post</code> and <code>Accept-Patch</code> headers, and as outlined in
             <a href='#ldpcv-options'></a>.
-          </p>
-          <p>If an <a>LDPCv</a> supports <code>POST</code>, then it MUST include the <code>Accept-Post</code> header
-            described in <a href="#ldpcv-post"></a>.
-          </p>
-          <p>
-            If an <a>LDPCv</a> supports <code>PATCH</code>, then it MUST include the <code>Accept-Patch</code> header.
           </p>
         </section>
 
@@ -818,6 +813,13 @@
           <p>
             An implementation MAY <code>Allow: POST</code> if versions can be explicitly minted by a client. See
             <a href='#ldpcv-post'></a> for requirements on <code>POST</code> if supported.
+          </p>
+          <p>
+            If an <a>LDPCv</a> supports <code>POST</code>, then it MUST include the <code>Accept-Post</code> header
+            described in [[!LDP]] <a href="https://www.w3.org/TR/ldp/#header-accept-post">7.1</a>.
+          </p>
+          <p>
+            If an <a>LDPCv</a> supports <code>PATCH</code>, then it MUST include the <code>Accept-Patch</code> header.
           </p>
         </section>
 
