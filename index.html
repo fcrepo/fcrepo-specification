@@ -586,8 +586,9 @@
           <code>URL</code>.
         </p>
         <p id='message-external-body-supported-type'>
-          Fedora servers MUST advertise support in the <code>Accept-Post</code> response header for each supported
-          <code>access-type</code> parameter value of <code>Content-Type: message/external-body</code>.
+          Fedora servers MUST advertise support in the <code>Accept-Post</code> response header on <code>OPTIONS</code>
+          responses for each supported <code>access-type</code> parameter value of
+          <code>Content-Type: message/external-body</code>.
         </p>
         <p id='message-external-body-unsupported-type'>
           Fedora servers receiving requests that would create or update an <a>LDP-NR</a> with
