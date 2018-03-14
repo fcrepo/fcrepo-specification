@@ -581,10 +581,10 @@
           content: either copying, redirecting, or proxying.
         </blockquote>
         <div class="example">
-<pre>Link: <i>&lt;URL&gt;</i>;
+<pre>Link: &lt;http://example.org/some/content&gt;;
       rel="http://fedora.info/definitions/fcrepo#ExternalContent";
-      handling="<i>&lt;copy|redirect|proxy&gt;</i>";
-      type="<i>&lt;media-type&gt;</i>"
+      handling="proxy";
+      type="image/tiff"
 </pre>
         </div>
         <p id='external-content-link'>
@@ -962,8 +962,8 @@
           </blockquote>
           <div class="example">
 <pre>Link: http://example.org/some/memento;
-      rel="http://fedora.info/definitions/fcrepo#ExternalContent"
-Prefer: external-content-handling=copy
+      rel="http://fedora.info/definitions/fcrepo#ExternalContent";
+      handling="copy"
 </pre>
           </div>
         </section>
