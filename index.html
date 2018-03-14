@@ -940,10 +940,10 @@ Prefer: external-content-handling=<i>&lt;copy|redirect|proxy&gt;</i>
          <h2>Replacing Contents from Mementos</h2>
           <blockquote class="informative">
             Non-normative note:
-            Using the ingest-by-reference mechanism provided by the <code>copy</code> preference described in
-            <a href="#external-content"></a>, servers may support replacement of the contents of an <a>LDPRv</a>
-            with that of an <a>LDPRm</a> by providing the <a>LDPRm</a>'s location as the target of a link
-            indicating an external content request. For example, given an <a>LDPRm</a> with URL
+            Using the ingest-by-reference mechanism provided by the <code>external-content-handling=copy</code>
+            preference described in <a href="#external-content"></a>, servers may support replacement of the contents
+            of an <a>LDPRv</a> with that of an <a>LDPRm</a> by providing the <a>LDPRm</a>'s location as the target
+            of a link indicating an external content request. For example, given an <a>LDPRm</a> with URL
             <code>http://example.org/some/memento</code>, the appropriate headers would be:
           </blockquote>
           <div class="example">
