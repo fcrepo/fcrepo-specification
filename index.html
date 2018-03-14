@@ -593,30 +593,32 @@ Prefer: external-content-handling=<i>&lt;copy|redirect|proxy&gt;</i>
         <p id='external-content-media-type'>
           Fedora servers MUST use the <code><i>type="&lt;media-type&gt;"</i></code> attribute from the external
           content link in the request as the media type of the external content, if provided. Otherwise:
-          <ul>
-            <li>Servers MAY use the media type specified in a <code>Content-Type</code> header of the request.
-            <li>Servers MAY use the media type obtained when accessing the external content via the specified
-              scheme (e.g. the <code>Content-Type</code> header for external content accessed via
-              <code>http</code>).</li>
-            <li>Servers MAY use a default media type.</li>
-            <li>Servers MAY reject the request with a 4xx range status code.</li>
-          </ul>
         </p>
+        <ul>
+          <li>Servers MAY use the media type specified in a <code>Content-Type</code> header of the request.
+          <li>Servers MAY use the media type obtained when accessing the external content via the specified
+            scheme (e.g. the <code>Content-Type</code> header for external content accessed via
+            <code>http</code>).</li>
+          <li>Servers MAY use a default media type.</li>
+          <li>Servers MAY reject the request with a 4xx range status code.</li>
+        </ul>
         <p id='external-content-handling'>
           Fedora servers SHOULD look for a
           <code>Prefer: external-content-handling=<i>&lt;copy|redirect|proxy&gt;</i></code> ([[!RFC7240]]
           <a href="https://tools.ietf.org/html/rfc7240#section-2">section 2</a>) header
           specifying the requested handling of the external content. This specification defines the following
           behaviors:
-          <ul>
-            <li><code>copy</code> - requests that the server dereference the external content URI and treat that as if
-              it were the entity body of the request.</li>
-            <li><code>redirect</code> - requests that the server record the location of the external content and
-              handle requests for that content using HTTP redirect responses with the <code>Content-Location</code>
-              header specifying the external content location. See also <a href="#redirect-and-proxy"></a>.</li>
-            <li><code>proxy</code> - requests that the server  record the location of the external content and
-              handle requests for that content by proxying. See also <a href="#redirect-and-proxy"></a>.</li>
-          </ul>
+        <p>
+        <ul>
+          <li><code>copy</code> - requests that the server dereference the external content URI and treat that as if
+            it were the entity body of the request.</li>
+          <li><code>redirect</code> - requests that the server record the location of the external content and
+            handle requests for that content using HTTP redirect responses with the <code>Content-Location</code>
+            header specifying the external content location. See also <a href="#redirect-and-proxy"></a>.</li>
+          <li><code>proxy</code> - requests that the server  record the location of the external content and
+            handle requests for that content by proxying. See also <a href="#redirect-and-proxy"></a>.</li>
+        </ul>
+        <p>
           Fedora servers SHOULD include a <code>Preference-Applied</code> header ([[!RFC7240]]
           <a href="https://tools.ietf.org/html/rfc7240#section-3">section 3</a>) indicating the handling applied even
           if this none was specified, or handling was different from the one requested.
