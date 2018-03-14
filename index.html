@@ -379,6 +379,12 @@
           Non-normative note: Particular <code>Allow:</code> header responses that clients may use to determine
           implementation support for specific features are described in the appropriate sections of this specification.
         </blockquote>
+        <blockquote class="informative">
+          Non-normative note:
+          Implementations may support creation and update of <a>LDP-NR</a> with external content, and this is
+          advertized with the <code>Allow-External-Content-Handling</code> header, see
+          <a href="#external-content-options"></a>.
+        </blockquote>
       </section>
 
       <section id="http-post">
@@ -571,43 +577,31 @@
           link gives the URI from which the content might be retrieved. The <code>http(s):</code> [[RFC3986]] and
           <code>file:</code> [[RFC8089]] URI schemes motivate this specification, but a Fedora server may support
           other URI schemes for addressing external content per the requirements for advertisement and rejection
-          specified here. An <code>external-content-handling</code> preference is introduced to request particular
-          handling of the external content: either copying, redirecting, or proxying.
+          specified here. The <code>handling</code> attribute is introduced to specify the handling of the external
+          content: either copying, redirecting, or proxying.
         </blockquote>
         <div class="example">
 <pre>Link: <i>&lt;URL&gt;</i>;
       rel="http://fedora.info/definitions/fcrepo#ExternalContent";
+      handling="<i>&lt;copy|redirect|proxy&gt;</i>";
       type="<i>&lt;media-type&gt;</i>"
-Prefer: external-content-handling=<i>&lt;copy|redirect|proxy&gt;</i>
 </pre>
         </div>
         <p id='external-content-link'>
-          Fedora servers SHOULD support the creation of <a>LDP-NR</a>s with content external to the request entity
-          as indicated by a link <code><i>&lt;URL&gt;</i>; rel="http://fedora.info/definitions/fcrepo#ExternalContent";
-          type="<i>&lt;content-type&gt;</i>"</code> in a <code>Link</code> header, where <code><i>&lt;URL&gt;</i></code>
-          is the location of the external content, and the optional <code><i>type="&lt;media-type&gt;"</i></code>
-          attribute specifies the media type of the external content. Fedora servers that do not support the creation
-          of <a>LDP-NR</a>s with content external to the request entity MUST reject such requests with a 4xx range
-          status code.
+          Fedora servers SHOULD support the creation and update of <a>LDP-NR</a>s with content external to
+          the request entity, as indicated by a link with
+          <code>rel="http://fedora.info/definitions/fcrepo#ExternalContent"</code> and target that is the
+          location of the external content. The <code>handling="<i>&lt;copy|redirect|proxy&gt;</i>"</code>
+          attribute specifies how the server should handle the external content, and the optional
+          <code>type="<i>&lt;media-type&gt;</i>"</code> attribute specifies the media type of the external
+          content. Fedora servers that do not support the creation of <a>LDP-NR</a>s with content external
+          to the request entity MUST reject such requests with a 4xx range status code. Fedora servers MUST
+          reject with a 4xx range status code requests that include multiple
+          <code>rel="http://fedora.info/definitions/fcrepo#ExternalContent"</code> links.
         </p>
-        <p id='external-content-media-type'>
-          Fedora servers MUST use the <code><i>type="&lt;media-type&gt;"</i></code> attribute from the external
-          content link in the request as the media type of the external content, if provided. Otherwise:
-        </p>
-        <ul>
-          <li>Servers MAY use the media type specified in a <code>Content-Type</code> header of the request.
-          <li>Servers MAY use the media type obtained when accessing the external content via the specified
-            scheme (e.g. the <code>Content-Type</code> header for external content accessed via
-            <code>http</code>).</li>
-          <li>Servers MAY use a default media type.</li>
-          <li>Servers MAY reject the request with a 4xx range status code.</li>
-        </ul>
         <p id='external-content-handling'>
-          Fedora servers SHOULD look for a
-          <code>Prefer: external-content-handling=<i>&lt;copy|redirect|proxy&gt;</i></code> ([[!RFC7240]]
-          <a href="https://tools.ietf.org/html/rfc7240#section-2">section 2</a>) header
-          specifying the requested handling of the external content. This specification defines the following
-          behaviors:
+          Fedora servers MUST use the <code>handling</code> attribute in the external content link to determine
+          how to process the request. This specification defines the following attibutes and expected behaviors:
         <p>
         <ul>
           <li><code>copy</code> - requests that the server dereference the external content URI and treat that as if
@@ -619,31 +613,51 @@ Prefer: external-content-handling=<i>&lt;copy|redirect|proxy&gt;</i>
             handle requests for that content by proxying. See also <a href="#redirect-and-proxy"></a>.</li>
         </ul>
         <p>
-          Fedora servers SHOULD include a <code>Preference-Applied</code> header ([[!RFC7240]]
-          <a href="https://tools.ietf.org/html/rfc7240#section-3">section 3</a>) indicating the handling applied even
-          if none was specified, or handling was different from the one requested.
+          Fedora servers MUST reject with a 4xx range status code requests for which the <code>handling</code>
+          attribute is not present or cannot be respected.
         </p>
+        <p id='external-content-media-type'>
+          Fedora servers MUST use the value of the <code>type</code> attribute in the external content link as
+          the media type of the external content, if provided. Otherwise:
+        </p>
+        <ul>
+          <li>Servers MAY use the media type specified in a <code>Content-Type</code> header of the request.
+          <li>Servers MAY use the media type obtained when accessing the external content via the specified
+            scheme (e.g. the <code>Content-Type</code> header for external content accessed via
+            <code>http</code>).</li>
+          <li>Servers MAY use a default media type.</li>
+          <li>Servers MAY reject the request with a 4xx range status code.</li>
+        </ul>
         <p id='external-content-body-response-headers'>
-          A Fedora servers receiving requests that would create or update an <a>LDP-NR</a> withcontent external to
+          A Fedora server receiving requests that would create or update an <a>LDP-NR</a> with content external to
           the request entity MUST reject request if it cannot guarantee all of the response headers required by the
           <a>LDP-NR</a> interaction model in this specification.
         </p>
+        <section id='external-content-options'>
+          <h4>Advertizing External Content Support</h4>
+          <p>
+            In addition to the requirements of <a href="#http-options"></a>, servers supporting external content
+            requests to an <a>LDPR</a> MUST include an <code>Accept-External-Content-Handling</code> header in the
+            response to an <code>OPTIONS</code> request to that resource. The value MUST be a comma separated list
+            of supported behaviors (e.g. <code>Accept-External-Content-Handling: copy,redirect</code>).
+          <p>
+        </section>
         <section id='external-content-ldp-rs'>
           <h4>External Content for RDF Resources</h4>
           <blockquote class="informative">
             Non-normative note:
             This specification takes no position on the use of requests with a
             <code>rel="http://fedora.info/definitions/fcrepo#ExternalContent"</code> link to create or
-            update <a>LDP-RS</a>.
+            update <a>LDP-RS</a>s.
           </blockquote>
         </section>
         <section id='redirect-and-proxy'>
           <h4>Redirected and Proxied External Content</h4>
           <blockquote class="informative">
             Non-normative note:
-            Fedora servers may choose to support requests with a
+            Fedora servers may support requests with a
             <code>rel="http://fedora.info/definitions/fcrepo#ExternalContent"</code> link and either of
-            the <code>redirect</code> and <code>proxy</code> preferences. In both of these cases the content
+            the <code>redirect</code> or <code>proxy</code> preferences. In both of these cases the content
             remains external to the repository.
           </blockquote>
           <p id='external-content-want-digest'>
