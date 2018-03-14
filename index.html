@@ -412,11 +412,8 @@
           </p>
           <blockquote class="informative">
             Non-normative note:
-            Implementations may support <code>Content-Type: message/external-body</code> extensions for request bodies
-            for HTTP <code>POST</code> that would create <a>LDP-NR</a>s. This content-type requires a complete
-            <code>Content-Type</code> header that includes the location of the external body, e.g <code>Content-Type:
-            message/external-body; access-type=URL; URL="http://www.example.com/file"</code>, as defined in
-            [[!RFC2017]]. Requirements for this interaction are detailed in <a href="#external-content"></a>.
+            Implementations may support creation of <a>LDP-NR</a> using <code>POST</code> with external content,
+            see <a href="#external-content"></a>.
           </blockquote>
         </section>
       </section>
@@ -425,9 +422,9 @@
         <h2>HTTP PUT</h2>
         <p>
           Impementations MAY allow the interaction model of an existing resource to be changed by specification of a
-          new LDP type in an HTTP <code>Link: rel="type"</code> header. If supported, requests SHOULD be rejected
-          with a 409 (Conflict) response unless the new LDP type specified is a subtype of the resource's current
-          type.
+          new LDP type in a <code>rel="type"</code> link in the HTTP <code>Link</code> header. If supported, requests
+          SHOULD be rejected with a 409 (Conflict) response unless the new LDP type specified is a subtype of the
+          resource's current type.
         </p>
 
         <section id="http-put-ldprs">
@@ -464,11 +461,8 @@
           </p>
           <blockquote class="informative">
             Non-normative note:
-            Implementations may support <code>Content-Type: message/external-body</code> extensions for request bodies
-            for HTTP <code>PUT</code> that would create <a>LDP-NR</a>s. This content-type requires a complete
-            <code>Content-Type</code> header that includes the location of the external body, e.g <code>Content-Type:
-            message/external-body; access-type=URL; URL="http://www.example.com/file"</code>, as defined in
-            [[!RFC2017]]. Requirements for this interaction are detailed in <a href="#external-content"></a>.
+            Implementations may support creation of <a>LDP-NR</a> using <code>PUT</code> with external content,
+            see <a href="#external-content"></a>.
           </blockquote>
         </section>
 
@@ -571,70 +565,88 @@
         <blockquote id="message-external-body-variability" class="informative">
           Non-normative note: Variability among client types and locations may mean that <a>LDP-NR</a> content is
           addressed in ways that are external to the Fedora server but not resolvable by all clients. This specification
-          describes the use of <code>Content-Type: message/external-body</code> values to signal, on <code>POST</code>
-          or <code>PUT</code>, that the Fedora server should not consider the request entity to be the <a>LDP-NR</a>'s
-          content, but that a <code>Content-Type</code> value will signal a name or address at which the content might
-          be retrieved. The <code>URL</code> ([[RFC2017]]
-          <a href="https://tools.ietf.org/html/rfc2017#section-3">section 3</a>) and <code>local-file</code>
-          ([[RFC2046]] <a href="https://tools.ietf.org/html/rfc2046#section-5.2.3.4">section 5.2.3.4</a>) values of the
-          <code>access-type</code> parameter motivate this specification, but a Fedora server may support any
-          <code>access-type</code> parameters per the requirements for advertisement and rejection specified here.
+          describes the use of a <code>rel="http://fedora.info/definitions/fcrepo#external-content"</code> link in a
+          <code>Link</code> header to signal, on <code>POST</code> or <code>PUT</code>, that the Fedora server should
+          not consider the request entity to be the <a>LDP-NR</a>'s content, but instead that the target of the
+          link gives the URI from which the content might be retrieved. The <code>http(s):</code> [[RFC3986]] and
+          <code>file:</code> [[RFC8089]] URI schemes motivate this specification, but a Fedora server may support
+          other URI schemes for addressing external content per the requirements for advertisement and rejection
+          specified here. An <code>external-content-handling</code> preference is introduced to request particular
+          handling of the external content: either copying, redirecting, or proxying.
         </blockquote>
-        <p id='message-external-body-accept-post'>
-          Fedora servers SHOULD support the creation of <a>LDP-NR</a>s with
-          <code>Content-Type: message/external-body</code> and <code>access-type</code> parameter value
-          <code>URL</code>.
+        <div class="example">
+<pre>Link: <i>&lt;URL&gt;</i>;
+      rel="http://fedora.info/definitions/fcrepo#external-content";
+      type="<i>&lt;media-type&gt;</i>"
+Prefer: external-content-handling=<i>&lt;copy|redirect|proxy&gt;</i>
+</pre>
+        </div>
+        <p id='external-content-link'>
+          Fedora servers SHOULD support the creation of <a>LDP-NR</a>s with content external to the request entity
+          as indicated by a link <code><i>&lt;URL&gt;</i>; rel="http://fedora.info/definitions/fcrepo#external-content";
+          type="<i>&lt;content-type&gt;</i>"</code> in a <code>Link</code> header, where <code><i>&lt;URL&gt;</i></code>
+          is the location of the external content, and the optional <code><i>type="&lt;media-type&gt;"</i></code>
+          attribute specifies the media type of the external content. Fedora servers that do not support the creation
+          of <a>LDP-NR</a>s with content external to the request entity MUST reject such requests with a 4xx range
+          status code.
         </p>
-        <p id='message-external-body-supported-type'>
-          Fedora servers MUST advertise support in the <code>Accept-Post</code> response header for each supported
-          <code>access-type</code> parameter value of <code>Content-Type: message/external-body</code>.
+        <p id='external-content-media-type'>
+          Fedora servers MUST use the <code><i>type="&lt;media-type&gt;"</i></code> attribute from the external
+          content link in the request as the media type of the external content, if provided. Otherwise:
+          <ul>
+            <li>Servers MAY use the media type specified in a <code>Content-Type</code> header of the request.
+            <li>Servers MAY use the media type obtained when accessing the external content via the specified
+              scheme (e.g. the <code>Content-Type</code> header for external content accessed via
+              <code>http</code>).</li>
+            <li>Servers MAY use a default media type.</li>
+            <li>Servers MAY reject the request with a 4xx range status code.</li>
+          </ul>
         </p>
-        <p id='message-external-body-unsupported-type'>
-          Fedora servers receiving requests that would create or update an <a>LDP-NR</a> with
-          <code>Content-Type: message/external-body</code> and an unsupported <code>access-type</code> parameter value
-          MUST respond with 415 (Unsupported Media Type). In the case that a Fedora server does not support external
-          <a>LDP-NR</a> content,
-          all <code>message/external-body</code> messages must be rejected with 415 (Unsupported Media Type).
+        <p id='external-content-handling'>
+          Fedora servers SHOULD look for a
+          <code>Prefer: external-content-handling=<i>&lt;copy|redirect|proxy&gt;</i></code> ([[!RFC7240]]
+          <a href="https://tools.ietf.org/html/rfc7240#section-2">section 2</a>) header
+          specifying the requested handling of the external content. This specification defines the following
+          behaviors:
+          <ul>
+            <li><code>copy</code> - requests that the server dereference the external content URI and treat that as if
+              it were the entity body of the request.</li>
+            <li><code>redirect</code> - requests that the server record the location of the external content and
+              handle requests for that content using HTTP redirect responses with the <code>Content-Location</code>
+              header specifying the external content location. See also <a href="#redirect-and-proxy"></a>.</li>
+            <li><code>proxy</code> - requests that the server  record the location of the external content and
+              handle requests for that content by proxying. See also <a href="#redirect-and-proxy"></a>.</li>
+          </ul>
+          Fedora servers SHOULD include a <code>Preference-Applied</code> header ([[!RFC7240]]
+          <a href="https://tools.ietf.org/html/rfc7240#section-3">section 3</a>) indicating the handling applied even
+          if this none was specified, or handling was different from the one requested.
         </p>
-        <p id='message-external-body-response-headers'>
-          Fedora servers receiving requests that would create or update an <a>LDP-NR</a> with
-          <code>Content-Type: message/external-body</code> MUST NOT accept the request if it cannot guarantee all of
-          the response headers required by the <a>LDP-NR</a> interaction model in this specification.
+        <p id='external-content-body-response-headers'>
+          A Fedora servers receiving requests that would create or update an <a>LDP-NR</a> withcontent external to
+          the request entity MUST reject request if it cannot guarantee all of the response headers required by the
+          <a>LDP-NR</a> interaction model in this specification.
         </p>
-        <p id='external-content-content-location'>
-          <code>GET</code> and <code>HEAD</code> responses for any external <a>LDP-NR</a> SHOULD include a
-          <code>Content-Location</code> header with a URI representation of the location of the external content if
-          the Fedora server is proxying the content.
-        </p>
-        <p id='external-content-want-digest'>
-          <code>GET</code> and <code>HEAD</code> requests to any external <a>LDP-NR</a> MUST correctly
-          respond to the <code>Want-Digest</code> header defined in [[!RFC3230]].
-        </p>
-        <section id='external-content-caveats'>
-          <h4>Referenced RDF Content in Mandatory LDP Serializations</h4>
+        <section id='external-content-ldp-rs'>
+          <h4>External Content for RDF Resources</h4>
           <blockquote class="informative">
             Non-normative note:
-            This specification takes no position on the use of <code>message/external-body</code> to create or update
-            <a>LDP-RS</a> with Turtle or JSON-LD.
+            This specification takes no position on the use of requests with a
+            <code>rel="http://fedora.info/definitions/fcrepo#external-content"</code> link to create or
+            update <a>LDP-RS</a>.
           </blockquote>
         </section>
-        <section id='proxied-vs-copied'>
-          <h4>Proxied Content vs. Copied Content</h4>
+        <section id='redirect-and-proxy'>
+          <h4>Redirected and Proxied External Content</h4>
           <blockquote class="informative">
             Non-normative note:
-            Fedora servers may choose to support the <code>Content-Type</code> of <code>message/external-body</code> by
-            proxying or copying the referenced content.
+            Fedora servers may choose to support requests with a
+            <code>rel="http://fedora.info/definitions/fcrepo#external-content"</code> link and either of
+            the <code>redirect</code> and <code>proxy</code> preferences. In both of these cases the content
+            remains external to the repository.
           </blockquote>
-          <p id='external-content-expires'>
-            Per [[!RFC2046]] <a href="https://tools.ietf.org/html/rfc2046#section-5.2.3">section 5.2.3</a>, all
-            <code>Content-Type: message/external-body</code> values MAY include an <code>expiration</code> parameter.
-            Fedora servers receiving requests that would create or update an <a>LDP-NR</a> with a
-            <code>message/external-body</code> content type SHOULD respect the <code>expiration</code> parameter,
-            if present, by copying content. If the server is unable to copy the external content, the request MUST be
-            rejected with a 4xx or 5xx status code. Following [[!LDP]]
-            <a href="https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs">4.2.1.6</a> and
-            <a href="https://www.w3.org/TR/ldp/#ldprs-put-servermanagedprops">4.2.4.3</a>, 4xx responses MUST be
-            accompanied by a <code>Link</code> header with <code>http://www.w3.org/ns/ldp#constrainedBy</code> relation.
+          <p id='external-content-want-digest'>
+            <code>GET</code> and <code>HEAD</code> requests to any external <a>LDP-NR</a> MUST correctly
+            respond to the <code>Want-Digest</code> header defined in [[!RFC3230]].
           </p>
         </section>
       </section>
@@ -837,8 +849,8 @@
             given in the request body and the datetime given in the <code>Memento-Datetime</code> request header.
           </p>
           <p>
-            If an implementation does not support one or both of <code>POST</code> cases above, it MUST respond to 
-            such requests with a 4xx range status code and a link to an appropriate constraints document (see 
+            If an implementation does not support one or both of <code>POST</code> cases above, it MUST respond to
+            such requests with a 4xx range status code and a link to an appropriate constraints document (see
             [[!LDP]] <a href='https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs'>4.2.1.6</a>).
           </p>
           <blockquote class="informative">
@@ -926,13 +938,18 @@
          <h2>Replacing Contents from Mementos</h2>
           <blockquote class="informative">
             Non-normative note:
-            Using the ingest-by-reference mechanism, one can replace the contents of an <a>LDPRv</a> with that of
-            an <a>LDPRm</a> by providing it's URL as the <code>URL</code> parameter in a <code>Content-Type:
-            message/external-body</code> header.  For example, given an <a>LDPRm</a> with URL <code>
-            http://example.org/some/memento</code>, the full header would be <br/>
-            <code>Content-Type: message/external-body; access-type=URL; expiration=1;<br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;URL="http://example.org/some/memento"</code>
+            Using the ingest-by-reference mechanism provided by the <code>copy</code> preference described in
+            <a href="#external-content"></a>, servers may support replacement of the contents of an <a>LDPRv</a>
+            with that of an <a>LDPRm</a> by providing the <a>LDPRm</a>'s location as the target of a link
+            indicating an external content request. For example, given an <a>LDPRm</a> with URL
+            <code>http://example.org/some/memento</code>, the appropriate headers would be:
           </blockquote>
+          <div class="example">
+<pre>Link: http://example.org/some/memento;
+      rel="http://fedora.info/definitions/fcrepo#external-content"
+Prefer: external-content-handling=copy
+</pre>
+          </div>
         </section>
       </section>
     </section>
