@@ -565,7 +565,7 @@
         <blockquote id="message-external-body-variability" class="informative">
           Non-normative note: Variability among client types and locations may mean that <a>LDP-NR</a> content is
           addressed in ways that are external to the Fedora server but not resolvable by all clients. This specification
-          describes the use of a <code>rel="http://fedora.info/definitions/fcrepo#external-content"</code> link in a
+          describes the use of a <code>rel="http://fedora.info/definitions/fcrepo#ExternalContent"</code> link in a
           <code>Link</code> header to signal, on <code>POST</code> or <code>PUT</code>, that the Fedora server should
           not consider the request entity to be the <a>LDP-NR</a>'s content, but instead that the target of the
           link gives the URI from which the content might be retrieved. The <code>http(s):</code> [[RFC3986]] and
@@ -576,14 +576,14 @@
         </blockquote>
         <div class="example">
 <pre>Link: <i>&lt;URL&gt;</i>;
-      rel="http://fedora.info/definitions/fcrepo#external-content";
+      rel="http://fedora.info/definitions/fcrepo#ExternalContent";
       type="<i>&lt;media-type&gt;</i>"
 Prefer: external-content-handling=<i>&lt;copy|redirect|proxy&gt;</i>
 </pre>
         </div>
         <p id='external-content-link'>
           Fedora servers SHOULD support the creation of <a>LDP-NR</a>s with content external to the request entity
-          as indicated by a link <code><i>&lt;URL&gt;</i>; rel="http://fedora.info/definitions/fcrepo#external-content";
+          as indicated by a link <code><i>&lt;URL&gt;</i>; rel="http://fedora.info/definitions/fcrepo#ExternalContent";
           type="<i>&lt;content-type&gt;</i>"</code> in a <code>Link</code> header, where <code><i>&lt;URL&gt;</i></code>
           is the location of the external content, and the optional <code><i>type="&lt;media-type&gt;"</i></code>
           attribute specifies the media type of the external content. Fedora servers that do not support the creation
@@ -633,7 +633,7 @@ Prefer: external-content-handling=<i>&lt;copy|redirect|proxy&gt;</i>
           <blockquote class="informative">
             Non-normative note:
             This specification takes no position on the use of requests with a
-            <code>rel="http://fedora.info/definitions/fcrepo#external-content"</code> link to create or
+            <code>rel="http://fedora.info/definitions/fcrepo#ExternalContent"</code> link to create or
             update <a>LDP-RS</a>.
           </blockquote>
         </section>
@@ -642,7 +642,7 @@ Prefer: external-content-handling=<i>&lt;copy|redirect|proxy&gt;</i>
           <blockquote class="informative">
             Non-normative note:
             Fedora servers may choose to support requests with a
-            <code>rel="http://fedora.info/definitions/fcrepo#external-content"</code> link and either of
+            <code>rel="http://fedora.info/definitions/fcrepo#ExternalContent"</code> link and either of
             the <code>redirect</code> and <code>proxy</code> preferences. In both of these cases the content
             remains external to the repository.
           </blockquote>
@@ -948,7 +948,7 @@ Prefer: external-content-handling=<i>&lt;copy|redirect|proxy&gt;</i>
           </blockquote>
           <div class="example">
 <pre>Link: http://example.org/some/memento;
-      rel="http://fedora.info/definitions/fcrepo#external-content"
+      rel="http://fedora.info/definitions/fcrepo#ExternalContent"
 Prefer: external-content-handling=copy
 </pre>
           </div>
