@@ -172,7 +172,7 @@
         <dt><dfn>LDPR</dfn>:</dt>
         <dd>
           A <a href="https://www.w3.org/TR/ldp/#dfn-linked-data-platform-resource">Linked Data Platform Resource</a>
-          as defined in [[!LDP]]. This may be an <a>LDP-RS</a> or a <a>LDP-NR</a>.
+          as defined in [[!LDP]]. This may be an <a>LDP-RS</a> or an <a>LDP-NR</a>.
         </dd>
         <dt><dfn>LDP-RS</dfn>:</dt>
         <dd>
@@ -382,7 +382,7 @@
         <blockquote class="informative">
           Non-normative note:
           Implementations may support creation and update of <a>LDP-NR</a> with external content, and this is
-          advertized with the <code>Allow-External-Content-Handling</code> header, see
+          advertised with the <code>Allow-External-Content-Handling</code> header, see
           <a href="#external-content-options"></a>.
         </blockquote>
       </section>
@@ -618,10 +618,10 @@
         </p>
         <p id='external-content-media-type'>
           Fedora servers MUST use the value of the <code>type</code> attribute in the external content link as
-          the media type of the external content, if provided. Otherwise:
+          the media type of the external content, if provided. Any <code>Content-Type</code> header in the
+          request SHOULD be ignored. If there is no <code>type</code> attribute:
         </p>
         <ul>
-          <li>Servers MAY use the media type specified in a <code>Content-Type</code> header of the request.
           <li>Servers MAY use the media type obtained when accessing the external content via the specified
             scheme (e.g. the <code>Content-Type</code> header for external content accessed via
             <code>http</code>).</li>
@@ -634,7 +634,7 @@
           <a>LDP-NR</a> interaction model in this specification.
         </p>
         <section id='external-content-options'>
-          <h4>Advertizing External Content Support</h4>
+          <h4>Advertising External Content Support</h4>
           <p>
             In addition to the requirements of <a href="#http-options"></a>, servers supporting external content
             requests to an <a>LDPR</a> MUST include an <code>Accept-External-Content-Handling</code> header in the
@@ -954,8 +954,8 @@
          <h2>Replacing Contents from Mementos</h2>
           <blockquote class="informative">
             Non-normative note:
-            Using the ingest-by-reference mechanism provided by the <code>external-content-handling=copy</code>
-            preference described in <a href="#external-content"></a>, servers may support replacement of the contents
+            Using the ingest-by-reference mechanism provided by POST with <code>copy</code> external content handling,
+            as described in <a href="#external-content"></a>, servers may support replacement of the contents
             of an <a>LDPRv</a> with that of an <a>LDPRm</a> by providing the <a>LDPRm</a>'s location as the target
             of a link indicating an external content request. For example, given an <a>LDPRm</a> with URL
             <code>http://example.org/some/memento</code>, the appropriate headers would be:
@@ -963,7 +963,8 @@
           <div class="example">
 <pre>Link: &lt;http://example.org/some/memento&gt;;
       rel="http://fedora.info/definitions/fcrepo#ExternalContent";
-      handling="copy"
+      handling="copy";
+      type="image/tiff"
 </pre>
           </div>
         </section>
