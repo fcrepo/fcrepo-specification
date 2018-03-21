@@ -382,7 +382,7 @@
         <blockquote class="informative">
           Non-normative note:
           Implementations may support creation and update of <a>LDP-NR</a> with external content, and this is
-          advertised with the <code>Allow-External-Content-Handling</code> header, see
+          advertised with the <code>Accept-External-Content-Handling</code> header, see
           <a href="#external-content-options"></a>.
         </blockquote>
       </section>
@@ -591,12 +591,16 @@
           Fedora servers SHOULD support the creation and update of <a>LDP-NR</a>s with content external to
           the request entity, as indicated by a link with
           <code>rel="http://fedora.info/definitions/fcrepo#ExternalContent"</code> and target that is the
-          location of the external content. The <code>handling="<i>&lt;copy|redirect|proxy&gt;</i>"</code>
-          attribute specifies how the server should handle the external content, and the optional
-          <code>type="<i>&lt;media-type&gt;</i>"</code> attribute specifies the media type of the external
-          content. Fedora servers that do not support the creation of <a>LDP-NR</a>s with content external
-          to the request entity MUST reject such requests with a 4xx range status code. Fedora servers MUST
-          reject with a 4xx range status code requests that include multiple
+          location of the external content. The <code>handling</code> attribute specifies how the server
+          should handle the external content, and the optional <code>type</code> attribute specifies the
+          media type of the external content.
+        </p>
+        <p>
+          Fedora servers that do not support the creation of <a>LDP-NR</a>s with content external to the
+          request entity MUST reject such requests with a 4xx range status code, and MUST describe this
+          restriction in a resource indicated by a <code>rel="http://www.w3.org/ns/ldp#constrainedBy"</code>
+          link in the <code>Link</code> response header.
+          Fedora servers MUST reject with a 4xx range status code requests that include multiple
           <code>rel="http://fedora.info/definitions/fcrepo#ExternalContent"</code> links.
         </p>
         <p id='external-content-handling'>
@@ -614,7 +618,10 @@
         </ul>
         <p>
           Fedora servers MUST reject with a 4xx range status code requests for which the <code>handling</code>
-          attribute is not present or cannot be respected.
+          attribute is not present or cannot be respected. In the case that the specified <code>handling</code>
+          cannot be respected, the restrictions causing the request to fail MUST be described in a resource indicated
+          by a <code>rel="http://www.w3.org/ns/ldp#constrainedBy"</code> link in the <code>Link</code> response
+          header.
         </p>
         <p id='external-content-media-type'>
           Fedora servers MUST use the value of the <code>type</code> attribute in the external content link as
