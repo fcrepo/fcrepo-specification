@@ -308,19 +308,23 @@
         <section id="additional-prefer-values">
           <h2>Additional values for the <code>Prefer</code> header</h2>
           <p>
-            In addition to the requirements of [[!LDP]], an implementation SHOULD support the value
-            <code>http://fedora.info/definitions/fcrepo#PreferInboundReferences</code> and
-	    MAY support the value <code>http://www.w3.org/ns/oa#PreferContainedDescriptions</code> for the
-	    <code>Prefer</code> header when making <code>GET</code> requests on <a>LDPC</a> resources:
+            This specification extends the <code>Prefer</code> header semantics defined in [[!LDP]]
+            <a href="https://www.w3.org/TR/ldp/#prefer-parameters">7.2</a> by describing two additional URIs that
+            may be used in the <code>include</code> parameter of the <code>return=representation</code> preference
+            ([[!RFC7240]] <a href="https://tools.ietf.org/html/rfc7240#section-4.2">section 4.2</a>).
+            On <code>GET</code> requests:
           </p>
           <ul>
             <li>
-              <code>http://fedora.info/definitions/fcrepo#PreferInboundReferences</code>: Requests that a server include
-              triples from any <a>LDP-RS</a> housed in that server that feature the requested resource as RDF-object.
+              Implementations SHOULD support <code>http://fedora.info/definitions/fcrepo#PreferInboundReferences</code>
+              to request that the response include triples from any <a>LDP-RS</a> housed in that server that feature the
+              requested resource as RDF-object.
             </li>
             <li>
-              <code>http://www.w3.org/ns/oa#PreferContainedDescriptions</code>: Requests that a server include
-              representations of any contained resources in the response, as defined in [[!annotation-vocab]].
+              Implementations MAY support <code>http://www.w3.org/ns/oa#PreferContainedDescriptions</code> in order
+              to request that the response include representations of any <a>LDPC</a> contained resources in the
+              response, as defined in [[!annotation-vocab]]
+              <a href="https://www.w3.org/TR/annotation-vocab/#prefercontaineddescriptions">section 2.3.17</a>.
             </li>
           </ul>
         </section>
