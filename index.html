@@ -640,6 +640,16 @@
           the request entity MUST reject request if it cannot guarantee all of the response headers required by the
           <a>LDP-NR</a> interaction model in this specification.
         </p>
+        <blockquote id="external-content-response-headers-example" class="informative">
+          Non-normative note: Example headers for a successful response to a <code>HEAD</code> request on external
+          content with <code>handling</code> of <code>redirect</code>:
+          <pre>
+Link: &lt;http://www.w3.org/ns/ldp#Resource&gt;;rel="type"
+Link: &lt;http://www.w3.org/ns/ldp#NonRDFSource&gt;;rel="type"
+Link: &lt;http://host/fcrepo/image/fcr:metadata&gt;; rel="describedby"
+Content-Type: application/pdf
+Location: http://example.org/document</pre>
+        </blockquote>
         <section id='external-content-options'>
           <h4>Advertising External Content Support</h4>
           <p>
@@ -670,6 +680,10 @@
           <p id='external-content-want-digest'>
             <code>GET</code> and <code>HEAD</code> requests to any external <a>LDP-NR</a> MUST correctly
             respond to the <code>Want-Digest</code> header defined in [[!RFC3230]].
+          </p>
+          <p id='external-content-redirect-status'>
+            A successful response to external content with <code>handling</code> of <code>redirect</code> MUST have
+            status code of either 302 (Found) or 307 (Temporary Redirect).
           </p>
         </section>
       </section>
