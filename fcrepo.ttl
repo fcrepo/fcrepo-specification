@@ -15,7 +15,15 @@
     vann:preferredNamespaceUri "http://fedora.info/definitions/fcrepo#" ;
     vann:preferredNamespacePrefix "fcrepo" .
 
-:PreferInboundReferences a rdfs:Resource ;
+:PreferCompactLists a rdfs:Resource ;
+    rdfs:label "prefer compact lists"@en ;
+    rdfs:comment "An IRI to signal the client prefers to receive the
+    rdfs:List values for triples in a compact style where defined by the
+    serialization."@en ;
+    rdfs:isDefinedBy : ;
+    vs:term_status "working-draft" .
+
+ :PreferInboundReferences a rdfs:Resource ;
     rdfs:label "prefer inbound references"@en ;
     rdfs:comment "An IRI to signal the client prefers to receive the set of triples representing other repository resources which link to a given resource."@en ;
     rdfs:isDefinedBy : ;
