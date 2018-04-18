@@ -333,7 +333,8 @@
           <p>
             Responses to <code>GET</code> requests that apply a <code>Prefer</code> request header to any <a>LDP-RS</a>
             MUST include the <code>Preference-Applied</code> response header as defined in [[!RFC7240]]
-            <a href='https://tools.ietf.org/html/rfc7240#section-3'>section 3</a>.
+            <a href='https://tools.ietf.org/html/rfc7240#section-3'>section 3</a> if and only if all specified
+            parameters of the requested preference were applied.
           </p>
           <p>
             When a <code>GET</code> request is made to an <a>LDP-RS</a> that describes an associated <a>LDP-NR</a>
