@@ -248,6 +248,23 @@
     <section id="resource-management">
       <h2>Resource Management</h2>
 
+      <section id="resource-management-intro" class="informative">
+        <h2>Introduction</h2>
+        <p>
+          This section defines the core operations for managing content, using [[!LDP]] as a baseline. It
+          extends [[!LDP]] in several ways, including making some optional features mandatory and expanding
+          requirements related to binary content.
+        </p>
+        <p>
+          [[!LDP]] defines a hierarchy of resources, with a top-level distinction between RDF resources
+          (<a>LDP-RS</a>) and non-RDF resources (<a>LDP-NR</a>).  RDF resources are further divided into
+          containers (<a>LDPC</a>) and several subtypes of containers, which can all contain other resources,
+          and are primarily differentiated by how much the container-member relationship can be configured.
+          Throughout [[!LDP]] and this specification, these types are important for determining what
+          operations are supported, what header fields are required, and what behavior is expected.
+        </p>
+      </section>
+
       <section id="general">
         <h2>General</h2>
         <section id="ldpc">
