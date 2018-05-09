@@ -1015,9 +1015,16 @@ Location: http://example.org/document</pre>
     <section id="resource-authorization">
       <h2>Resource Authorization</h2>
       <p>
-        To configure access control restrictions, implementations MUST follow the recommendations of Web Access
-        Control [[!SOLIDWEBAC]] with the following additional requirements:
+        Implementations MUST follow the recommendations of Web Access Control [[!SOLIDWEBAC]] in configuring access
+        controls.
       </p>
+
+      <blockquote class="informative">
+        The [[!SOLIDWEBAC]] specification provides refinement on the original
+        <a href='https://www.w3.org/wiki/WebAccessControl'>Web Access Control wiki</a>. This section both adds further
+        refinement by clarifying (MUST, SHOULD, MAY) requirements where [[!SOLIDWEBAC]] offers open guidance, as well
+        as by specifying interactions relative to resources defined by [[!LDP]].
+      </blockquote>
       <section id="solid-ldp-acls">
         <h2>ACLs are LDP RDF Sources</h2>
         <p>
