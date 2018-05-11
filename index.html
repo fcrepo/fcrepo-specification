@@ -248,22 +248,21 @@
     <section id="resource-management">
       <h2>Resource Management</h2>
 
-      <section id="resource-management-intro" class="informative">
-        <h2>Introduction</h2>
-        <p>
-          This section defines the core operations for managing content, using [[!LDP]] as a baseline. It
-          extends [[!LDP]] in several ways, including making some optional features mandatory and expanding
-          requirements related to binary content.
-        </p>
-        <p>
-          [[!LDP]] defines a hierarchy of resource types, with a top-level distinction between RDF resources
-          (<a>LDP-RS</a>) and non-RDF resources (<a>LDP-NR</a>). Container (<a>LDPC</a>) is a subtype of RDF
-          resource that may contain other resources as members. There are several subtypes of container, which
-          are primarily differentiated by how much the container-member relationship can be configured.
-          Throughout [[!LDP]] and this specification, these types are important for determining what
-          operations are supported, what header fields are required, and what behavior is expected.
-        </p>
-      </section>
+      <blockquote class="informative">
+        Non-normative note:
+        This section defines the core operations for managing content, using [[!LDP]] as a baseline. It
+        extends [[!LDP]] in several ways, including making some optional features mandatory and expanding
+        requirements related to binary content.
+      </blockquote>
+      <blockquote class="informative">
+        Non-normative note:
+        [[!LDP]] defines a hierarchy of resource types, with a top-level distinction between RDF resources
+        (<a>LDP-RS</a>) and non-RDF resources (<a>LDP-NR</a>). Container (<a>LDPC</a>) is a subtype of RDF
+        resource that may contain other resources as members. There are several subtypes of container, which
+        are primarily differentiated by how much the container-member relationship can be configured.
+        Throughout [[!LDP]] and this specification, these types are important for determining what
+        operations are supported, what header fields are required, and what behavior is expected.
+      </blockquote>
 
       <section id="general">
         <h2>General</h2>
