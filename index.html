@@ -29,7 +29,7 @@
                     companyURL: "http://duraspace.org/"}
           ],
           edDraftURI: "https://fcrepo.github.io/fcrepo-specification/",
-          testSuiteURI: "https://github.com/fcrepo/fcrepo-tcks",
+          testSuiteURI: "https://github.com/fcrepo4-labs/Fedora-API-Test-Suite",
           wg:           "Fedora Specification Working Group",
           wgURI:        "https://wiki.duraspace.org/display/FEDORAAPI/Fedora+Specification",
           wgPublicList: "https://groups.google.com/forum/#!forum/fedora-community",
@@ -119,23 +119,23 @@
     <section id="abstract" class="informative">
       <h2>Introduction</h2>
       <p>
-        This specification refines the semantics and interaction patterns of [[LDP]] in order to better serve the
-        specific needs of those interested in implementing repositories for durable access to digital data.
-        Additionally, this specification contains:
+        This specification refines the semantics and interaction patterns of the Linked Data Platform ([[LDP]]) in
+        order to better serve the specific needs of those interested in implementing repositories for durable access
+        to digital data. Additionally, this specification contains:
       </p>
       <ul>
         <li>
-          a reconciliation of [[LDP]] and the version identification and navigation scheme delineated
+          reconciliation of [[LDP]] and the version identification and navigation scheme delineated
           in the Memento specification [[RFC7089]],
         </li>
         <li>
           integration with the Web Access Control proposal [[SOLIDWEBAC]],
         </li>
         <li>
-          a design for the publication of asynchronous events emitted from an implementation, and
+          design for the publication of event notifications, and
         </li>
         <li>
-          interaction patterns for use with binary fixity information.
+          interaction patterns to support binary resource fixity verification.
         </li>
       </ul>
       <p>
@@ -150,7 +150,7 @@
 
     <section id="conformance">
       <p>
-        A conforming <b>Fedora server</b> is a conforming [[!LDP]] 1.0 server that follows the additional
+        A conforming Fedora server is a conforming [[!LDP]] 1.0 server that follows the additional
         rules defined in sections <a href="#resource-management"></a>, <a href="#resource-versioning"></a>,
         <a href="#resource-authorization"></a>, and <a href="#notifications"></a> of this specification.
       </p>
@@ -239,9 +239,10 @@
         <p>
           The following namespace prefixes are used in this document:
         </p>
-<pre>@prefix ldp:     &lt;http://www.w3.org/ns/ldp#&gt; .
-@prefix acl:     &lt;https://www.w3.org/ns/auth/acl#&gt; .
-</pre>
+<pre>@prefix acl:     &lt;https://www.w3.org/ns/auth/acl#&gt; .
+@prefix foaf:     &lt;http://xmlns.com/foaf/0.1/&gt; .
+@prefix ldp:     &lt;http://www.w3.org/ns/ldp#&gt; .
+@prefix rdf:     &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .</pre>
       </section>
     </section>
 
