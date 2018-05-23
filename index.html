@@ -728,7 +728,7 @@ Location: http://example.org/document</pre>
           </p>
           <p>
             If no <a>LDPRm</a> is appropriate to the <code>Accept-Datetime</code>
-            value, an implementation SHOULD return a 406 (Unacceptable).
+            value, implementations SHOULD return a 406 (Unacceptable).
           </p>
           <p>
           The response to a <code>GET</code> request on an <a>LDPRv</a> MUST include the following headers:
@@ -752,7 +752,7 @@ Location: http://example.org/document</pre>
         <section id="ldprv-put">
           <h2>HTTP PUT</h2>
           <p>
-          An implementation MUST support <code>PUT</code>, as is the case for any <a>LDPR</a>.
+          Implementations MUST support <code>PUT</code>, as is the case for any <a>LDPR</a>.
           </p>
         </section>
       </section>
@@ -766,7 +766,7 @@ Location: http://example.org/document</pre>
         <section id="ldprm-get">
           <h2>HTTP GET</h2>
           <p>
-            An implementation MUST support <code>GET</code>, as is the case for any <a>LDPR</a>. The headers for
+            Implementations MUST support <code>GET</code>, as is the case for any <a>LDPR</a>. The headers for
             <code>GET</code> requests and responses on this resource MUST conform to [[!RFC7089]]
             <a href='https://tools.ietf.org/html/rfc7089#section-2.1'>section 2.1</a>.
             Particularly it should be noted that the relevant <a>TimeGate</a> for an <a>LDPRm</a> is the original
@@ -778,8 +778,8 @@ Location: http://example.org/document</pre>
         <section id="ldprm-options">
           <h2>HTTP OPTIONS</h2>
           <p>
-            An implementation MUST support <code>OPTIONS</code>. A response to an <code>OPTIONS</code> request MUST
-            include <code>Allow: GET, HEAD, OPTIONS</code> as per [[!LDP]]. An implementation MAY include <code>Allow:
+            Implementations MUST support <code>OPTIONS</code>. A response to an <code>OPTIONS</code> request MUST
+            include <code>Allow: GET, HEAD, OPTIONS</code> as per [[!LDP]]. Implementations MAY include <code>Allow:
             DELETE</code> if clients can remove a version from the version history, as noted in
             <a href="#http-delete"></a>.
           </p>
@@ -788,28 +788,28 @@ Location: http://example.org/document</pre>
         <section id="ldprm-post">
           <h2>HTTP POST</h2>
           <p>
-            An implementation MUST NOT support <code>POST</code> for <a>LDPRm</a>s.
+            Implementations MUST NOT support <code>POST</code> for <a>LDPRm</a>s.
           </p>
         </section>
 
         <section id="ldprm-put">
           <h2>HTTP PUT</h2>
           <p>
-             An implementation MUST NOT support <code>PUT</code> for <a>LDPRm</a>s.
+            Implementations MUST NOT support <code>PUT</code> for <a>LDPRm</a>s.
           </p>
         </section>
 
         <section id="ldprm-patch">
           <h2>HTTP PATCH</h2>
           <p>
-             An implementation MUST NOT support <code>PATCH</code> for <a>LDPRm</a>s.
+            Implementations MUST NOT support <code>PATCH</code> for <a>LDPRm</a>s.
           </p>
         </section>
 
         <section id="ldprm-delete">
           <h2>HTTP DELETE</h2>
           <p>
-            An implementation MAY support <code>DELETE</code> for <a>LDPRm</a>s. If <code>DELETE</code> is supported,
+            Implementations MAY support <code>DELETE</code> for <a>LDPRm</a>s. If <code>DELETE</code> is supported,
             the server is responsible for all behaviors implied in <a href='#http-delete'></a>.
           </p>
         </section>
@@ -823,7 +823,7 @@ Location: http://example.org/document</pre>
           Memento [[!RFC7089]].
         </p>
         <p>
-          An implementation MUST NOT allow the creation of an <a>LDPCv</a> that is <a>LDP-contained</a> by its
+          Implementations MUST NOT allow the creation of an <a>LDPCv</a> that is <a>LDP-contained</a> by its
           associated <a>LDPRv</a>.
         </p>
         <blockquote class="informative">
@@ -835,7 +835,7 @@ Location: http://example.org/document</pre>
         <section id="ldpcv-get">
           <h2>HTTP GET</h2>
           <p>
-            An implementation MUST support <code>GET</code>, as is the case for any <a>LDPR</a>. Any response to a
+            Implementations MUST support <code>GET</code>, as is the case for any <a>LDPR</a>. Any response to a
             <code>GET</code> request MUST include a <code>&lt;http://mementoweb.org/ns#TimeMap&gt;; rel="type"</code>
             link in the <code>Link</code> header.
           <p>
@@ -845,7 +845,7 @@ Location: http://example.org/document</pre>
             [[!RFC6690]] <a href='https://tools.ietf.org/html/rfc6690#section-7.3'>section 7.3</a>.
           </p>
           <p>
-            An implementation MUST include the <code>Allow</code> header and, if appropriate, the
+            Implementations MUST include the <code>Allow</code> header and, if appropriate, the
             <code>Accept-Post</code> and <code>Accept-Patch</code> headers, and as outlined in
             <a href='#ldpcv-options'></a>.
           </p>
@@ -854,7 +854,7 @@ Location: http://example.org/document</pre>
         <section id="ldpcv-options">
           <h2>HTTP OPTIONS</h2>
           <p>
-            An implementation MUST support <code>OPTIONS</code>. A response to an <code>OPTIONS</code> request MUST
+            Implementations MUST support <code>OPTIONS</code>. A response to an <code>OPTIONS</code> request MUST
             include <code>Allow: GET, HEAD, OPTIONS</code> as per [[!LDP]].
           </p>
           <p>
@@ -902,7 +902,7 @@ Location: http://example.org/document</pre>
           <section id="ldpcv-post-not-allowed">
             <h3>Implementations that disallow <code>POST</code>s for <a>LDPCv</a>s</h3>
             <p>
-              If an implementation does not support one or both of the <code>POST</code> cases above, it MUST respond to
+              If implementations do not support one or both of the <code>POST</code> cases above, they MUST respond to
               such requests with a 4xx range status code and a link to an appropriate constraints document (see
               [[!LDP]] <a href='https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs'>4.2.1.6</a>).
             </p>
@@ -936,7 +936,7 @@ Location: http://example.org/document</pre>
         <section id="ldpcv-delete">
           <h2>HTTP DELETE</h2>
           <p>
-            An implementation MAY support <code>DELETE</code>. An implementation that does support <code>DELETE</code>
+            Implementations MAY support <code>DELETE</code>. Implementations that do support <code>DELETE</code>
             SHOULD do so by both removing the <a>LDPCv</a> and removing the versioning interaction model from the
             original <a>LDPRv</a>.
           </p>
@@ -948,7 +948,7 @@ Location: http://example.org/document</pre>
         <blockquote class="informative">
           Non-normative note:
           This section describes the way the normative specification might be applied to implement discoverable
-          versioning patterns. If an implementation of an <a>LDPCv</a> does not support <code>POST</code> to mint
+          versioning patterns. If implementations of <a>LDPCv</a> do not support <code>POST</code> to mint
           versions, that must be advertised via <code>OPTIONS</code> as described in <a href="#ldpcv-options"></a>.
           This allows a client to perform an <code>OPTIONS</code> request on an <a>LDPCv</a> to determine if it can
           explicitly mint versions.
