@@ -29,7 +29,7 @@
                     companyURL: "http://duraspace.org/"}
           ],
           edDraftURI: "https://fcrepo.github.io/fcrepo-specification/",
-          testSuiteURI: "https://github.com/fcrepo/fcrepo-tcks",
+          testSuiteURI: "https://github.com/fcrepo4-labs/Fedora-API-Test-Suite",
           wg:           "Fedora Specification Working Group",
           wgURI:        "https://wiki.duraspace.org/display/FEDORAAPI/Fedora+Specification",
           wgPublicList: "https://groups.google.com/forum/#!forum/fedora-community",
@@ -119,23 +119,23 @@
     <section id="abstract" class="informative">
       <h2>Introduction</h2>
       <p>
-        This specification refines the semantics and interaction patterns of [[LDP]] in order to better serve the
-        specific needs of those interested in implementing repositories for durable access to digital data.
-        Additionally, this specification contains:
+        This specification refines the semantics and interaction patterns of the Linked Data Platform ([[LDP]]) in
+        order to better serve the specific needs of those interested in implementing repositories for durable access
+        to digital data. Additionally, this specification contains:
       </p>
       <ul>
         <li>
-          a reconciliation of [[LDP]] and the version identification and navigation scheme delineated
+          reconciliation of [[LDP]] and the version identification and navigation scheme delineated
           in the Memento specification [[RFC7089]],
         </li>
         <li>
           integration with the Web Access Control proposal [[SOLIDWEBAC]],
         </li>
         <li>
-          a design for the publication of asynchronous events emitted from an implementation, and
+          design for the publication of event notifications, and
         </li>
         <li>
-          interaction patterns for use with binary fixity information.
+          interaction patterns to support binary resource fixity verification.
         </li>
       </ul>
       <p>
@@ -150,7 +150,7 @@
 
     <section id="conformance">
       <p>
-        A conforming <b>Fedora server</b> is a conforming [[!LDP]] 1.0 server that follows the additional
+        A conforming Fedora server is a conforming [[!LDP]] 1.0 server that follows the additional
         rules defined in sections <a href="#resource-management"></a>, <a href="#resource-versioning"></a>,
         <a href="#resource-authorization"></a>, and <a href="#notifications"></a> of this specification.
       </p>
@@ -239,14 +239,32 @@
         <p>
           The following namespace prefixes are used in this document:
         </p>
-<pre>@prefix ldp:     &lt;http://www.w3.org/ns/ldp#&gt; .
-@prefix acl:     &lt;https://www.w3.org/ns/auth/acl#&gt; .
-</pre>
+<pre>@prefix acl:     &lt;https://www.w3.org/ns/auth/acl#&gt; .
+@prefix foaf:     &lt;http://xmlns.com/foaf/0.1/&gt; .
+@prefix ldp:     &lt;http://www.w3.org/ns/ldp#&gt; .
+@prefix rdf:     &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .</pre>
       </section>
     </section>
 
     <section id="resource-management">
       <h2>Resource Management</h2>
+
+      <blockquote class="informative">
+        <p>
+          Non-normative note:
+          This section defines the core operations for managing content, using [[!LDP]] as a baseline. It
+          extends [[!LDP]] in several ways, including making some optional features mandatory and expanding
+          requirements related to binary content.
+        </p>
+        <p>
+          [[!LDP]] defines a hierarchy of resource types, with a top-level distinction between RDF resources
+          (<a>LDP-RS</a>) and non-RDF resources (<a>LDP-NR</a>). Container (<a>LDPC</a>) is a subtype of RDF
+          resource that may contain other resources as members. There are several subtypes of container, which
+          are primarily differentiated by how much the container-member relationship can be configured.
+          Throughout [[!LDP]] and this specification, these types are important for determining what
+          operations are supported, what header fields are required, and what behavior is expected.
+        </p>
+      </blockquote>
 
       <section id="general">
         <h2>General</h2>
@@ -1015,9 +1033,14 @@ Location: http://example.org/document</pre>
     <section id="resource-authorization">
       <h2>Resource Authorization</h2>
       <p>
-        To configure access control restrictions, implementations MUST follow the recommendations of Web Access
-        Control [[!SOLIDWEBAC]] with the following additional requirements:
+        Implementations MUST follow the recommendations of Web Access Control [[!SOLIDWEBAC]] in configuring access
+        controls.
       </p>
+
+      <blockquote class="informative">
+        This section both clarifies (MUST, SHOULD, MAY) requirements where [[!SOLIDWEBAC]]
+        offers open guidance, as well as specifies interactions relative to resources defined by [[!LDP]].
+      </blockquote>
       <section id="solid-ldp-acls">
         <h2>ACLs are LDP RDF Sources</h2>
         <p>
@@ -1097,7 +1120,7 @@ Location: http://example.org/document</pre>
         <h2>Cross-Domain ACLs</h2>
         <blockquote class="informative">
           Non-normative note:
-          Implementation of support for <a>ACL</a>s requires retrieval of one or more <a>ACL</a> resources.
+          <a>ACL</a> implementations may require retrieval of one or more <a>ACL</a> resources.
           Security implications should be considered if remote <a>ACL</a>s are supported.
         </blockquote>
         <p>
@@ -1111,10 +1134,10 @@ Location: http://example.org/document</pre>
         <h2>Cross-Domain Group Listings</h2>
         <blockquote class="informative">
           Non-normative note:
-          Implementation of support for [[!SOLIDWEBAC]]
-          <a href="https://github.com/solid/web-access-control-spec#groups-of-agents">groups of agents</a> requires
-          retrieval of one or more Group Listing documents. Security implications should be considered if remote Group
-          Listing documents are supported.
+          [[!SOLIDWEBAC]]
+          <a href="https://github.com/solid/web-access-control-spec#groups-of-agents">groups of agents</a>
+          require retrieval of one or more Group Listing documents. Security implications should be considered if
+          remote Group Listing documents are supported.
         </blockquote>
         <p>
           Implementations MAY restrict support for [[!SOLIDWEBAC]]
@@ -1135,7 +1158,8 @@ Location: http://example.org/document</pre>
         <section id="append-ldprs">
           <h3>LDP-RS</h3>
           <p>
-            When a client is allowed to perform <code>acl:Append</code> operations on an <a>LDP-RS</a>:
+            When a client is allowed to perform <code>acl:Append</code> but not <code>acl:Write</code> operations on an
+            <a>LDP-RS</a>:
           </p>
           <ul>
             <li>A <code>DELETE</code> request MUST be denied</li>
@@ -1150,13 +1174,15 @@ Location: http://example.org/document</pre>
           <h3>LDPC</h3>
           <p>
             In addition to requirements in <a href='#append-ldprs'></a>, when a client is allowed to perform
-            <code>acl:Append</code> operations on an <a>LDPC</a>, a <code>POST</code> request MUST be allowed.
+            <code>acl:Append</code> but not <code>acl:Write</code> operations on an <a>LDPC</a>, a <code>POST</code>
+            request MUST be allowed.
           </p>
         </section>
         <section id="append-ldpnr">
           <h3>LDP-NR</h3>
           <p>
-            When a client is allowed to perform <code>acl:Append</code> operations on an <a>LDP-NR</a>:
+            When a client is allowed to perform <code>acl:Append</code> but not <code>acl:Write</code> operations on an
+            <a>LDP-NR</a>:
           </p>
           <ul>
             <li>All <code>DELETE</code>, <code>POST</code>, and <code>PUT</code> requests MUST be denied</li>
@@ -1197,10 +1223,10 @@ Location: http://example.org/document</pre>
         </blockquote>
       </section>
     </section>
+
     <section id="notifications">
       <h2>Notifications</h2>
       <section id="notifications-intro">
-        <h3>Introduction</h3>
         <blockquote class="informative">
           <p>
             Non-normative note:
