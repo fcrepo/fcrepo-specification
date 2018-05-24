@@ -718,7 +718,7 @@ Location: http://example.org/document</pre>
     <section id="resource-versioning">
       <h2>Resource Versioning</h2>
       <p>
-        Implementations MUST provide resource versioning as per [[RFC7089]] with the additional requirements
+        Implementations MUST provide resource versioning as per Memento [[RFC7089]] with the additional requirements
         described in this section.
       </p>
       <p>
@@ -746,7 +746,7 @@ Location: http://example.org/document</pre>
           </p>
           <p>
             If no <a>LDPRm</a> is appropriate to the <code>Accept-Datetime</code>
-            value, an implementation SHOULD return a 406 (Unacceptable).
+            value, implementations SHOULD return a 406 (Unacceptable).
           </p>
           <p>
           The response to a <code>GET</code> request on an <a>LDPRv</a> MUST include the following headers:
@@ -770,7 +770,7 @@ Location: http://example.org/document</pre>
         <section id="ldprv-put">
           <h2>HTTP PUT</h2>
           <p>
-          An implementation MUST support <code>PUT</code>, as is the case for any <a>LDPR</a>.
+          Implementations MUST support <code>PUT</code>, as is the case for any <a>LDPR</a>.
           </p>
         </section>
       </section>
@@ -784,7 +784,7 @@ Location: http://example.org/document</pre>
         <section id="ldprm-get">
           <h2>HTTP GET</h2>
           <p>
-            An implementation MUST support <code>GET</code>, as is the case for any <a>LDPR</a>. The headers for
+            Implementations MUST support <code>GET</code>, as is the case for any <a>LDPR</a>. The headers for
             <code>GET</code> requests and responses on this resource MUST conform to [[!RFC7089]]
             <a href='https://tools.ietf.org/html/rfc7089#section-2.1'>section 2.1</a>.
             Particularly it should be noted that the relevant <a>TimeGate</a> for an <a>LDPRm</a> is the original
@@ -796,8 +796,8 @@ Location: http://example.org/document</pre>
         <section id="ldprm-options">
           <h2>HTTP OPTIONS</h2>
           <p>
-            An implementation MUST support <code>OPTIONS</code>. A response to an <code>OPTIONS</code> request MUST
-            include <code>Allow: GET, HEAD, OPTIONS</code> as per [[!LDP]]. An implementation MAY include <code>Allow:
+            Implementations MUST support <code>OPTIONS</code>. A response to an <code>OPTIONS</code> request MUST
+            include <code>Allow: GET, HEAD, OPTIONS</code> as per [[!LDP]]. Implementations MAY include <code>Allow:
             DELETE</code> if clients can remove a version from the version history, as noted in
             <a href="#http-delete"></a>.
           </p>
@@ -806,29 +806,29 @@ Location: http://example.org/document</pre>
         <section id="ldprm-post">
           <h2>HTTP POST</h2>
           <p>
-            An implementation MUST NOT support <code>POST</code> for <a>LDPRm</a>s.
+            Implementations MUST NOT support <code>POST</code> for <a>LDPRm</a>s.
           </p>
         </section>
 
         <section id="ldprm-put">
           <h2>HTTP PUT</h2>
           <p>
-             An implementation MUST NOT support <code>PUT</code> for <a>LDPRm</a>s.
+            Implementations MUST NOT support <code>PUT</code> for <a>LDPRm</a>s.
           </p>
         </section>
 
         <section id="ldprm-patch">
           <h2>HTTP PATCH</h2>
           <p>
-             An implementation MUST NOT support <code>PATCH</code> for <a>LDPRm</a>s.
+            Implementations MUST NOT support <code>PATCH</code> for <a>LDPRm</a>s.
           </p>
         </section>
 
         <section id="ldprm-delete">
           <h2>HTTP DELETE</h2>
           <p>
-            An implementation MAY support <code>DELETE</code> for <a>LDPRm</a>s. If <code>DELETE</code> is supported,
-            the server is responsible for all behaviors implied by the LDP-containment of the <a>LDPRm</a>.
+            Implementations MAY support <code>DELETE</code> for <a>LDPRm</a>s. If <code>DELETE</code> is supported,
+            the server is responsible for all behaviors implied in <a href='#http-delete'></a>.
           </p>
         </section>
       </section>
@@ -837,12 +837,11 @@ Location: http://example.org/document</pre>
         <h2>Version Containers (<a>LDPCv</a>)</h2>
         <p>
           An <a>LDPCv</a> is both a <a>TimeMap</a> per
-          Memento [[!RFC7089]] and an <a>LDPC</a>. As a <a>TimeMap</a> an <a>LDPCv</a> MUST conform to the
-          specification for such resources in [[!RFC7089]]. An implementation MUST indicate <a>TimeMap</a> in the
-          same way it indicates the container interaction model of the resource via HTTP headers.
+          Memento [[!RFC7089]] and an <a>LDPC</a>. As a <a>TimeMap</a>, an <a>LDPCv</a> MUST conform to
+          Memento [[!RFC7089]].
         </p>
         <p>
-          An implementation MUST NOT allow the creation of an <a>LDPCv</a> that is <a>LDP-contained</a> by its
+          Implementations MUST NOT allow the creation of an <a>LDPCv</a> that is <a>LDP-contained</a> by its
           associated <a>LDPRv</a>.
         </p>
         <blockquote class="informative">
@@ -854,16 +853,17 @@ Location: http://example.org/document</pre>
         <section id="ldpcv-get">
           <h2>HTTP GET</h2>
           <p>
-            An implementation MUST support <code>GET</code>, as is the case for any <a>LDPR</a>. Any response to a
+            Implementations MUST support <code>GET</code>, as is the case for any <a>LDPR</a>. Any response to a
             <code>GET</code> request MUST include a <code>&lt;http://mementoweb.org/ns#TimeMap&gt;; rel="type"</code>
             link in the <code>Link</code> header.
           <p>
-            An <a>LDPCv</a> MUST respond to <code>GET Accept: application/link-format</code> as indicated in
+            An <a>LDPCv</a> MUST respond to <code>GET</code> with an <code>Accept: application/link-format</code>
+            header as indicated in
             [[!RFC7089]] <a href='https://tools.ietf.org/html/rfc7089#section-5'>section 5</a> and specified in
             [[!RFC6690]] <a href='https://tools.ietf.org/html/rfc6690#section-7.3'>section 7.3</a>.
           </p>
           <p>
-            An implementation MUST include the <code>Allow</code> header and, if appropriate, the
+            Implementations MUST include the <code>Allow</code> header and, if appropriate, the
             <code>Accept-Post</code> and <code>Accept-Patch</code> headers, and as outlined in
             <a href='#ldpcv-options'></a>.
           </p>
@@ -872,93 +872,93 @@ Location: http://example.org/document</pre>
         <section id="ldpcv-options">
           <h2>HTTP OPTIONS</h2>
           <p>
-            An implementation MUST <code>Allow: GET, HEAD, OPTIONS</code> as per [[!LDP]].
+            Implementations MUST support <code>OPTIONS</code>. A response to an <code>OPTIONS</code> request MUST
+            include <code>Allow: GET, HEAD, OPTIONS</code> as per [[!LDP]].
           </p>
           <p>
-            An implementation MAY <code>Allow: DELETE</code> if the versioning behavior is removable by deleting
+            The response MAY include <code>Allow: DELETE</code> if the versioning behavior is removable by deleting
             the <a>LDPCv</a>. See <a href='#ldpcv-delete'></a> for requirements on <code>DELETE</code> if supported.
           </p>
           <p>
-            An implementation MAY <code>Allow: PATCH</code> if the <a>LDPCv</a> has mutable properties. See
+            The response MAY include <code>Allow: PATCH</code> if the <a>LDPCv</a> has mutable properties. See
             <a href='#http-patch-containment-triples'></a> for requirements on <code>PATCH</code> if supported.
           </p>
           <p>
-            An implementation MAY <code>Allow: POST</code> if versions can be explicitly minted by a client. See
+            The response MAY include <code>Allow: POST</code> if versions can be explicitly minted by a client. See
             <a href='#ldpcv-post'></a> for requirements on <code>POST</code> if supported.
           </p>
           <p>
-            If an <a>LDPCv</a> supports <code>POST</code>, then it MUST include the <code>Accept-Post</code> header
-            described in [[!LDP]] <a href="https://www.w3.org/TR/ldp/#header-accept-post">7.1</a>.
+            If an <a>LDPCv</a> supports <code>POST</code>, the response MUST include the <code>Accept-Post</code>
+            header described in [[!LDP]] <a href="https://www.w3.org/TR/ldp/#header-accept-post">7.1</a>.
           </p>
           <p>
-            If an <a>LDPCv</a> supports <code>PATCH</code>, then it MUST include the <code>Accept-Patch</code> header.
+            If an <a>LDPCv</a> supports <code>PATCH</code>, the response MUST include the <code>Accept-Patch</code>
+            header.
           </p>
         </section>
 
         <section id="ldpcv-post">
           <h2>HTTP POST</h2>
           <p>
-            Although an <a>LDPCv</a> is both a <a>TimeMap</a> and an <a>LDPC</a>, it MAY disallow POST requests.
+            Although an <a>LDPCv</a> is both a <a>TimeMap</a> and an <a>LDPC</a>, implementations MAY disallow
+            <code>POST</code> requests.
           </p>
-          <p>
-            If an <a>LDPCv</a> supports <code>POST</code>, a <code>POST</code> that does not contain a
-            <code>Memento-Datetime</code> header SHOULD be understood to create a new <a>LDPRm</a> contained by the
-            <a>LDPCv</a>, reflecting the state of the <a>LDPRv</a> at the time of the <code>POST</code>. Any request
-            body MUST be ignored.
-          </p>
-          <p>
-            If an <a>LDPCv</a> supports <code>POST</code>, a <code>POST</code> with a <code>Memento-Datetime</code>
-            header SHOULD be understood to create a new <a>LDPRm</a> contained by the <a>LDPCv</a>, with the state
-            given in the request body and the datetime given in the <code>Memento-Datetime</code> request header.
-          </p>
-          <p>
-            If an implementation does not support one or both of <code>POST</code> cases above, it MUST respond to
-            such requests with a 4xx range status code and a link to an appropriate constraints document (see
-            [[!LDP]] <a href='https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs'>4.2.1.6</a>).
-          </p>
-          <blockquote class="informative">
-            Non-normative note: If an <a>LDPCv</a> does not <code>Allow: POST</code>, the constraints document indicated
-            in the <code>rel="http://www.w3.org/ns/ldp#constrainedBy"</code> link in the <code>Link</code> header for
-            that <a>LDPCv</a> should describe the
-            versioning mechanism (e.g. by <code>PUT</code> or <code>PATCH</code> to the <a>LDPRv</a> described by that
-            <a>LDPCv</a>). Disallowing <code>POST</code> suggests that the [[!LDP]] server will manage all <a>LDPRm</a>
-            creation; see <a href ="#server-managed">Server-Managed Version Creation</a>.
-          </blockquote>
+          <section id="ldpcv-post-allowed">
+            <h3>Implementations that allow <code>POST</code>s for <a>LDPCv</a>s</h3>
+            <p>
+              A <code>POST</code> request that does not contain a
+              <code>Memento-Datetime</code> header SHOULD be understood to create a new <a>LDPRm</a> contained by the
+              <a>LDPCv</a>, reflecting the state of the <a>LDPRv</a> at the time of the <code>POST</code>. Any request
+              body MUST be ignored.
+            </p>
+            <p>
+              A <code>POST</code> request with a <code>Memento-Datetime</code>
+              header SHOULD be understood to create a new <a>LDPRm</a> contained by the <a>LDPCv</a>, with the state
+              given in the request body and the datetime given in the <code>Memento-Datetime</code> request header.
+            </p>
+          </section>
+          <section id="ldpcv-post-not-allowed">
+            <h3>Implementations that disallow <code>POST</code>s for <a>LDPCv</a>s</h3>
+            <p>
+              If implementations do not support one or both of the <code>POST</code> cases above, they MUST respond to
+              such requests with a 4xx range status code and a link to an appropriate constraints document (see
+              [[!LDP]] <a href='https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs'>4.2.1.6</a>).
+            </p>
+            <blockquote class="informative">
+              Non-normative note: The constraints document indicated
+              in the <code>rel="http://www.w3.org/ns/ldp#constrainedBy"</code> link in the <code>Link</code> header for
+              an <a>LDPCv</a> <code>POST</code> request should describe a
+              versioning mechanism (e.g. by <code>PUT</code> or <code>PATCH</code> to the <a>LDPRv</a> described by that
+              <a>LDPCv</a>). Disallowing <code>POST</code> suggests that the [[!LDP]] server will manage all
+              <a>LDPRm</a> creation; see <a href ="#server-managed">Server-Managed Version Creation</a>.
+            </blockquote>
+          </section>
         </section>
 
         <section id="ldpcv-put">
           <h2>HTTP PUT</h2>
           <p>
-            Although an <a>LDPCv</a> is both a <a>TimeMap</a> and an <a>LDPC</a>, it MAY disallow PUT requests.
+            Although an <a>LDPCv</a> is both a <a>TimeMap</a> and an <a>LDPC</a>, implementations MAY disallow PUT
+            requests.
           </p>
         </section>
 
         <section id="ldpcv-patch">
           <h2>HTTP PATCH</h2>
           <p>
-            Although an <a>LDPCv</a> is both a <a>TimeMap</a> and an <a>LDPC</a>, it MAY disallow PATCH requests.
+            Although an <a>LDPCv</a> is both a <a>TimeMap</a> and an <a>LDPC</a>, implementations MAY disallow PATCH
+            requests.
           </p>
         </section>
 
         <section id="ldpcv-delete">
           <h2>HTTP DELETE</h2>
           <p>
-            An implementation MAY support <code>DELETE</code>. An implementation that does support <code>DELETE</code>
+            Implementations MAY support <code>DELETE</code>. Implementations that do support <code>DELETE</code>
             SHOULD do so by both removing the <a>LDPCv</a> and removing the versioning interaction model from the
             original <a>LDPRv</a>.
           </p>
         </section>
-      </section>
-
-      <section id="resource-versioning-vary">
-        <h2>Vary</h2>
-        <blockquote class="informative">
-          Non-normative note:
-          When a <code>POST</code> to an <a>LDPCv</a>, or a <code>PUT</code> or <code>PATCH</code> to an <a>LDPRv</a>
-          creates a new <a>LDPRm</a>, the response indicates this by using a <code>Vary</code> header as appropriate.
-          When an <a>LDPCv</a> supports <code>POST</code>, and allows clients to specify a datetime for created
-          <a>URI-M</a>s, Vary-Post/Vary-Put: Memento-Datetime.
-        </blockquote>
       </section>
 
       <section id="resource-versioning-patterns">
@@ -966,7 +966,7 @@ Location: http://example.org/document</pre>
         <blockquote class="informative">
           Non-normative note:
           This section describes the way the normative specification might be applied to implement discoverable
-          versioning patterns. If an implementation of an <a>LDPCv</a> does not support <code>POST</code> to mint
+          versioning patterns. If implementations of <a>LDPCv</a> do not support <code>POST</code> to mint
           versions, that must be advertised via <code>OPTIONS</code> as described in <a href="#ldpcv-options"></a>.
           This allows a client to perform an <code>OPTIONS</code> request on an <a>LDPCv</a> to determine if it can
           explicitly mint versions.
