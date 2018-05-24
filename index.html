@@ -269,9 +269,9 @@
       <section id="general">
         <h2>General</h2>
         <section id="ldpc">
-          <h2>LDP Containers</h2>
+          <h2>LDP Containers (LDPC)</h2>
           <p>
-            Implementations MUST support the creation and management of [[!LDP]] Containers.
+            Implementations MUST support the creation and management of [[!LDP]] Containers (LDPC).
           </p>
           <p>
             A server that allows client-managed triples with the <code>ldp:contains</code> predicate MUST be able
@@ -280,10 +280,10 @@
             <code>ldp:contains</code> as the membership predicate ([[!LDP]]
             <a href="https://www.w3.org/TR/ldp/#dfn-membership-predicate">2</a>) for Direct and Indirect
             Containers, or as a client-managed property, MUST be rejected with a 409
-            (Conflict) and an accompanying constraints document. Implementations that can distinguish containment
-            triples MAY permit <code>ldp:contains</code> as a membership predicate or client-managed property; such
-            implementations SHOULD support <code>Prefer:</code> header values allowing clients to distinguish this data
-            in the representation of an <a>LDPR</a> as defined in [[!LDP]]:
+            (Conflict) and an accompanying <a href="#constraints-document">constraints document</a>. Implementations
+            that can distinguish containment triples MAY permit <code>ldp:contains</code> as a membership predicate or
+            client-managed property; such implementations SHOULD support <code>Prefer:</code> header values allowing
+            clients to distinguish this data in the representation of an <a>LDPR</a> as defined in [[!LDP]]:
             <code>http://www.w3.org/ns/ldp#PreferContainment</code>,
             <code>http://www.w3.org/ns/ldp#PreferMembership</code>, and
             <code>http://www.w3.org/ns/ldp#PreferMinimalContainer</code>.
@@ -308,16 +308,26 @@
             ([[!LDP]] <a href="https://www.w3.org/TR/ldp/#ldpc-post-createrdf">5.2.3.4 extension</a>)
           </p>
         </section>
+        <section id="constraints-document">
+          <h2>Constraints Document</h2>
+          <p>
+            When implementation choices result in failure to complete a client request, this SHOULD be expressed in a
+            constraints document, by adding a <code>Link</code> header with a link relation of
+            <code>http://www.w3.org/ns/ldp#constrainedBy</code>, and a target URI identifying a document expressing the
+            constraints, as outlined by ([[LDP]] <a href="https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs">4.2.1.6</a>).
+          </p>
+        </section>
         <section id="data-model">
           <h2>Data Model</h2>
           <blockquote class="informative">
             Non-normative note: Neither [[LDP]] nor this specification constrains the underlying storage model for RDF
             data. Each <a>LDP-RS</a> may be entirely independent RDF content, may be a portion of a shared RDF store,
-            or follow some other arrangement. Implementation choices that result in failure to complete client requests
-            are expressed in a constraints document ([[LDP]]
-            <a href="https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs">4.2.1.6</a>) as noted in the appropriate sections
-            of [[LDP]] and below.
+            or follow some other arrangement.
           </blockquote>
+          <p>
+            If a client request cannot be processed because of data model constraints, the response MUST include an
+            appropriate <a href="#constraints-document">constraints document</a>.
+          </p>
         </section>
       </section>
 
@@ -340,7 +350,7 @@
             </li>
             <li>
               Implementations MAY support <code>http://www.w3.org/ns/oa#PreferContainedDescriptions</code>
-              to request that the response include representations of any <a>LDPC</a> contained resources in the
+              to request that the response include representations of any <a>LDPC</a>-contained resources in the
               response, as defined in [[!annotation-vocab]]
               <a href="https://www.w3.org/TR/annotation-vocab/#prefercontaineddescriptions">section 2.3.17</a>.
             </li>
@@ -369,9 +379,10 @@
             header defined in [[!RFC3230]].
           </p>
           <blockquote class="informative">
-            Non-normative note: In the presence of a <code>Want-Digest</code> header, the current <code>Digest</code>
-            value should be calculated to enable fixity verification. Otherwise, it is expected that ETag values may be
-            cached. Clients should use the <code>Cache-Control: no-cache</code> header (see [[RFC7234]]
+            Non-normative note: In response to requests with a <code>Want-Digest</code> header, the current
+            <code>Digest</code> value should be calculated to enable fixity verification. Otherwise, it is expected that
+            <code>ETag</code> values may be cached. In order to trigger a fresh digest calculation, clients should use
+            the <code>Cache-Control: no-cache</code> header (see [[RFC7234]]
             <a href='https://tools.ietf.org/html/rfc7234#section-5.2.1.4'>section 5.2.1.4</a>) to instruct any
             intermediate caches or proxies not to return a cached response. See <a href="#persistence-fixity"></a>.
           </blockquote>
@@ -404,7 +415,7 @@
         </blockquote>
         <blockquote class="informative">
           Non-normative note:
-          Implementations may support creation and update of <a>LDP-NR</a> with external content, and this is
+          Implementations may support creation and update of an <a>LDP-NR</a> with external content, and this is
           advertised with the <code>Accept-External-Content-Handling</code> header, see
           <a href="#external-content-options"></a>.
         </blockquote>
@@ -413,18 +424,17 @@
       <section id="http-post">
         <h2>HTTP POST</h2>
         <p>
-          Any <a>LDPC</a> (except <a href="#ldpcv-post">Version Containers (LDPCv)</a>) MUST support <code>POST</code>
+          Any <a>LDPC</a> except <a href="#ldpcv-post">Version Containers (LDPCv)</a> MUST support <code>POST</code>
           ([[!LDP]] <a href="https://www.w3.org/TR/ldp/#ldpr-HTTP_POST">4.2.3</a> /
           <a href="https://www.w3.org/TR/ldp/#ldpc-HTTP_POST">5.2.3</a>). The default interaction model that will be
-          assigned when one is not specified in a <code>Link</code> header in the request MUST be recorded in the
-          constraints document referenced in the <code>rel="http://www.w3.org/ns/ldp#constrainedBy"</code> link in
-          the <code>Link</code> response header ([[!LDP]]
-          <a href='https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs'>4.2.1.6</a> clarification).
+          assigned when one is not specified must be recorded in a <a href="#constraints-document">constraints
+          document</a>.
         </p>
         <section id="http-post-ldpnr">
           <h2>Creating LDP-NRs with HTTP POST</h2>
           <p>
-            Any <a>LDPC</a> MUST support creation of <a>LDP-NR</a>s on <code>POST</code> ([[!LDP]]
+            Any <a>LDPC</a> except <a href="#ldpcv-post">Version Containers (LDPCv)</a> MUST support creation of
+            <a>LDP-NR</a>s on <code>POST</code> ([[!LDP]]
             <a href="https://www.w3.org/TR/ldp/#h-ldpc-post-createbins">5.2.3.3</a> MAY becomes MUST). On creation of an
             <a>LDP-NR</a>, an implementation MUST create an associated <a>LDP-RS</a> describing that <a>LDP-NR</a>
             ([[!LDP]] <a href="https://www.w3.org/TR/ldp/#h-ldpc-post-createbinlinkmetahdr">5.2.3.12</a> MAY becomes
@@ -450,7 +460,7 @@
       <section id="http-put">
         <h2>HTTP PUT</h2>
         <p>
-          Impementations MAY allow the interaction model of an existing resource to be changed by specification of a
+          Implementations MAY allow the interaction model of an existing resource to be changed by specification of a
           new LDP type in a <code>rel="type"</code> link in the HTTP <code>Link</code> header. If supported, requests
           SHOULD be rejected with a 409 (Conflict) response unless the new LDP type specified is a subtype of the
           resource's current type.
@@ -499,7 +509,7 @@
           <h2>Creating resources with HTTP PUT</h2>
           <blockquote class="informative">
             Non-normative note:
-            An implementation may accept HTTP <code>PUT</code> to create resources ([[!LDP]]
+            Implementations may accept HTTP <code>PUT</code> to create resources ([[!LDP]]
             <a href="https://www.w3.org/TR/ldp/#ldpr-put-create">4.2.4.6</a>). Behavior regarding containment or
             non-containment of resources created with HTTP <code>PUT</code> is not defined by [[!LDP]] or this
             specification.
@@ -509,6 +519,10 @@
             <a>LDP-RS</a> describing that <a>LDP-NR</a> in the same way that it would when
             <a href="#http-post-ldpnr"></a>.
           </p>
+          <blockquote class="informative">
+            Non-normative note: Implementations may support creation of LDP-NR using PUT with external content, see
+            <a href="#external-content"></a>.
+          </blockquote>
         </section>
       </section>
 
@@ -562,7 +576,7 @@
         <section id="http-delete-recursion">
           <h3>Recursive Delete</h3>
           <p>
-            An implementation that cannot recurse SHOULD NOT advertise <code>DELETE</code> in response to
+            Implementations that cannot recurse SHOULD NOT advertise <code>DELETE</code> in response to
             <code>OPTIONS</code> requests for containers with contained resources.
           </p>
           <blockquote id="http-delete-recursion-info" class="informative">
@@ -575,11 +589,11 @@
             resources.
           </p>
           <p>
-            An implementation MUST NOT return a 200 (OK) or 204 (No Content) response unless the entire operation
+            Implementations MUST NOT return a 200 (OK) or 204 (No Content) response unless the entire operation
             successfully completed.
           </p>
           <p>
-            An implementation MUST NOT emit a message that implies the successful <code>DELETE</code> of a resource
+            Implementations MUST NOT emit a notification that implies the successful <code>DELETE</code> of a resource
             until the resource has been successfully removed.
           </p>
           <blockquote id="http-delete-atomicity" class="informative">
@@ -659,9 +673,9 @@
           <li>Servers MAY reject the request with a 4xx range status code.</li>
         </ul>
         <p id='external-content-body-response-headers'>
-          A Fedora server receiving requests that would create or update an <a>LDP-NR</a> with content external to
-          the request entity MUST reject request if it cannot guarantee all of the response headers required by the
-          <a>LDP-NR</a> interaction model in this specification.
+          Implementations receiving requests that would create or update an <a>LDP-NR</a> with content external to
+          the request entity MUST reject the request if they cannot guarantee all of the response headers required by
+          the <a>LDP-NR</a> interaction model in this specification.
         </p>
         <blockquote id="external-content-response-headers-example" class="informative">
           Non-normative note: Example headers for a successful response to a <code>HEAD</code> request on external
