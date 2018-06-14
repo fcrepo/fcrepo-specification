@@ -1,3 +1,5 @@
+/** Copied from https://www.w3.org/scripts/TR/2016/fixup.js 2018-06-14 */
+
 /******************************************************************************
  *                 JS Extension for the W3C Spec Style Sheet                  *
  *                                                                            *
