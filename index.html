@@ -436,7 +436,7 @@
             Any <a>LDPC</a> except <a href="#ldpcv-post">Version Containers (LDPCv)</a> MUST support creation of
             <a>LDP-NR</a>s on <code>POST</code> ([[!LDP]]
             <a href="https://www.w3.org/TR/ldp/#h-ldpc-post-createbins">5.2.3.3</a> MAY becomes MUST). On creation of an
-            <a>LDP-NR</a>, an implementation MUST create an associated <a>LDP-RS</a> describing that <a>LDP-NR</a>
+            <a>LDP-NR</a>, implementations MUST create an associated <a>LDP-RS</a> describing that <a>LDP-NR</a>
             ([[!LDP]] <a href="https://www.w3.org/TR/ldp/#h-ldpc-post-createbinlinkmetahdr">5.2.3.12</a> MAY becomes
             MUST).
           </p>
@@ -515,7 +515,7 @@
             specification.
           </blockquote>
           <p>
-            On creation of an <a>LDP-NR</a> with HTTP <code>PUT</code>, an implementation MUST create an associated
+            On creation of an <a>LDP-NR</a> with HTTP <code>PUT</code>, implementations MUST create an associated
             <a>LDP-RS</a> describing that <a>LDP-NR</a> in the same way that it would when
             <a href="#http-post-ldpnr"></a>.
           </p>
@@ -1210,7 +1210,7 @@ Location: http://example.org/document</pre>
         <p>
           Notwithstanding [[!SOLIDWEBAC]]'s lack of support for it, the <code>acl:accessToClass</code> predicate MUST
           be supported. When an <a>ACL</a> includes an <code>acl:accessToClass</code> statement, it gives access to all
-          resources with the specified type, whether that type is client-managed or server-managed. An implementation
+          resources with the specified type, whether that type is client-managed or server-managed. Implementations
           MAY use inference to infer types not present in a resource's triples or <code>rel="type"</code> links in the
           <code>Link</code> header.
         </p>
