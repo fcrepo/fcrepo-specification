@@ -1,0 +1,15 @@
+/* fcrepo modification of respec unofficial style for 
+   recommendations. Used with specStatus="fcrepo-final"
+
+   2018-06-14
+*/
+
+/* Style for an "Unofficial Draft" */
+
+@import "base.css";
+
+body {
+  background-image: url(fcrepo-final-logo.png); 
+  background-color: transparent;
+}
+
