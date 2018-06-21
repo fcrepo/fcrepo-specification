@@ -1240,34 +1240,32 @@ Location: http://example.org/document</pre>
 
     <section id="notifications">
       <h2>Notifications</h2>
-      <section id="notifications-intro">
-        <blockquote class="informative">
-          <p>
-            Non-normative note:
-            This section defines when notifications are made available by Fedora implementations, the minimal set of
-            data contained in these notifications, and how the data is serialized. Notifications may be emitted
-            synchronously or asynchronously with the API operations that cause them to be emitted. These notifications
-            are typically used to support external integrations. The structure of these notifications draws upon the
-            existing [[activitystreams-core]] and [[ldn]] specifications. Implementations are free to choose from any
-            transport technology so long as the notifications conform to what is described in the following sections.
-          </p>
-          <p>
-            Implementers should be aware that some operations may cause multiple resources to change. In these cases,
-            there will be a corresponding notification describing each of the changes. This is especially true for
-            changes to containment or membership triples. This is also true if a <code>DELETE</code> operation triggers
-            changes in any contained resources.
-          </p>
-          <p>
-            Consumers of these notifications should not expect a strict ordering of the events reported therein: the
-            fact that a notification for Event A is received before a notification for Event B does not imply that
-            Event A occurred before Event B. Implementations may choose to make further guarantees about ordering.
-          </p>
-          <p>
-            According to the [[activitystreams-core]] specification, it is possible to collect multiple events into a
-            single notification. This specification makes no restriction on the use of activity stream collections.
-          </p>
-        </blockquote>
-      </section>
+      <blockquote class="informative">
+        <p>
+          Non-normative note:
+          This section defines when notifications are made available by Fedora implementations, the minimal set of
+          data contained in these notifications, and how the data is serialized. Notifications may be emitted
+          synchronously or asynchronously with the API operations that cause them to be emitted. These notifications
+          are typically used to support external integrations. The structure of these notifications draws upon the
+          existing [[activitystreams-core]] and [[ldn]] specifications. Implementations are free to choose from any
+          transport technology so long as the notifications conform to what is described in the following sections.
+        </p>
+        <p>
+          Implementers should be aware that some operations may cause multiple resources to change. In these cases,
+          there will be a corresponding notification describing each of the changes. This is especially true for
+          changes to containment or membership triples. This is also true if a <code>DELETE</code> operation triggers
+          changes in any contained resources.
+        </p>
+        <p>
+          Consumers of these notifications should not expect a strict ordering of the events reported therein: the
+          fact that a notification for Event A is received before a notification for Event B does not imply that
+          Event A occurred before Event B. Implementations may choose to make further guarantees about ordering.
+        </p>
+        <p>
+          According to the [[activitystreams-core]] specification, it is possible to collect multiple events into a
+          single notification. This specification makes no restriction on the use of activity stream collections.
+        </p>
+      </blockquote>
 
       <section id="notification-events">
         <h3>Notification Events</h3>
