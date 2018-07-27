@@ -271,10 +271,10 @@
         <section id="constraints-document">
           <h2>Constraints Document</h2>
           <p>
-            When implementation choices result in failure to complete a client request, this SHOULD be expressed in a
-            constraints document, by adding a <code>Link</code> header with a link relation of
-            <code>http://www.w3.org/ns/ldp#constrainedBy</code>, and a target URI identifying a document expressing the
-            constraints, as outlined by ([[LDP]] <a href="https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs">4.2.1.6</a>).
+            When implementation choices result in failure to complete a client request, the response MUST include a
+            <code>Link</code> header with a link relation of <code>http://www.w3.org/ns/ldp#constrainedBy</code>, and
+            a target URI identifying a document expressing the constraints leading to the failure, as outlined by
+            ([[LDP]] <a href="https://www.w3.org/TR/ldp/#ldpr-gen-pubclireqs">4.2.1.6</a>).
           </p>
         </section>
         <section id="data-model">
