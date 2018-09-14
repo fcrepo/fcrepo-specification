@@ -698,8 +698,16 @@ Location: http://example.org/document</pre>
         When an <a>LDPR</a> is created with a <code>rel="type"</code> link in the <code>Link</code> header specifying
         type <code>http://mementoweb.org/ns#OriginalResource</code> to indicate versioning, it MUST be created as
         an <a>LDPRv</a> and a version container (<a>LDPCv</a>) MUST be created to contain Memento resources
-        (<a>LDPRm</a>) capturing time-varying representations of the <a>LDPRv</a>. Patterns for version creation
-        are described in <a href="#resource-versioning-patterns"></a>.
+        (<a>LDPRm</a>) capturing time-varying representations of the <a>LDPRv</a>.
+      </p>
+      <p>
+        Implementations MAY allow a subsequent <code>PUT</code> request with a <code>rel="type"</code> link in the
+        <code>Link</code> header specifying type <code>http://mementoweb.org/ns#OriginalResource</code> to convert an
+        existing <a>LDPR</a> into an <a>LDPRv</a>. If such a conversion from an <a>LDPR</a> to an <a>LDPRv</a> is
+        supported, it MUST be accompanied by the creation of a version container (<a>LDPCv</a>), as noted above.
+      </p>
+      <p>
+        Patterns for version creation are described in <a href="#resource-versioning-patterns"></a>.
       </p>
 
       <section id="ldprv">
