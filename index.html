@@ -686,6 +686,51 @@ Location: http://example.org/document</pre>
           </p>
         </section>
       </section>
+
+      <section id="state-tokens">
+        <h3>State Tokens</h3>
+        <blockquote class="informative">
+          Non-normative note: State tokens are similar to ETags, providing a mechanism for clients to track changes
+          in resource state without having to compare the entire entity body, and to perform conditional updates.
+          Like ETags, the principle behind state tokens is that implementations have the best information on
+          resource state, and can choose the most accurate and efficient validation mechanism. State tokens differ
+          from ETags in that there is no expectation the state token must change if the resource is not
+          byte-for-byte identical, when the underlying state of the resource has not changed. For example, changes
+          in the order of RDF triples, blank node identifiers, and other serialization variations would not require
+          the X-State-Token value to change.
+        </blockquote>
+        <blockquote class="informative">
+          Non-normative note: A state token can be more reliable for validation than an ETag when an implementation
+          cannot provide strong ETags for resources. A state token can be more reliable for validation than a
+          modification date in situations where the one-second resolution of HTTP date values is not sufficient.
+        </blockquote>
+        <section id="x-state-token">
+          <h3>X-State-Token</h3>
+          <p>
+            Implementations MAY include the <code>X-State-Token</code> header field in <code>GET</code> and
+            <code>HEAD</code> responses to provide a token representing the current state of resource. If provided,
+            this value MUST change whenever the underlying state of the resource has changed.
+          </p>
+        </section>
+        <section id="x-if-state-token">
+          <h3>X-If-State-Token</h3>
+          <p>
+            A client MAY include the <code>X-If-State-Token</code> header field in a <code>PATCH</code> or
+            <code>PUT</code> request to make the request conditional on the resource's current state token matching
+            the client's value.
+          </p>
+          <p>
+            An HTTP <code>PATCH</code> or <code>PUT</code> request that includes an <code>X-If-State-Token</code>
+            header MUST be rejected with a 400 (Bad Request) response if the implementation does not support state
+            tokens.
+          </p>
+          <p>
+            An HTTP <code>PATCH</code> or <code>PUT</code> request that includes an <code>X-If-State-Token</code>
+            header MUST be rejected with a 409 (Conflict) response if the implementation supports state tokens, but
+            the client-supplied value does not match the resource's current state token.
+          </p>
+        </section>
+      </section>
     </section>
 
     <section id="resource-versioning">
