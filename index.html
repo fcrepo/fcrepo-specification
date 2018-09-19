@@ -694,7 +694,7 @@ Location: http://example.org/document</pre>
           in resource state without having to compare the entire entity body, and to perform conditional updates.
           Like ETags, the principle behind state tokens is that implementations have the best information on
           resource state, and can choose the most accurate and efficient validation mechanism. State tokens differ
-          from ETags in that there is no expectation the state token must change if the resource is not
+          from ETags in that there is no expectation that the state token must change if the resource is not
           byte-for-byte identical, when the underlying state of the resource has not changed. For example, changes
           in the order of RDF triples, blank node identifiers, and other serialization variations would not require
           the X-State-Token value to change.
@@ -720,14 +720,13 @@ Location: http://example.org/document</pre>
             the client's value.
           </p>
           <p>
-            An HTTP <code>PATCH</code> or <code>PUT</code> request that includes an <code>X-If-State-Token</code>
-            header MUST be rejected with a 400 (Bad Request) response if the implementation does not support state
-            tokens.
+            If an implementation does not support state tokens, it MAY ignore any <code>X-If-State-Token</code> header
+            in HTTP <code>PATCH</code> or <code>PUT</code> requests.
           </p>
           <p>
             An HTTP <code>PATCH</code> or <code>PUT</code> request that includes an <code>X-If-State-Token</code>
-            header MUST be rejected with a 409 (Conflict) response if the implementation supports state tokens, but
-            the client-supplied value does not match the resource's current state token.
+            header MUST be rejected with a 412 (Precondition Failed) response if the implementation supports state
+            tokens, but the client-supplied value does not match the resource's current state token.
           </p>
         </section>
       </section>
