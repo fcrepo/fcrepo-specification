@@ -564,6 +564,11 @@
 
       <section id="external-content">
         <h3>External Binary Content</h3>
+        <blockquote id="external-content-security-considerations" class="informative">
+          Non-normative note: External content features expose resources outside of the repository,
+          and careful consideration should be given by implementations to prevent malicious requests from gaining
+          access to sensitive information.
+        </blockquote>
         <blockquote id="external-content-variability" class="informative">
           Non-normative note: Variability among client types and locations may mean that <a>LDP-NR</a> content is
           addressed in ways that are external to the Fedora server but not resolvable by all clients. This specification
@@ -575,11 +580,6 @@
           other URI schemes for addressing external content per the requirements for advertisement and rejection
           specified here. The <code>handling</code> attribute is introduced to specify the handling of the external
           content: either copying, redirecting, or proxying.
-        </blockquote>
-        <blockquote id="external-content-security-considerations" class="informative">
-          Non-normative note: External content features expose resources outside of the repository tree to users,
-          and careful consideration should be given by implementors to prevent malicious requests from gaining
-          access to sensitive information.
         </blockquote>
         <div class="example">
 <pre>Link: &lt;http://example.org/some/content&gt;;
@@ -1452,13 +1452,13 @@ Location: http://example.org/document</pre>
       </p>
       <ul>
         <li>
-          <a href="#external-content-security-considerations">3.9 External Binary Content</a>
+          <a href="#external-content"></a>
         </li>
         <li>
-          <a href="#cross-domain-acls-security-considerations">5.5 Cross-Domain ACLs</a>
+          <a href="#cross-domain-acls"></a>
         </li>
         <li>
-          <a href="#cross-domain-groups-security-considerations">5.6 Cross-Domain Group Listings</a>
+          <a href="#cross-domain-groups"></a>
         </li>
       </ul>
     </section>
