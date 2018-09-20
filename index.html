@@ -695,15 +695,15 @@ Location: http://example.org/document</pre>
           Like ETags, the principle behind state tokens is that implementations have the best information on
           resource state, and can choose the most accurate and efficient mechanism for clients to detect changes.
           State tokens differ from ETags in that there is no expectation that the state token must change if
-          the resource is not byte-for-byte identical, when the underlying state of the resource has not changed.
+          the entity body is not byte-for-byte identical, when the underlying state of the resource has not changed.
           For example, changes in the order of RDF triples, blank node identifiers, and other serialization
           variations would not require the <code>X-State-Token</code> value to change.
         </blockquote>
         <blockquote class="informative">
           Non-normative note: State tokens can be a more reliable mechanism for detecting changes in resource state
-          than ETags when an implementation cannot provide strong ETags for resources. State tokens can be a more
-          reliable mechanism for detecting changes in resource state than modification dates when the one-second
-          resolution of HTTP date values is not sufficient.
+          than ETags when an implementation cannot provide strong ETags. State tokens can be a more reliable
+          mechanism for detecting changes in resource state than modification dates when the one-second resolution
+          of HTTP date values is not sufficient.
         </blockquote>
         <section id="x-state-token">
           <h3>X-State-Token</h3>
