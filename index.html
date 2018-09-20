@@ -576,6 +576,11 @@
           specified here. The <code>handling</code> attribute is introduced to specify the handling of the external
           content: either copying, redirecting, or proxying.
         </blockquote>
+        <blockquote id="external-content-security-considerations" class="informative">
+          Non-normative note: External content features expose resources outside of the repository tree to users,
+          and careful consideration should be given by implementors to prevent malicious requests from gaining
+          access to sensitive information.
+        </blockquote>
         <div class="example">
 <pre>Link: &lt;http://example.org/some/content&gt;;
       rel="http://fedora.info/definitions/fcrepo#ExternalContent";
@@ -1091,7 +1096,7 @@ Location: http://example.org/document</pre>
       </section>
       <section id="cross-domain-acls">
         <h2>Cross-Domain ACLs</h2>
-        <blockquote class="informative">
+        <blockquote id="cross-domain-acls-security-considerations" class="informative">
           Non-normative note:
           <a>ACL</a> implementations may require retrieval of one or more <a>ACL</a> resources.
           Security implications should be considered if remote <a>ACL</a>s are supported.
@@ -1105,7 +1110,7 @@ Location: http://example.org/document</pre>
       </section>
       <section id="cross-domain-groups">
         <h2>Cross-Domain Group Listings</h2>
-        <blockquote class="informative">
+        <blockquote id="cross-domain-groups-security-considerations" class="informative">
           Non-normative note:
           [[!SOLIDWEBAC]]
           <a href="https://github.com/solid/web-access-control-spec#groups-of-agents">groups of agents</a>
@@ -1431,6 +1436,21 @@ Location: http://example.org/document</pre>
         <li>
           [[!activitystreams-core]] <a href="https://www.w3.org/TR/activitystreams-core/#security-considerations">7.
           Security Considerations</a>
+        </li>
+      </ul>
+      <p>
+        Security considerations for features introduced in this specification can be located in their individual
+        sections:
+      </p>
+      <ul>
+        <li>
+          <a href="#external-content-security-considerations">3.9 External Binary Content</a>
+        </li>
+        <li>
+          <a href="#cross-domain-acls-security-considerations">5.5 Cross-Domain ACLs</a>
+        </li>
+        <li>
+          <a href="#cross-domain-groups-security-considerations">5.6 Cross-Domain Group Listings</a>
         </li>
       </ul>
     </section>
