@@ -259,6 +259,68 @@
             predicate, and thus triples with this predicate do not necessarily imply containment.
           </blockquote>
         </section>
+        <section id="ldpdc">
+          <h2>LDP Direct Containers</h2>
+          <p>
+            Implementations that support the creation and management of LDP Direct Containers ([[!LDP]]
+            <a href="https://www.w3.org/TR/ldp/#ldpdc">5.4</a>)
+            use the <code>ldp:membershipResource</code> property to express the membership constant URI (per
+            [[!LDP]] <a href="https://www.w3.org/TR/ldp/#ldpdc-containres">5.4.1.3</a>), and use either the
+            <code>ldp:hasMemberRelation</code> or <code>ldp:isMemberOfRelation</code> property to express
+            the member relation (per [[!LDP]] <a href="https://www.w3.org/TR/ldp/#ldpdc-containtriples">5.4.1.4</a>).
+            These properties are set and updated as follows:
+          </p>
+          <ul>
+            <li>
+              Implementations MUST allow the membership constant URI ([[!LDP]]
+              <a href="https://www.w3.org/TR/ldp/#dfn-membership-triples">2</a>) to be set via the
+              <code>ldp:membershipResource</code> property of the content RDF on container creation,
+              or otherwise default to an implementation defined value. Implementations SHOULD
+              use the LDPC's URI as the default property value.
+            </li>
+            <li>
+              Implementations MAY allow the membership constant URI to be updated by subsequent PUT or PATCH requests
+              that change the <code>ldp:membershipResource</code> property of the resource content.
+            </li>
+            <li>
+              Implementations MUST allow the membership predicate ([[!LDP]]
+              <a href="https://www.w3.org/TR/ldp/#dfn-membership-predicate">2</a>) to be set via either the
+              <code>ldp:hasMemberRelation</code> or <code>ldp:isMemberOfRelation</code> property of the content RDF
+              on container creation, or otherwise default to an implementation defined value. Implementations SHOULD
+              use the default <code>&lt;&gt; ldp:hasMemberRelation ldp:member</code>.
+            </li>
+            <li>
+              Implementations MAY allow the membership predicate to be updated by subsequent PUT or PATCH requests
+              that change either the <code>ldp:hasMemberRelation</code> or <code>ldp:isMemberOfRelation</code> property
+              of the resource content.
+            </li>
+          </ul>
+        </section>
+        <section id="ldpic">
+          <h2>LDP Indirect Containers</h2>
+          <p>
+            Each LDP Indirect Container ([[!LDP]] <a href="https://www.w3.org/TR/ldp/#ldpic">5.5</a>) is also a
+            conforming LDP Direct Container (per [[!LDP]]
+            <a href="https://www.w3.org/TR/ldp/#ldpic-are-ldpcs">5.5.1.1</a>). Implementations that support the creation
+            and management of LDP Indirect Containers MUST allow control of <code>ldp:membershipResource</code>,
+            <code>ldp:hasMemberRelation</code>, and <code>ldp:isMemberOfRelation</code> properties as descibed for
+            <a href="#ldpdc"></a>. They also use the <code>ldp:insertedContentRelation</code> property to control the
+            behavior when creating new contained resources (per [[!LDP]]
+            <a href="https://www.w3.org/TR/ldp/#ldpic-post-indirectmbrrel">5.5.2.1</a>).
+            This property is set and updated as follows:
+          </p>
+          <ul>
+            <li>
+              Implementations MUST allow the <code>ldp:insertedContentRelation</code> property to be set via the
+              content RDF on container creation, or otherwise default to an implementation defined value.
+              Implementations SHOULD use the default property value <code>ldp:MemberSubject</code>.
+            </li>
+            <li>
+              Implementations MAY allow the <code>ldp:insertedContentRelation</code> property to be updated via the
+              content RDF by subsequent PUT or PATCH requests.
+            </li>
+          </ul>
+        </section>
         <section id="ldpnr-ixn-model">
           <h2>LDP-NR creation</h2>
           <p>
