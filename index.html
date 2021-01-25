@@ -360,8 +360,9 @@
           <h2>Additional values for the <code>Prefer</code> header</h2>
           <p>
             This specification extends the <code>Prefer</code> header semantics defined in [[!LDP]]
-            <a href="https://www.w3.org/TR/ldp/#prefer-parameters">7.2</a> by describing two additional URIs that
-            may be used in the <code>include</code> parameter of the <code>return=representation</code> preference
+            <a href="https://www.w3.org/TR/ldp/#prefer-parameters">7.2</a> by describing three additional URIs that
+            may be used in the <code>include</code> and <code>omit</code> parameters of the
+            <code>return=representation</code> preference
             ([[!RFC7240]] <a href="https://tools.ietf.org/html/rfc7240#section-4.2">section 4.2</a>).
             On <code>GET</code> requests:
           </p>
@@ -376,6 +377,10 @@
               to request that the response include representations of any <a>LDPC</a>-contained resources in the
               response, as defined in [[!annotation-vocab]]
               <a href="https://www.w3.org/TR/annotation-vocab/#prefercontaineddescriptions">section 2.3.17</a>.
+            </li>
+            <li>
+              Implementations MAY support <code>http://fedora.info/definitions/fcrepo#ServerManaged</code> to request
+              that the response omit triples from any LDPR that are managed by the server.
             </li>
           </ul>
         </section>
