@@ -1,17 +1,14 @@
 # Fedora API Specification
 
 The goal of this specification is to define the behaviors of [Fedora](http://fedorarepository.org/) server
-implementations to facilitate interoperability with client applications.
+implementations to facilitate interoperability with client applications. At this point version 1.0 has
+been released and is available as:
 
-* [Latest Published Version](https://fedora.info/spec/)
-* [Editor's Draft](https://fcrepo.github.io/fcrepo-specification/)
-
+* [Latest Recommendation](https://fedora.info/spec/)
 
 ## Status
 
-This specification is a Candidate Recommendation, available for final review before becoming a final recommendation.
-Barring significant changes, the Candidate Recommendation will be finalized on February 1, 2018.
-
+This specification is a final recommendation as version 1.0.
 
 ## How To Participate
 
