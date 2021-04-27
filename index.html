@@ -8,7 +8,7 @@
             async class='remove'></script>
     <script class='remove'>
       var respecConfig = {
-          specStatus: "fcrepo-cr",
+          specStatus: "fcrepo-rec",
           shortName:  "fedora-api",
           includePermalinks: true,
           editors: [
@@ -28,17 +28,19 @@
                     company:    "DuraSpace",
                     companyURL: "http://duraspace.org/"}
           ],
-          edDraftURI: "https://fcrepo.github.io/fcrepo-specification/",
+          publishDate: "2021-05-01",
           testSuiteURI: "https://github.com/fcrepo4-labs/Fedora-API-Test-Suite",
           wg:           "Fedora Specification Working Group",
           wgURI:        "https://wiki.duraspace.org/display/FEDORAAPI/Fedora+Specification",
           wgPublicList: "https://groups.google.com/forum/#!forum/fedora-community",
+	  previousPublishDate: "2018-11-22",
+	  previousMaturity: "fcrepo-cr",
           otherLinks: [{
             key: "Previous version",
             data: [
                 {
-                  value: "https://fedora.info/2018/06/25/spec/",
-                  href: "https://fedora.info/2018/06/25/spec/"
+                  value: "https://fedora.info/2018/11/22/spec/",
+                  href: "https://fedora.info/2018/11/22/spec/"
                 }
               ]
           },{
@@ -105,6 +107,14 @@
         server with little modification. Client applications should not expect the behaviors of every Fedora server
         implementation to be identical, but the interaction patterns defined in this specification should provide a
         sufficient mechanism to navigate the differences between Fedora server implementations.
+      </p>
+    </section>
+
+    <section id="sotd">
+      <p>
+        This document is version 1.0 of the Fedora API specification. Release follows a period of review and
+        implementation based on the <a href="https://fedora.info/2018/06/25/spec/">Candidate Recommendation
+        of 25 June 2018</a>, with minor changes.
       </p>
     </section>
 
